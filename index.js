@@ -134,7 +134,7 @@ export function initFireflyEngine(canvas) {
     });
 
     // Initialize ambient firefly swarm (scales gracefully with screen size)
-    const ambientCount = Math.min(95, Math.max(45, Math.floor((bounds.width * bounds.height) / 16000)));
+    const ambientCount = Math.min(55, Math.max(25, Math.floor((bounds.width * bounds.height) / 26000)));
     const particles = [];
     for (let i = 0; i < ambientCount; i++) {
         particles.push(new Firefly(bounds, false));

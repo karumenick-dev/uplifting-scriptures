@@ -86,7 +86,7 @@ body.book-opened .ambient-glow {
     will-change: transform;
     /* Starts shifted left by 50% of single page so the closed book sits dead-center */
     transform: translate3d(0%, 0, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
-    transition: transform 2.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
 }
 
@@ -115,7 +115,7 @@ body.book-opened .ambient-glow {
     filter: blur(26px);
     border-radius: 14px;
     transform: translateZ(-28px);
-    transition: all 2.2s cubic-bezier(0.25, 1, 0.35, 1);
+    transition: all 1.35s cubic-bezier(0.22, 1, 0.35, 1), opacity 0.8s ease;
     pointer-events: none;
 }
 
@@ -271,7 +271,7 @@ body.book-opened .ambient-glow {
     transform-style: preserve-3d;
     will-change: transform;
     transform: translateZ(6px) rotateY(0deg);
-    transition: transform 2.2s cubic-bezier(0.28, 0.08, 0.24, 1);
+    transition: transform 1.25s cubic-bezier(0.25, 0.1, 0.25, 1);
     z-index: 30;
 }
 
@@ -281,7 +281,7 @@ body.book-opened .ambient-glow {
 
 .book-wrapper.is-closing .front-cover-assembly {
     transform: translateZ(6px) rotateY(0deg);
-    transition: transform 2.0s cubic-bezier(0.32, 0.06, 0.22, 1) 0.45s;
+    transition: transform 1.15s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s;
 }
 
 /* Exterior Front Cover Face */
@@ -617,8 +617,8 @@ body.book-opened .ambient-glow {
 /* Subtle Reveal Fade-In for Text once pages settle */
 .spread-content-reveal {
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 1.1s ease 1.95s, transform 1.1s ease 1.95s;
+    transform: translateY(4px);
+    transition: opacity 0.45s ease 0.75s, transform 0.45s ease 0.75s;
 }
 
 .book-wrapper.is-open .spread-content-reveal {
@@ -628,8 +628,8 @@ body.book-opened .ambient-glow {
 
 .book-wrapper.is-closing .spread-content-reveal {
     opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.35s ease 0s, transform 0.35s ease 0s;
+    transform: translateY(0);
+    transition: opacity 0.2s ease 0s, transform 0.2s ease 0s;
 }
 
 /* ==========================================================================
