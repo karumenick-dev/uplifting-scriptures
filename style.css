@@ -42,7 +42,7 @@ body, html {
     background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(180, 95, 25, 0.05) 45%, transparent 70%);
     pointer-events: none;
     z-index: 1;
-    transition: opacity 2s ease, transform 2.5s ease;
+    transition: opacity 1.2s ease, transform 1.4s ease;
 }
 
 body.book-opened .ambient-glow {
@@ -57,7 +57,7 @@ body.book-opened .ambient-glow {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 20; /* Overlays gently so sparks drift across the book */
+    z-index: 20;
 }
 
 /* ==========================================================================
@@ -76,27 +76,28 @@ body.book-opened .ambient-glow {
     padding: 1rem;
 }
 
-/* Responsive Book Dimensions: Fits comfortably on mobile, tablet, and desktop */
+/* Responsive Book Dimensions */
 .book-wrapper {
     position: relative;
-    /* Single page width; when open, total spread is 2x this width */
     width: min(44vw, 430px);
     height: min(74vh, 610px);
     transform-style: preserve-3d;
     will-change: transform;
-    /* Starts shifted left by 50% of single page so the closed book sits dead-center */
     transform: translate3d(0%, 0, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
     transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
 }
 
-/* When open, shift right to center the full two-page spread */
 .book-wrapper.is-open {
     transform: translate3d(50%, 0, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
     cursor: default;
 }
 
-/* Mobile portrait adjustment so two pages remain legible */
+.book-wrapper.is-closing {
+    transform: translate3d(0%, 0, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+    transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+
 @media (max-width: 640px) {
     .book-wrapper {
         width: 45vw;
@@ -115,53 +116,48 @@ body.book-opened .ambient-glow {
     filter: blur(26px);
     border-radius: 14px;
     transform: translateZ(-28px);
-    transition: all 1.35s cubic-bezier(0.22, 1, 0.35, 1), opacity 0.8s ease;
+    transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
     pointer-events: none;
 }
 
 .book-wrapper.is-open .book-shadow {
-    left: -102%;
-    width: 206%;
-    filter: blur(34px);
-    background: rgba(0, 0, 0, 0.85);
+    transform: translate3d(-49%, 0, -28px) scaleX(2.02);
+    opacity: 0.88;
 }
 
 /* ==========================================================================
    HARDCOVER BOARDS, SPINE & PAGE THICKNESS BLOCKS
    ========================================================================== */
-/* Procedural Leather Grain Pattern via SVG Data URI */
 .leather-surface {
     background-color: var(--leather-base);
-    background-image: 
+    background-image:
         radial-gradient(circle at 30% 25%, rgba(255, 215, 160, 0.09), transparent 60%),
         linear-gradient(135deg, rgba(0, 0, 0, 0.35) 0%, transparent 45%, rgba(0, 0, 0, 0.55) 100%),
         url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.14'/%3E%3C/svg%3E");
 }
 
-/* Back Cover Board (Stationary base on the right side of the spine) */
 .back-cover {
     position: absolute;
     inset: 0;
     border-radius: 4px 14px 14px 4px;
     transform: translateZ(-14px);
-    box-shadow: 
+    box-shadow:
         inset 0 0 18px rgba(0, 0, 0, 0.85),
         inset -2px 0 4px rgba(255, 220, 150, 0.15);
     border: 1px solid #160806;
 }
 
-/* Embossed Leather Spine along the center hinge */
 .book-spine {
     position: absolute;
     top: -1px;
     left: -22px;
     width: 26px;
     height: calc(100% + 2px);
-    background: linear-gradient(90deg, 
-        #160705 0%, 
-        #3c1812 28%, 
-        #522219 50%, 
-        #2c100c 82%, 
+    background: linear-gradient(90deg,
+        #160705 0%,
+        #3c1812 28%,
+        #522219 50%,
+        #2c100c 82%,
         #120504 100%);
     border-radius: 8px 2px 2px 8px;
     transform-origin: right center;
@@ -174,7 +170,6 @@ body.book-opened .ambient-glow {
     padding: 18% 0;
 }
 
-/* Raised gold-ribbed spine bands */
 .spine-band {
     width: 86%;
     height: 5px;
@@ -182,10 +177,9 @@ body.book-opened .ambient-glow {
     background: linear-gradient(180deg, #5a281e 0%, #1d0906 100%);
     border-top: 1px solid rgba(212, 175, 55, 0.55);
     border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.7);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* Stacked Page Block (Gives realistic thickness to the right page stack) */
 .page-block-right {
     position: absolute;
     top: 2.2%;
@@ -204,7 +198,6 @@ body.book-opened .ambient-glow {
         11px 6px 14px rgba(0, 0, 0, 0.45);
 }
 
-/* Stacked Page Block on the Left (Appears as pages flip over to the left) */
 .page-block-left {
     position: absolute;
     top: 2.2%;
@@ -215,7 +208,7 @@ body.book-opened .ambient-glow {
     border-radius: 10px 2px 2px 10px;
     transform: translateZ(-2px);
     opacity: 0;
-    transition: opacity 0.8s ease 0.9s;
+    transition: opacity 0.45s ease 0.4s;
     box-shadow:
         -2px 1px 0 #f2f2f2,
         -4px 2px 0 #e6e6e6,
@@ -231,7 +224,7 @@ body.book-opened .ambient-glow {
 
 .book-wrapper.is-closing .page-block-left {
     opacity: 0;
-    transition: opacity 0.45s ease 0.1s;
+    transition: opacity 0.25s ease 0.05s;
 }
 
 /* ==========================================================================
@@ -244,20 +237,19 @@ body.book-opened .ambient-glow {
     box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.05);
 }
 
-/* Center Gutter Crease Shadow on Left & Right Pages */
 .gutter-shadow-right {
     background-color: #ffffff;
-    background-image: linear-gradient(90deg, 
-        rgba(20, 18, 16, 0.22) 0%, 
-        rgba(20, 18, 16, 0.06) 7%, 
+    background-image: linear-gradient(90deg,
+        rgba(20, 18, 16, 0.22) 0%,
+        rgba(20, 18, 16, 0.06) 7%,
         rgba(255, 255, 255, 0) 18%);
 }
 
 .gutter-shadow-left {
     background-color: #ffffff;
-    background-image: linear-gradient(270deg, 
-        rgba(20, 18, 16, 0.24) 0%, 
-        rgba(20, 18, 16, 0.07) 7%, 
+    background-image: linear-gradient(270deg,
+        rgba(20, 18, 16, 0.24) 0%,
+        rgba(20, 18, 16, 0.07) 7%,
         rgba(255, 255, 255, 0) 18%);
 }
 
@@ -280,19 +272,18 @@ body.book-opened .ambient-glow {
 }
 
 .book-wrapper.is-closing .front-cover-assembly {
-    z-index: 10;
+    z-index: 6;
     transform: translateZ(6px) rotateY(0deg);
-    transition: transform 1.15s cubic-bezier(0.25, 0.1, 0.25, 1) 0.55s;
+    transition: transform 0.95s cubic-bezier(0.25, 0.1, 0.25, 1) 0.68s;
 }
 
-/* Exterior Front Cover Face */
 .front-cover-outer {
     position: absolute;
     inset: 0;
     border-radius: 4px 14px 14px 4px;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    box-shadow: 
+    box-shadow:
         inset 3px 0 10px rgba(0, 0, 0, 0.8),
         inset -2px 0 3px rgba(255, 224, 160, 0.2),
         4px 6px 18px rgba(0, 0, 0, 0.65);
@@ -303,9 +294,24 @@ body.book-opened .ambient-glow {
     justify-content: space-between;
     padding: 10% 9%;
     overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.15s ease, visibility 0s linear 0s;
 }
 
-/* Spine Crease Groove on Front Cover */
+/* Keep the outer leather cover hidden until the flipping white pages finish closing */
+.book-wrapper.is-closing .front-cover-outer {
+    opacity: 0;
+    visibility: hidden;
+    transition: none;
+}
+
+.book-wrapper.is-closing.cover-ready .front-cover-outer {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.15s ease, visibility 0s linear 0s;
+}
+
 .front-cover-outer::before {
     content: '';
     position: absolute;
@@ -313,10 +319,9 @@ body.book-opened .ambient-glow {
     bottom: 0;
     left: 14px;
     width: 4px;
-    background: linear-gradient(90deg, rgba(0,0,0,0.75), rgba(255,215,140,0.12), rgba(0,0,0,0.5));
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.75), rgba(255, 215, 140, 0.12), rgba(0, 0, 0, 0.5));
 }
 
-/* Gold Foil Double Border Frame on Front Cover */
 .gold-cover-frame {
     position: absolute;
     top: 5.5%;
@@ -325,7 +330,7 @@ body.book-opened .ambient-glow {
     right: 6%;
     border: 1.5px solid var(--gold-foil);
     border-radius: 3px 8px 8px 3px;
-    box-shadow: 
+    box-shadow:
         0 0 8px rgba(212, 175, 55, 0.25),
         inset 0 0 8px rgba(212, 175, 55, 0.2);
     pointer-events: none;
@@ -339,21 +344,19 @@ body.book-opened .ambient-glow {
     border-radius: 2px 5px 5px 2px;
 }
 
-/* Ornate Gold Corner Filigree Accents */
 .corner-accent {
     position: absolute;
     width: 38px;
     height: 38px;
     pointer-events: none;
     color: var(--gold-foil);
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.85));
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.85));
 }
 .corner-tl { top: 4.5%; left: 7.5%; }
 .corner-tr { top: 4.5%; right: 5%; transform: scaleX(-1); }
 .corner-bl { bottom: 4.5%; left: 7.5%; transform: scaleY(-1); }
 .corner-br { bottom: 4.5%; right: 5%; transform: scale(-1, -1); }
 
-/* Embossed Gold Foil Typography on Cover */
 .gold-foil-text {
     font-family: 'Cinzel', serif;
     background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 35%, #b38728 65%, #fbf5b7 100%);
@@ -364,7 +367,6 @@ body.book-opened .ambient-glow {
     text-align: center;
 }
 
-/* Interior Left Page (Mounted on the inside of the Front Cover) */
 .front-cover-inner-board {
     position: absolute;
     inset: 0;
@@ -375,6 +377,11 @@ body.book-opened .ambient-glow {
     box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.85);
     border: 1px solid #160806;
     padding: 2.2% 0 2.2% 2.6%;
+    transition: opacity 0.2s ease;
+}
+
+.book-wrapper.is-closing .front-cover-inner-board {
+    opacity: 0;
 }
 
 .left-spread-page {
@@ -409,7 +416,7 @@ body.book-opened .ambient-glow {
 }
 
 /* ==========================================================================
-   SEQUENTIAL FLIPPING WHITE SHEETS (SMOOTH 60FPS HARDWARE-ACCELERATED FLOW)
+   SEQUENTIAL FLIPPING WHITE SHEETS
    ========================================================================== */
 .flipping-page {
     position: absolute;
@@ -426,11 +433,10 @@ body.book-opened .ambient-glow {
     -webkit-backface-visibility: hidden;
 }
 
-/* Distinct Z-planes prevent 3D Z-fighting and ensure clean stacking order */
-.flip-sheet-1 { z-index: 18; transform: translateZ(4.5px) rotateY(0deg); }
-.flip-sheet-2 { z-index: 17; transform: translateZ(3.5px) rotateY(0deg); }
-.flip-sheet-3 { z-index: 16; transform: translateZ(2.5px) rotateY(0deg); }
-.flip-sheet-4 { z-index: 15; transform: translateZ(1.5px) rotateY(0deg); }
+.flip-sheet-1 { z-index: 24; transform: translateZ(4.5px) rotateY(0deg); }
+.flip-sheet-2 { z-index: 23; transform: translateZ(3.5px) rotateY(0deg); }
+.flip-sheet-3 { z-index: 22; transform: translateZ(2.5px) rotateY(0deg); }
+.flip-sheet-4 { z-index: 21; transform: translateZ(1.5px) rotateY(0deg); }
 
 .flipping-page-front,
 .flipping-page-back {
@@ -453,7 +459,6 @@ body.book-opened .ambient-glow {
     border-radius: 10px 2px 2px 10px;
 }
 
-/* Subtle faux lines on intermediate fluttering white pages */
 .faux-lines {
     width: 82%;
     height: 75%;
@@ -467,7 +472,6 @@ body.book-opened .ambient-glow {
     opacity: 0.7;
 }
 
-/* Pure GPU-composited 3D rotation keyframes for silky-smooth frame pacing */
 @keyframes pageFlipCascade1 {
     0%   { transform: translate3d(0, 0, 4.5px) rotateY(0deg); }
     50%  { transform: translate3d(0, 0, 6px) rotateY(-90deg); }
@@ -489,7 +493,6 @@ body.book-opened .ambient-glow {
     100% { transform: translate3d(0, 0, 4.5px) rotateY(-178.6deg); }
 }
 
-/* Smooth reverse cascade when closing the book */
 @keyframes pageCloseCascade4 {
     0%   { transform: translate3d(0, 0, 4.5px) rotateY(-178.6deg); }
     50%  { transform: translate3d(0, 0, 4.5px) rotateY(-90deg); }
@@ -511,31 +514,30 @@ body.book-opened .ambient-glow {
     100% { transform: translate3d(0, 0, 4.5px) rotateY(0deg); }
 }
 
-/* Gracefully staggered, overlapping flow timings */
 .book-wrapper.is-open .flip-sheet-1 {
-    animation: pageFlipCascade1 1.75s cubic-bezier(0.28, 0.08, 0.24, 1) 0.55s forwards;
+    animation: pageFlipCascade1 1.05s cubic-bezier(0.28, 0.08, 0.24, 1) 0.25s forwards;
 }
 .book-wrapper.is-open .flip-sheet-2 {
-    animation: pageFlipCascade2 1.75s cubic-bezier(0.28, 0.08, 0.24, 1) 0.82s forwards;
+    animation: pageFlipCascade2 1.05s cubic-bezier(0.28, 0.08, 0.24, 1) 0.40s forwards;
 }
 .book-wrapper.is-open .flip-sheet-3 {
-    animation: pageFlipCascade3 1.75s cubic-bezier(0.28, 0.08, 0.24, 1) 1.09s forwards;
+    animation: pageFlipCascade3 1.05s cubic-bezier(0.28, 0.08, 0.24, 1) 0.55s forwards;
 }
 .book-wrapper.is-open .flip-sheet-4 {
-    animation: pageFlipCascade4 1.80s cubic-bezier(0.28, 0.08, 0.24, 1) 1.36s forwards;
+    animation: pageFlipCascade4 1.10s cubic-bezier(0.28, 0.08, 0.24, 1) 0.70s forwards;
 }
 
 .book-wrapper.is-closing .flip-sheet-4 {
-    animation: pageCloseCascade4 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.05s forwards;
+    animation: pageCloseCascade4 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.04s forwards;
 }
 .book-wrapper.is-closing .flip-sheet-3 {
-    animation: pageCloseCascade3 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.20s forwards;
+    animation: pageCloseCascade3 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.14s forwards;
 }
 .book-wrapper.is-closing .flip-sheet-2 {
-    animation: pageCloseCascade2 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.35s forwards;
+    animation: pageCloseCascade2 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.24s forwards;
 }
 .book-wrapper.is-closing .flip-sheet-1 {
-    animation: pageCloseCascade1 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.50s forwards;
+    animation: pageCloseCascade1 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.34s forwards;
 }
 
 /* ==========================================================================
@@ -583,7 +585,6 @@ body.book-opened .ambient-glow {
     border-radius: 4px;
 }
 
-/* Classic Illuminated Drop Cap for the opening paragraph */
 .drop-cap::first-letter {
     float: left;
     font-family: 'Cinzel', serif;
@@ -615,11 +616,10 @@ body.book-opened .ambient-glow {
     border-top: 1px solid rgba(138, 106, 66, 0.2);
 }
 
-/* Subtle Reveal Fade-In for Text once pages settle */
 .spread-content-reveal {
     opacity: 0;
     transform: translateY(4px);
-    transition: opacity 0.45s ease 0.75s, transform 0.45s ease 0.75s;
+    transition: opacity 0.45s ease 0.85s, transform 0.45s ease 0.85s;
 }
 
 .book-wrapper.is-open .spread-content-reveal {
@@ -667,7 +667,7 @@ body.book-opened .ambient-glow {
     justify-content: center;
     gap: 0.6rem;
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.12);
-    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .glass-btn:hover {
@@ -684,4 +684,19 @@ body.book-opened .ambient-glow {
 .glass-btn:disabled {
     opacity: 0.75;
     cursor: wait;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .book-wrapper,
+    .book-shadow,
+    .front-cover-assembly,
+    .front-cover-outer,
+    .flipping-page,
+    .spread-content-reveal,
+    .ambient-glow {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-delay: 0ms !important;
+    }
 }
