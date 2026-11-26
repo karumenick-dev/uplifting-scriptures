@@ -292,11 +292,18 @@ body.book-opened .ambient-glow {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 10% 9%;
+    padding: 10% 10% 10% 10%;
     overflow: hidden;
     opacity: 1;
     visibility: visible;
     transition: opacity 0.15s ease, visibility 0s linear 0s;
+}
+
+.front-cover-outer > * {
+    max-width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Keep the outer leather cover hidden until the flipping white pages finish closing */
@@ -326,8 +333,8 @@ body.book-opened .ambient-glow {
     position: absolute;
     top: 5.5%;
     bottom: 5.5%;
-    left: 8.5%;
-    right: 6%;
+    left: 7.5%;
+    right: 7.5%;
     border: 1.5px solid var(--gold-foil);
     border-radius: 3px 8px 8px 3px;
     box-shadow:
@@ -335,6 +342,11 @@ body.book-opened .ambient-glow {
         inset 0 0 8px rgba(212, 175, 55, 0.2);
     pointer-events: none;
 }
+
+.corner-tl { top: 4.5%; left: 6.5%; }
+.corner-tr { top: 4.5%; right: 6.5%; transform: scaleX(-1); }
+.corner-bl { bottom: 4.5%; left: 6.5%; transform: scaleY(-1); }
+.corner-br { bottom: 4.5%; right: 6.5%; transform: scale(-1, -1); }
 
 .gold-cover-frame::after {
     content: '';
@@ -365,6 +377,10 @@ body.book-opened .ambient-glow {
     color: transparent;
     filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.85));
     text-align: center;
+}
+
+.front-cover-outer .gold-foil-text {
+    text-indent: 0.12em;
 }
 
 .front-cover-inner-board {

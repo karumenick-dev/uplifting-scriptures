@@ -1,3 +1,5 @@
+import { getBookSpread } from './api.js';
+
 /* ==========================================================================
    ES MODULE: BOOK OPEN/CLOSE TOGGLE & FIREFLY PARTICLE ENGINE
    ========================================================================== */
@@ -225,7 +227,7 @@ export function initBookControls({ bookEl, toggleBtn, toggleBtnLabel, onOpen, on
 
         onClose?.();
 
-        // Reveal outer cover immediately after flip-sheet-1 finishes closing (~1180ms)
+        // Reveal outer cover immediately after flip-sheet-1 finishes closing (~1580ms)
         coverReadyTimer = setTimeout(() => {
             bookEl.classList.add('cover-ready');
         }, 1580);
@@ -275,11 +277,87 @@ const toggleBtnLabel = document.getElementById('toggle-btn-label');
 if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     const fireflies = initFireflyEngine(canvas);
 
-    initBookControls({
-        bookEl,
-        toggleBtn,
-        toggleBtnLabel,
-        onOpen: () => fireflies.triggerOpenBurst(28),
-        onClose: () => fireflies.calmParticles()
-    });
+initBookControls({
+    bookEl,
+    toggleBtn,
+    toggleBtnLabel,
+    onOpen: () => {
+        fireflies.triggerOpenBurst(28);
+        updateSpread(currentSpreadIndex);
+    },
+    onClose: () => fireflies.calmParticles()
+});
+
+let currentSpreadIndex = 0;
+let activeFilters = { theme: 'all', testament: 'all' };
+
+function renderPage(articleEl, entry, pageNumber, isLeftPage = false) {
+    if (!articleEl) return;
+
+    if (!entry) {
+        articleEl.innerHTML = `
+            <div class="spread-content-reveal flex flex-col h-full justify-between">
+                <div>
+                    <header class="page-header-meta">
+                        <span>Selah</span>
+                        <span>Quiet Reflection</span>
+                    </header>
+                    <h2 class="page-title">Be Still &amp; Rest</h2>
+                    <div class="page-body space-y-3">
+                        <p>Take a slow breath here before turning back to the beginning.</p>
+                    </div>
+                </div>
+                <footer class="page-footer">~ ${pageNumber} ~</footer>
+            </div>
+        `;
+        return;
+    }
+
+    const paragraphsHtml = entry.body
+        .map((text, idx) =>
+            idx === 0 && isLeftPage
+                ? `<p class="drop-cap">${text}</p>`
+                : `<p>${text}</p>`
+        )
+        .join('');
+
+    const signatureHtml = entry.signOff
+        ? `<div class="signature-block">${entry.signOff}</div>`
+        : '';
+
+    articleEl.innerHTML = `
+        <div class="spread-content-reveal flex flex-col h-full justify-between">
+            <div>
+                <header class="page-header-meta">
+                    <span>${entry.reference}</span>
+                    <span>${entry.seasonLabel}</span>
+                </header>
+                <h2 class="page-title">${entry.title}</h2>
+                <div class="page-body space-y-3">
+                    ${paragraphsHtml}
+                </div>
+                ${signatureHtml}
+            </div>
+            <footer class="page-footer">~ ${pageNumber} ~</footer>
+        </div>
+    `;
+}
+
+async function updateSpread(spreadIndex = currentSpreadIndex) {
+    const leftPageEl = document.querySelector('.left-spread-page');
+    const rightPageEl = document.querySelector('.right-spread-page');
+
+    try {
+        const spread = await getBookSpread(spreadIndex, activeFilters);
+        currentSpreadIndex = spread.spreadIndex;
+
+        const leftNum = currentSpreadIndex * 2 + 1;
+        const rightNum = currentSpreadIndex * 2 + 2;
+
+        renderPage(leftPageEl, spread.leftPage, leftNum, true);
+        renderPage(rightPageEl, spread.rightPage, rightNum, false);
+    } catch (error) {
+        console.error('Error loading scriptures:', error);
+    }
+}
 }

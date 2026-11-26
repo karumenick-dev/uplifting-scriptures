@@ -1,0 +1,56 @@
+{
+  "verses": [
+    {
+      "id": 1,
+      "reference": "Psalm 34:18",
+      "testament": "OT",
+      "theme": "sorrow",
+      "seasonLabel": "Sorrow & Heartbreak",
+      "title": "Close to the Brokenhearted",
+      "body": [
+        "When grief feels heavy and words run dry, you are not walking through the valley unseen.",
+        "This passage reminds the weary soul that tenderness and nearness meet us right where our strength gives out."
+      ],
+      "signOff": "— Old Testament • Psalms"
+    },
+    {
+      "id": 2,
+      "reference": "Isaiah 41:10",
+      "testament": "OT",
+      "theme": "hopelessness",
+      "seasonLabel": "Hopelessness",
+      "title": "Do Not Be Dismayed",
+      "body": [
+        "Uncertainty often whispers that you have to carry tomorrow's weight with today's exhausted hands.",
+        "Lean into the promise of steady upholding strength when the path ahead looks dim."
+      ],
+      "signOff": "— Old Testament • Isaiah"
+    },
+    {
+      "id": 3,
+      "reference": "2 Corinthians 4:16–18",
+      "testament": "NT",
+      "theme": "sickness",
+      "seasonLabel": "Sickness & Weakness",
+      "title": "Renewed Day by Day",
+      "body": [
+        "Physical frailty and lingering pain can wear down even the most resilient spirit.",
+        "Even when the body feels fragile, quiet inward renewal continues beneath the surface."
+      ],
+      "signOff": "— New Testament • 2 Corinthians"
+    },
+    {
+      "id": 4,
+      "reference": "John 11:25–26",
+      "testament": "NT",
+      "theme": "loss",
+      "seasonLabel": "Loss & Bereavement",
+      "title": "Light Beyond the Grave",
+      "body": [
+        "Saying goodbye leaves an ache that time alone cannot fully explain.",
+        "Here stands an anchor of hope that stretches past sorrow and mortality."
+      ],
+      "signOff": "— New Testament • Gospel of John"
+    }
+  ]
+}
