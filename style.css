@@ -274,7 +274,7 @@ body.book-opened .ambient-glow {
 .book-wrapper.is-closing .front-cover-assembly {
     z-index: 6;
     transform: translateZ(6px) rotateY(0deg);
-    transition: transform 0.95s cubic-bezier(0.25, 0.1, 0.25, 1) 0.68s;
+    transition: transform 0.95s cubic-bezier(0.25, 0.1, 0.25, 1) 1.58s;
 }
 
 .front-cover-outer {
@@ -528,16 +528,16 @@ body.book-opened .ambient-glow {
 }
 
 .book-wrapper.is-closing .flip-sheet-4 {
-    animation: pageCloseCascade4 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.04s forwards;
+    animation: pageCloseCascade4 1.05s cubic-bezier(0.28, 0.08, 0.24, 1) 0.05s forwards;
 }
 .book-wrapper.is-closing .flip-sheet-3 {
-    animation: pageCloseCascade3 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.14s forwards;
+    animation: pageCloseCascade3 1.05s cubic-bezier(0.28, 0.08, 0.24, 1) 0.20s forwards;
 }
 .book-wrapper.is-closing .flip-sheet-2 {
-    animation: pageCloseCascade2 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.24s forwards;
+    animation: pageCloseCascade2 1.05s cubic-bezier(0.28, 0.08, 0.24, 1) 0.35s forwards;
 }
 .book-wrapper.is-closing .flip-sheet-1 {
-    animation: pageCloseCascade1 0.85s cubic-bezier(0.35, 0, 0.25, 1) 0.34s forwards;
+    animation: pageCloseCascade1 1.10s cubic-bezier(0.28, 0.08, 0.24, 1) 0.50s forwards;
 }
 
 /* ==========================================================================

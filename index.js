@@ -228,13 +228,13 @@ export function initBookControls({ bookEl, toggleBtn, toggleBtnLabel, onOpen, on
         // Reveal outer cover immediately after flip-sheet-1 finishes closing (~1180ms)
         coverReadyTimer = setTimeout(() => {
             bookEl.classList.add('cover-ready');
-        }, 1180);
+        }, 1580);
 
         closeFinishTimer = setTimeout(() => {
             bookEl.classList.remove('is-closing', 'cover-ready');
             void bookEl.offsetWidth;
             isTransitioning = false;
-        }, 1700);
+        }, 2100);
     }
 
     function toggleBook() {
