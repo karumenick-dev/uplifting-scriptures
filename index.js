@@ -241,7 +241,7 @@ export function initBookControls({ bookEl, toggleBtn, toggleBtnLabel, onOpen, on
             bookEl.classList.remove('is-closing');
             void bookEl.offsetWidth;
             isTransitioning = false;
-        }, 2450);
+        }, 1750);
     }
 
     function toggleBook() {
