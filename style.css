@@ -280,8 +280,9 @@ body.book-opened .ambient-glow {
 }
 
 .book-wrapper.is-closing .front-cover-assembly {
+    z-index: 10;
     transform: translateZ(6px) rotateY(0deg);
-    transition: transform 1.15s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s;
+    transition: transform 1.15s cubic-bezier(0.25, 0.1, 0.25, 1) 0.55s;
 }
 
 /* Exterior Front Cover Face */
@@ -426,10 +427,10 @@ body.book-opened .ambient-glow {
 }
 
 /* Distinct Z-planes prevent 3D Z-fighting and ensure clean stacking order */
-.flip-sheet-1 { transform: translateZ(4.5px) rotateY(0deg); }
-.flip-sheet-2 { transform: translateZ(3.5px) rotateY(0deg); }
-.flip-sheet-3 { transform: translateZ(2.5px) rotateY(0deg); }
-.flip-sheet-4 { transform: translateZ(1.5px) rotateY(0deg); }
+.flip-sheet-1 { z-index: 18; transform: translateZ(4.5px) rotateY(0deg); }
+.flip-sheet-2 { z-index: 17; transform: translateZ(3.5px) rotateY(0deg); }
+.flip-sheet-3 { z-index: 16; transform: translateZ(2.5px) rotateY(0deg); }
+.flip-sheet-4 { z-index: 15; transform: translateZ(1.5px) rotateY(0deg); }
 
 .flipping-page-front,
 .flipping-page-back {
