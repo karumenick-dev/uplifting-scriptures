@@ -1,0 +1,686 @@
+/* ==========================================================================
+   CUSTOM VARIABLES & ATMOSPHERIC BACKGROUND
+   ========================================================================== */
+:root {
+    --leather-dark: #1d0c09;
+    --leather-base: #361510;
+    --leather-highlight: #4f2018;
+    --gold-foil: #d4af37;
+    --gold-bright: #f7e29c;
+    --gold-shadow: #785814;
+    --parchment-light: #ffffff;
+    --parchment-mid: #f7f7f7;
+    --parchment-edge: #e2e2e2;
+    --ink-primary: #1e1916;
+    --ink-muted: #574d46;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 45%, #231815 0%, #120b0a 55%, #070404 100%);
+    font-family: 'Lora', serif;
+    color: var(--ink-primary);
+    user-select: none;
+}
+
+/* Ambient warm candle/magic aura behind the book */
+.ambient-glow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 75vw;
+    height: 75vh;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(180, 95, 25, 0.05) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 2s ease, transform 2.5s ease;
+}
+
+body.book-opened .ambient-glow {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.18);
+}
+
+/* Fullscreen Canvas for Glittering Fireflies */
+#firefly-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20; /* Overlays gently so sparks drift across the book */
+}
+
+/* ==========================================================================
+   3D BOOK STAGE & PERSPECTIVE
+   ========================================================================== */
+.stage {
+    min-height: 100vh;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 2200px;
+    z-index: 10;
+    padding: 1rem;
+}
+
+/* Responsive Book Dimensions: Fits comfortably on mobile, tablet, and desktop */
+.book-wrapper {
+    position: relative;
+    /* Single page width; when open, total spread is 2x this width */
+    width: min(44vw, 430px);
+    height: min(74vh, 610px);
+    transform-style: preserve-3d;
+    will-change: transform;
+    /* Starts shifted left by 50% of single page so the closed book sits dead-center */
+    transform: translate3d(0%, 0, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+    transition: transform 2.6s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+}
+
+/* When open, shift right to center the full two-page spread */
+.book-wrapper.is-open {
+    transform: translate3d(50%, 0, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+    cursor: default;
+}
+
+/* Mobile portrait adjustment so two pages remain legible */
+@media (max-width: 640px) {
+    .book-wrapper {
+        width: 45vw;
+        height: min(68vh, 470px);
+    }
+}
+
+/* Ground shadow beneath the hardcover */
+.book-shadow {
+    position: absolute;
+    top: 4%;
+    left: -4%;
+    width: 108%;
+    height: 96%;
+    background: rgba(0, 0, 0, 0.78);
+    filter: blur(26px);
+    border-radius: 14px;
+    transform: translateZ(-28px);
+    transition: all 2.2s cubic-bezier(0.25, 1, 0.35, 1);
+    pointer-events: none;
+}
+
+.book-wrapper.is-open .book-shadow {
+    left: -102%;
+    width: 206%;
+    filter: blur(34px);
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* ==========================================================================
+   HARDCOVER BOARDS, SPINE & PAGE THICKNESS BLOCKS
+   ========================================================================== */
+/* Procedural Leather Grain Pattern via SVG Data URI */
+.leather-surface {
+    background-color: var(--leather-base);
+    background-image: 
+        radial-gradient(circle at 30% 25%, rgba(255, 215, 160, 0.09), transparent 60%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.35) 0%, transparent 45%, rgba(0, 0, 0, 0.55) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.14'/%3E%3C/svg%3E");
+}
+
+/* Back Cover Board (Stationary base on the right side of the spine) */
+.back-cover {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px 14px 14px 4px;
+    transform: translateZ(-14px);
+    box-shadow: 
+        inset 0 0 18px rgba(0, 0, 0, 0.85),
+        inset -2px 0 4px rgba(255, 220, 150, 0.15);
+    border: 1px solid #160806;
+}
+
+/* Embossed Leather Spine along the center hinge */
+.book-spine {
+    position: absolute;
+    top: -1px;
+    left: -22px;
+    width: 26px;
+    height: calc(100% + 2px);
+    background: linear-gradient(90deg, 
+        #160705 0%, 
+        #3c1812 28%, 
+        #522219 50%, 
+        #2c100c 82%, 
+        #120504 100%);
+    border-radius: 8px 2px 2px 8px;
+    transform-origin: right center;
+    transform: translateZ(-14px) rotateY(-28deg);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 18% 0;
+}
+
+/* Raised gold-ribbed spine bands */
+.spine-band {
+    width: 86%;
+    height: 5px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #5a281e 0%, #1d0906 100%);
+    border-top: 1px solid rgba(212, 175, 55, 0.55);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.7);
+}
+
+/* Stacked Page Block (Gives realistic thickness to the right page stack) */
+.page-block-right {
+    position: absolute;
+    top: 2.2%;
+    bottom: 2.2%;
+    left: 0;
+    right: 2.6%;
+    background-color: #ffffff;
+    border-radius: 2px 10px 10px 2px;
+    transform: translateZ(-2px);
+    box-shadow:
+        2px 1px 0 #f2f2f2,
+        4px 2px 0 #e6e6e6,
+        6px 3px 0 #dadada,
+        8px 4px 0 #cecece,
+        10px 5px 0 #c2c2c2,
+        11px 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+/* Stacked Page Block on the Left (Appears as pages flip over to the left) */
+.page-block-left {
+    position: absolute;
+    top: 2.2%;
+    bottom: 2.2%;
+    left: -97.4%;
+    right: 100%;
+    background-color: #ffffff;
+    border-radius: 10px 2px 2px 10px;
+    transform: translateZ(-2px);
+    opacity: 0;
+    transition: opacity 0.8s ease 0.9s;
+    box-shadow:
+        -2px 1px 0 #f2f2f2,
+        -4px 2px 0 #e6e6e6,
+        -6px 3px 0 #dadada,
+        -8px 4px 0 #cecece,
+        -10px 5px 0 #c2c2c2,
+        -11px 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.book-wrapper.is-open .page-block-left {
+    opacity: 1;
+}
+
+.book-wrapper.is-closing .page-block-left {
+    opacity: 0;
+    transition: opacity 0.45s ease 0.1s;
+}
+
+/* ==========================================================================
+   SOLID WHITE PAGE STYLING & SUBTLE CREASE SHADING
+   ========================================================================== */
+.parchment-sheet {
+    background-color: #ffffff;
+    background-image: radial-gradient(ellipse at center, #ffffff 68%, #f5f5f5 100%);
+    color: var(--ink-primary);
+    box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.05);
+}
+
+/* Center Gutter Crease Shadow on Left & Right Pages */
+.gutter-shadow-right {
+    background-color: #ffffff;
+    background-image: linear-gradient(90deg, 
+        rgba(20, 18, 16, 0.22) 0%, 
+        rgba(20, 18, 16, 0.06) 7%, 
+        rgba(255, 255, 255, 0) 18%);
+}
+
+.gutter-shadow-left {
+    background-color: #ffffff;
+    background-image: linear-gradient(270deg, 
+        rgba(20, 18, 16, 0.24) 0%, 
+        rgba(20, 18, 16, 0.07) 7%, 
+        rgba(255, 255, 255, 0) 18%);
+}
+
+/* ==========================================================================
+   FRONT HARDCOVER (3D ROTATING HINGE)
+   ========================================================================== */
+.front-cover-assembly {
+    position: absolute;
+    inset: 0;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transform: translateZ(6px) rotateY(0deg);
+    transition: transform 2.2s cubic-bezier(0.28, 0.08, 0.24, 1);
+    z-index: 30;
+}
+
+.book-wrapper.is-open .front-cover-assembly {
+    transform: translateZ(1px) rotateY(-179.6deg);
+}
+
+.book-wrapper.is-closing .front-cover-assembly {
+    transform: translateZ(6px) rotateY(0deg);
+    transition: transform 2.0s cubic-bezier(0.32, 0.06, 0.22, 1) 0.45s;
+}
+
+/* Exterior Front Cover Face */
+.front-cover-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px 14px 14px 4px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: 
+        inset 3px 0 10px rgba(0, 0, 0, 0.8),
+        inset -2px 0 3px rgba(255, 224, 160, 0.2),
+        4px 6px 18px rgba(0, 0, 0, 0.65);
+    border: 1px solid #160806;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10% 9%;
+    overflow: hidden;
+}
+
+/* Spine Crease Groove on Front Cover */
+.front-cover-outer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 14px;
+    width: 4px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.75), rgba(255,215,140,0.12), rgba(0,0,0,0.5));
+}
+
+/* Gold Foil Double Border Frame on Front Cover */
+.gold-cover-frame {
+    position: absolute;
+    top: 5.5%;
+    bottom: 5.5%;
+    left: 8.5%;
+    right: 6%;
+    border: 1.5px solid var(--gold-foil);
+    border-radius: 3px 8px 8px 3px;
+    box-shadow: 
+        0 0 8px rgba(212, 175, 55, 0.25),
+        inset 0 0 8px rgba(212, 175, 55, 0.2);
+    pointer-events: none;
+}
+
+.gold-cover-frame::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 0.75px solid rgba(212, 175, 55, 0.65);
+    border-radius: 2px 5px 5px 2px;
+}
+
+/* Ornate Gold Corner Filigree Accents */
+.corner-accent {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    pointer-events: none;
+    color: var(--gold-foil);
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.85));
+}
+.corner-tl { top: 4.5%; left: 7.5%; }
+.corner-tr { top: 4.5%; right: 5%; transform: scaleX(-1); }
+.corner-bl { bottom: 4.5%; left: 7.5%; transform: scaleY(-1); }
+.corner-br { bottom: 4.5%; right: 5%; transform: scale(-1, -1); }
+
+/* Embossed Gold Foil Typography on Cover */
+.gold-foil-text {
+    font-family: 'Cinzel', serif;
+    background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 35%, #b38728 65%, #fbf5b7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.85));
+    text-align: center;
+}
+
+/* Interior Left Page (Mounted on the inside of the Front Cover) */
+.front-cover-inner-board {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px 4px 4px 14px;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.85);
+    border: 1px solid #160806;
+    padding: 2.2% 0 2.2% 2.6%;
+}
+
+.left-spread-page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px 2px 2px 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1rem, 3.2vw, 2.2rem);
+}
+
+/* ==========================================================================
+   STATIONARY RIGHT PAGE (FINAL REVEALED RIGHT SPREAD)
+   ========================================================================== */
+.right-spread-page {
+    position: absolute;
+    top: 2.2%;
+    bottom: 2.2%;
+    left: 0;
+    right: 2.6%;
+    border-radius: 2px 10px 10px 2px;
+    transform: translateZ(0px);
+    z-index: 8;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1rem, 3.2vw, 2.2rem);
+}
+
+/* ==========================================================================
+   SEQUENTIAL FLIPPING WHITE SHEETS (SMOOTH 60FPS HARDWARE-ACCELERATED FLOW)
+   ========================================================================== */
+.flipping-page {
+    position: absolute;
+    top: 2.2%;
+    bottom: 2.2%;
+    left: 0;
+    right: 2.6%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    border-radius: 2px 10px 10px 2px;
+    pointer-events: none;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Distinct Z-planes prevent 3D Z-fighting and ensure clean stacking order */
+.flip-sheet-1 { transform: translateZ(4.5px) rotateY(0deg); }
+.flip-sheet-2 { transform: translateZ(3.5px) rotateY(0deg); }
+.flip-sheet-3 { transform: translateZ(2.5px) rotateY(0deg); }
+.flip-sheet-4 { transform: translateZ(1.5px) rotateY(0deg); }
+
+.flipping-page-front,
+.flipping-page-back {
+    position: absolute;
+    inset: 0;
+    background-color: #ffffff;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 2px 10px 10px 2px;
+    padding: clamp(1rem, 3.2vw, 2.2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.flipping-page-back {
+    transform: rotateY(180deg) translateZ(0.5px);
+    border-radius: 10px 2px 2px 10px;
+}
+
+/* Subtle faux lines on intermediate fluttering white pages */
+.faux-lines {
+    width: 82%;
+    height: 75%;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(40, 36, 32, 0.09) 0px,
+        rgba(40, 36, 32, 0.09) 1px,
+        transparent 1px,
+        transparent 18px
+    );
+    opacity: 0.7;
+}
+
+/* Pure GPU-composited 3D rotation keyframes for silky-smooth frame pacing */
+@keyframes pageFlipCascade1 {
+    0%   { transform: translate3d(0, 0, 4.5px) rotateY(0deg); }
+    50%  { transform: translate3d(0, 0, 6px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 1.5px) rotateY(-179.2deg); }
+}
+@keyframes pageFlipCascade2 {
+    0%   { transform: translate3d(0, 0, 3.5px) rotateY(0deg); }
+    50%  { transform: translate3d(0, 0, 5.5px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 2.5px) rotateY(-179.0deg); }
+}
+@keyframes pageFlipCascade3 {
+    0%   { transform: translate3d(0, 0, 2.5px) rotateY(0deg); }
+    50%  { transform: translate3d(0, 0, 5px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 3.5px) rotateY(-178.8deg); }
+}
+@keyframes pageFlipCascade4 {
+    0%   { transform: translate3d(0, 0, 1.5px) rotateY(0deg); }
+    50%  { transform: translate3d(0, 0, 4.5px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 4.5px) rotateY(-178.6deg); }
+}
+
+/* Smooth reverse cascade when closing the book */
+@keyframes pageCloseCascade4 {
+    0%   { transform: translate3d(0, 0, 4.5px) rotateY(-178.6deg); }
+    50%  { transform: translate3d(0, 0, 4.5px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 1.5px) rotateY(0deg); }
+}
+@keyframes pageCloseCascade3 {
+    0%   { transform: translate3d(0, 0, 3.5px) rotateY(-178.8deg); }
+    50%  { transform: translate3d(0, 0, 5px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 2.5px) rotateY(0deg); }
+}
+@keyframes pageCloseCascade2 {
+    0%   { transform: translate3d(0, 0, 2.5px) rotateY(-179.0deg); }
+    50%  { transform: translate3d(0, 0, 5.5px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 3.5px) rotateY(0deg); }
+}
+@keyframes pageCloseCascade1 {
+    0%   { transform: translate3d(0, 0, 1.5px) rotateY(-179.2deg); }
+    50%  { transform: translate3d(0, 0, 6px) rotateY(-90deg); }
+    100% { transform: translate3d(0, 0, 4.5px) rotateY(0deg); }
+}
+
+/* Gracefully staggered, overlapping flow timings */
+.book-wrapper.is-open .flip-sheet-1 {
+    animation: pageFlipCascade1 1.75s cubic-bezier(0.28, 0.08, 0.24, 1) 0.55s forwards;
+}
+.book-wrapper.is-open .flip-sheet-2 {
+    animation: pageFlipCascade2 1.75s cubic-bezier(0.28, 0.08, 0.24, 1) 0.82s forwards;
+}
+.book-wrapper.is-open .flip-sheet-3 {
+    animation: pageFlipCascade3 1.75s cubic-bezier(0.28, 0.08, 0.24, 1) 1.09s forwards;
+}
+.book-wrapper.is-open .flip-sheet-4 {
+    animation: pageFlipCascade4 1.80s cubic-bezier(0.28, 0.08, 0.24, 1) 1.36s forwards;
+}
+
+.book-wrapper.is-closing .flip-sheet-4 {
+    animation: pageCloseCascade4 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.05s forwards;
+}
+.book-wrapper.is-closing .flip-sheet-3 {
+    animation: pageCloseCascade3 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.20s forwards;
+}
+.book-wrapper.is-closing .flip-sheet-2 {
+    animation: pageCloseCascade2 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.35s forwards;
+}
+.book-wrapper.is-closing .flip-sheet-1 {
+    animation: pageCloseCascade1 1.35s cubic-bezier(0.35, 0, 0.25, 1) 0.50s forwards;
+}
+
+/* ==========================================================================
+   EDITORIAL TYPOGRAPHY & DROP CAP STYLING INSIDE PAGES
+   ========================================================================== */
+.page-header-meta {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.6rem, 1vw, 0.75rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border-bottom: 1px solid rgba(138, 106, 66, 0.28);
+    padding-bottom: 0.45rem;
+    margin-bottom: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+    line-height: 1.25;
+    color: #3a1d14;
+    margin-bottom: 0.75rem;
+}
+
+.page-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.88rem, 1.5vw, 1.16rem);
+    line-height: 1.62;
+    color: var(--ink-primary);
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(138, 106, 66, 0.3) transparent;
+}
+
+.page-body::-webkit-scrollbar {
+    width: 4px;
+}
+.page-body::-webkit-scrollbar-thumb {
+    background: rgba(138, 106, 66, 0.35);
+    border-radius: 4px;
+}
+
+/* Classic Illuminated Drop Cap for the opening paragraph */
+.drop-cap::first-letter {
+    float: left;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.2rem, 4vw, 3.3rem);
+    line-height: 0.82;
+    padding-top: 4px;
+    padding-right: 8px;
+    padding-left: 2px;
+    color: #6b2418;
+    text-shadow: 1px 1px 0 rgba(212, 175, 55, 0.45);
+}
+
+.signature-block {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+    color: #4b2319;
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.page-footer {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    text-align: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(138, 106, 66, 0.2);
+}
+
+/* Subtle Reveal Fade-In for Text once pages settle */
+.spread-content-reveal {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 1.1s ease 1.95s, transform 1.1s ease 1.95s;
+}
+
+.book-wrapper.is-open .spread-content-reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.book-wrapper.is-closing .spread-content-reveal {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.35s ease 0s, transform 0.35s ease 0s;
+}
+
+/* ==========================================================================
+   CENTERED BOTTOM OPEN / CLOSE TOGGLE BUTTON
+   ========================================================================== */
+.controls-bar {
+    position: fixed;
+    bottom: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass-btn {
+    background: rgba(24, 14, 12, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    color: #f7e29c;
+    font-family: 'Cinzel', 'Google Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 0.78rem 2.2rem;
+    min-width: 148px;
+    border-radius: 9999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.12);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-btn:hover {
+    background: rgba(54, 21, 16, 0.92);
+    border-color: rgba(247, 226, 156, 0.85);
+    box-shadow: 0 0 24px rgba(212, 175, 55, 0.4), 0 10px 28px rgba(0, 0, 0, 0.65);
+    transform: translateY(-2px);
+}
+
+.glass-btn:active {
+    transform: translateY(0);
+}
+
+.glass-btn:disabled {
+    opacity: 0.75;
+    cursor: wait;
+}
