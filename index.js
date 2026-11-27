@@ -1,4 +1,4 @@
-import { getBookSpread } from './api.js';
+import { getBookSpread, getAvailableSeasons } from './api.js';
 
 /* ==========================================================================
    ES MODULE: BOOK OPEN/CLOSE TOGGLE & FIREFLY PARTICLE ENGINE
@@ -276,22 +276,51 @@ const toggleBtn = document.getElementById('toggle-book-btn');
 const toggleBtnLabel = document.getElementById('toggle-btn-label');
 const prevVerseBtn = document.getElementById('prev-verse-btn');
 const nextVerseBtn = document.getElementById('next-verse-btn');
+const seasonSelectEl = document.getElementById('season-select');
 
 if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     const fireflies = initFireflyEngine(canvas);
 
     let currentVerseIndex = 0;
     let activeSeason = 'all';
+    let seasonsLoaded = false;
 
-    function setNavButtonsActive(isOpen) {
-        [prevVerseBtn, nextVerseBtn].forEach((btn) => {
-            if (!btn) return;
-            btn.classList.toggle('hidden', !isOpen);
-            btn.disabled = !isOpen;
+    async function populateSeasonsDropdown() {
+        if (!seasonSelectEl || seasonsLoaded) return;
+
+        try {
+            const seasons = await getAvailableSeasons();
+            for (const season of seasons) {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = season;
+                seasonSelectEl.appendChild(option);
+            }
+            seasonsLoaded = true;
+        } catch (error) {
+            console.error('Failed to populate seasons:', error);
+        }
+    }
+
+    function setBookControlsActive(isOpen) {
+        [prevVerseBtn, nextVerseBtn, seasonSelectEl].forEach((el) => {
+            if (!el) return;
+            el.classList.toggle('hidden', !isOpen);
+            el.disabled = !isOpen;
         });
     }
 
-    function renderPage(articleEl, entry, pageNumber, isLeftPage = false) {
+    function formatSeasonProgress(indexInSeason, totalInSeason, seasonLabel) {
+        if (!totalInSeason) return '';
+        const position = indexInSeason + 1;
+        const scope =
+            !seasonLabel || seasonLabel.toLowerCase() === 'all'
+                ? 'All Scriptures'
+                : seasonLabel;
+        return `${position} of ${totalInSeason} · ${scope}`;
+    }
+
+    function renderPage(articleEl, entry, pageNumber, isLeftPage = false, seasonProgress = '') {
         if (!articleEl) return;
 
         if (!entry) {
@@ -322,6 +351,8 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
             )
             .join('');
 
+        const progressSuffix = seasonProgress ? ` · ${seasonProgress}` : '';
+
         articleEl.innerHTML = `
             <div class="spread-content-reveal flex flex-col h-full justify-between">
                 <div>
@@ -334,7 +365,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
                         ${paragraphsHtml}
                     </div>
                 </div>
-                <footer class="page-footer">~ ${pageNumber} ~</footer>
+                <footer class="page-footer">~ ${pageNumber}${progressSuffix} ~</footer>
             </div>
         `;
     }
@@ -350,8 +381,18 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
             const leftNum = spread.leftPage?.id ?? currentVerseIndex + 1;
             const rightNum = spread.rightPage?.id ?? leftNum + 1;
 
-            renderPage(leftPageEl, spread.leftPage, leftNum, true);
-            renderPage(rightPageEl, spread.rightPage, rightNum, false);
+            const leftProgress = formatSeasonProgress(
+                currentVerseIndex,
+                spread.total,
+                spread.seasonLabel
+            );
+            const rightIndex = spread.total > 0 ? (currentVerseIndex + 1) % spread.total : 0;
+            const rightProgress = spread.total > 1
+                ? formatSeasonProgress(rightIndex, spread.total, spread.seasonLabel)
+                : '';
+
+            renderPage(leftPageEl, spread.leftPage, leftNum, true, leftProgress);
+            renderPage(rightPageEl, spread.rightPage, rightNum, false, rightProgress);
         } catch (error) {
             console.error('Error loading scriptures:', error);
         }
@@ -361,15 +402,24 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         bookEl,
         toggleBtn,
         toggleBtnLabel,
-        onOpen: () => {
+        onOpen: async () => {
             fireflies.triggerOpenBurst(28);
-            setNavButtonsActive(true);
+            await populateSeasonsDropdown();
+            setBookControlsActive(true);
             updateSpread(currentVerseIndex);
         },
         onClose: () => {
             fireflies.calmParticles();
-            setNavButtonsActive(false);
+            setBookControlsActive(false);
         }
+    });
+
+    seasonSelectEl?.addEventListener('change', (e) => {
+        e.stopPropagation();
+        if (!bookControls.getIsOpen()) return;
+        activeSeason = seasonSelectEl.value || 'all';
+        currentVerseIndex = 0;
+        updateSpread(0);
     });
 
     prevVerseBtn?.addEventListener('click', (e) => {
