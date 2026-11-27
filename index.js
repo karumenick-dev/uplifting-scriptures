@@ -279,9 +279,12 @@ const nextVerseBtn = document.getElementById('next-verse-btn');
 const seasonSelectEl = document.getElementById('season-select');
 const fontSelectEl = document.getElementById('font-select');
 const themeSelectEl = document.getElementById('theme-select');
+const leftPageStackEl = document.getElementById('left-page-stack');
+const pageTurnerEl = document.getElementById('page-turner');
 
 const FONT_STORAGE_KEY = 'uplifting_scriptures_font';
 const THEME_STORAGE_KEY = 'uplifting_scriptures_theme';
+const PAGE_TURN_DURATION_MS = 850;
 
 function applyReadingFont(fontValue) {
     const cleanFont = fontValue || 'current';
@@ -317,9 +320,11 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     const fireflies = initFireflyEngine(canvas);
 
     let currentVerseIndex = 0;
+    let currentSeasonTotal = 0;
     let activeSeason = 'all';
     let seasonsLoaded = false;
     let spreadRequestId = 0;
+    let isPageTurning = false;
 
     async function populateSeasonsDropdown() {
         if (!seasonSelectEl || seasonsLoaded) return;
@@ -349,6 +354,30 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         if (!totalInSeason) return '';
         const position = indexInSeason + 1;
         return `${position} of ${totalInSeason}`;
+    }
+
+    function renderLeftPageStack(indexInSeason, totalInSeason) {
+        if (!leftPageStackEl) return;
+
+        if (!totalInSeason || indexInSeason <= 0) {
+            leftPageStackEl.innerHTML = '';
+            return;
+        }
+
+        // Cap visible stacked sheets so it stays crisp even in a 100-verse season
+        const visibleLayers = Math.min(indexInSeason, 12);
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < visibleLayers; i++) {
+            const layer = document.createElement('div');
+            layer.className = 'stacked-page-layer';
+            const offsetPx = i * 2.4;
+            layer.style.transform = `translate3d(${offsetPx}px, 0, ${(i + 1) * 0.6}px)`;
+            layer.style.opacity = String(Math.min(0.95, 0.55 + i * 0.04));
+            fragment.appendChild(layer);
+        }
+
+        leftPageStackEl.replaceChildren(fragment);
     }
 
     function renderBlankLeftPage(articleEl) {
@@ -412,17 +441,52 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         const requestToken = ++spreadRequestId;
 
         try {
-            const spread = await getBookSpread(targetIndex, activeSeason);
+            let normalizedIndex = Number(targetIndex) || 0;
+            if (currentSeasonTotal > 0) {
+                normalizedIndex = ((normalizedIndex % currentSeasonTotal) + currentSeasonTotal) % currentSeasonTotal;
+            } else {
+                normalizedIndex = Math.max(0, normalizedIndex);
+            }
+
+            const spread = await getBookSpread(normalizedIndex, activeSeason);
             if (requestToken !== spreadRequestId) return;
 
             currentVerseIndex = spread.verseIndex;
-            const progressLabel = formatSeasonProgress(currentVerseIndex, spread.total);
+            currentSeasonTotal = spread.total || 0;
+            const progressLabel = formatSeasonProgress(currentVerseIndex, currentSeasonTotal);
 
             renderBlankLeftPage(leftPageEl);
+            renderLeftPageStack(currentVerseIndex, currentSeasonTotal);
             renderScripturePage(rightPageEl, spread.leftPage, progressLabel);
         } catch (error) {
             console.error('Error loading scriptures:', error);
         }
+    }
+
+    function turnToSpread(targetIndex, direction = 'next') {
+        if (!bookControls.getIsOpen() || isPageTurning) return;
+
+        if (!pageTurnerEl) {
+            updateSpread(targetIndex);
+            return;
+        }
+
+        isPageTurning = true;
+        const animClass = direction === 'prev' ? 'is-turning-prev' : 'is-turning-next';
+
+        pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
+        void pageTurnerEl.offsetWidth;
+        pageTurnerEl.classList.add(animClass);
+
+        // Swap scripture content and update the left page stack right at the 90° midpoint
+        setTimeout(() => {
+            updateSpread(targetIndex);
+        }, Math.round(PAGE_TURN_DURATION_MS * 0.48));
+
+        setTimeout(() => {
+            pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
+            isPageTurning = false;
+        }, PAGE_TURN_DURATION_MS + 40);
     }
 
     const bookControls = initBookControls({
@@ -438,6 +502,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         onClose: () => {
             fireflies.calmParticles();
             setBookControlsActive(false);
+            renderLeftPageStack(0, 0);
         }
     });
 
@@ -446,6 +511,8 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         if (!bookControls.getIsOpen()) return;
         activeSeason = seasonSelectEl.value || 'all';
         currentVerseIndex = 0;
+        currentSeasonTotal = 0;
+        renderLeftPageStack(0, 0);
         updateSpread(0);
     });
 
@@ -461,23 +528,21 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
 
     prevVerseBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (!bookControls.getIsOpen()) return;
-        updateSpread(currentVerseIndex - 1);
+        turnToSpread(currentVerseIndex - 1, 'prev');
     });
 
     nextVerseBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (!bookControls.getIsOpen()) return;
-        updateSpread(currentVerseIndex + 1);
+        turnToSpread(currentVerseIndex + 1, 'next');
     });
 
     // Optional keyboard navigation when the book is open
     document.addEventListener('keydown', (e) => {
         if (!bookControls.getIsOpen()) return;
         if (e.key === 'ArrowLeft') {
-            updateSpread(currentVerseIndex - 1);
+            turnToSpread(currentVerseIndex - 1, 'prev');
         } else if (e.key === 'ArrowRight') {
-            updateSpread(currentVerseIndex + 1);
+            turnToSpread(currentVerseIndex + 1, 'next');
         }
     });
 }
