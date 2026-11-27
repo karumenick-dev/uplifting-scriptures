@@ -277,6 +277,41 @@ const toggleBtnLabel = document.getElementById('toggle-btn-label');
 const prevVerseBtn = document.getElementById('prev-verse-btn');
 const nextVerseBtn = document.getElementById('next-verse-btn');
 const seasonSelectEl = document.getElementById('season-select');
+const fontSelectEl = document.getElementById('font-select');
+const themeSelectEl = document.getElementById('theme-select');
+
+const FONT_STORAGE_KEY = 'uplifting_scriptures_font';
+const THEME_STORAGE_KEY = 'uplifting_scriptures_theme';
+
+function applyReadingFont(fontValue) {
+    const cleanFont = fontValue || 'current';
+    document.body.dataset.font = cleanFont;
+    if (fontSelectEl && fontSelectEl.value !== cleanFont) {
+        fontSelectEl.value = cleanFont;
+    }
+    try {
+        localStorage.setItem(FONT_STORAGE_KEY, cleanFont);
+    } catch (_) {}
+}
+
+function applyColorScheme(themeValue) {
+    const cleanTheme = themeValue || 'warm-parchment';
+    document.body.dataset.theme = cleanTheme;
+    if (themeSelectEl && themeSelectEl.value !== cleanTheme) {
+        themeSelectEl.value = cleanTheme;
+    }
+    try {
+        localStorage.setItem(THEME_STORAGE_KEY, cleanTheme);
+    } catch (_) {}
+}
+
+try {
+    applyReadingFont(localStorage.getItem(FONT_STORAGE_KEY) || 'current');
+    applyColorScheme(localStorage.getItem(THEME_STORAGE_KEY) || 'warm-parchment');
+} catch (_) {
+    applyReadingFont('current');
+    applyColorScheme('warm-parchment');
+}
 
 if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     const fireflies = initFireflyEngine(canvas);
@@ -284,6 +319,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     let currentVerseIndex = 0;
     let activeSeason = 'all';
     let seasonsLoaded = false;
+    let spreadRequestId = 0;
 
     async function populateSeasonsDropdown() {
         if (!seasonSelectEl || seasonsLoaded) return;
@@ -303,7 +339,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     }
 
     function setBookControlsActive(isOpen) {
-        [prevVerseBtn, nextVerseBtn, seasonSelectEl].forEach((el) => {
+        [prevVerseBtn, nextVerseBtn, seasonSelectEl, fontSelectEl, themeSelectEl].forEach((el) => {
             if (!el) return;
             el.disabled = !isOpen;
         });
@@ -315,7 +351,12 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         return `${position} of ${totalInSeason}`;
     }
 
-    function renderPage(articleEl, entry, isLeftPage = false, seasonProgress = '') {
+    function renderBlankLeftPage(articleEl) {
+        if (!articleEl) return;
+        articleEl.innerHTML = `<div class="spread-content-reveal h-full w-full"></div>`;
+    }
+
+    function renderScripturePage(articleEl, entry, seasonProgress = '') {
         if (!articleEl) return;
 
         if (!entry) {
@@ -340,7 +381,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         const paragraphs = Array.isArray(entry.body) ? entry.body : [String(entry.body || '')];
         const paragraphsHtml = paragraphs
             .map((text, idx) =>
-                idx === 0 && isLeftPage
+                idx === 0
                     ? `<p class="drop-cap">${text}</p>`
                     : `<p>${text}</p>`
             )
@@ -368,19 +409,17 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     async function updateSpread(targetIndex = currentVerseIndex) {
         const leftPageEl = document.querySelector('.left-spread-page');
         const rightPageEl = document.querySelector('.right-spread-page');
+        const requestToken = ++spreadRequestId;
 
         try {
             const spread = await getBookSpread(targetIndex, activeSeason);
+            if (requestToken !== spreadRequestId) return;
+
             currentVerseIndex = spread.verseIndex;
+            const progressLabel = formatSeasonProgress(currentVerseIndex, spread.total);
 
-            const leftProgress = formatSeasonProgress(currentVerseIndex, spread.total);
-            const rightIndex = spread.total > 0 ? (currentVerseIndex + 1) % spread.total : 0;
-            const rightProgress = spread.total > 1
-                ? formatSeasonProgress(rightIndex, spread.total)
-                : '';
-
-            renderPage(leftPageEl, spread.leftPage, true, leftProgress);
-            renderPage(rightPageEl, spread.rightPage, false, rightProgress);
+            renderBlankLeftPage(leftPageEl);
+            renderScripturePage(rightPageEl, spread.leftPage, progressLabel);
         } catch (error) {
             console.error('Error loading scriptures:', error);
         }
@@ -408,6 +447,16 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         activeSeason = seasonSelectEl.value || 'all';
         currentVerseIndex = 0;
         updateSpread(0);
+    });
+
+    fontSelectEl?.addEventListener('change', (e) => {
+        e.stopPropagation();
+        applyReadingFont(fontSelectEl.value);
+    });
+
+    themeSelectEl?.addEventListener('change', (e) => {
+        e.stopPropagation();
+        applyColorScheme(themeSelectEl.value);
     });
 
     prevVerseBtn?.addEventListener('click', (e) => {
