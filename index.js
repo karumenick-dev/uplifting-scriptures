@@ -4,12 +4,21 @@ import { getBookSpread, getAvailableSeasons } from './api.js';
    ES MODULE: BOOK OPEN/CLOSE TOGGLE & FIREFLY PARTICLE ENGINE
    ========================================================================== */
 
-const FIREFLY_COLORS = [
+const DARK_BG_PARTICLE_COLORS = [
     { r: 255, g: 230, b: 145 }, // Warm champagne gold
     { r: 245, g: 190, b: 75 },  // Rich honey gold
     { r: 255, g: 165, b: 60 },  // Soft amber ember
     { r: 255, g: 245, b: 195 }  // Bright starlight sparkle
 ];
+
+const LIGHT_BG_PARTICLE_COLORS = [
+    { r: 175, g: 132, b: 48 },  // Warm antique gold
+    { r: 145, g: 108, b: 42 },  // Burnished bronze dust
+    { r: 195, g: 158, b: 78 },  // Sunlit pollen
+    { r: 255, g: 250, b: 235 }  // Soft ivory glint
+];
+
+let activeParticlePalette = DARK_BG_PARTICLE_COLORS;
 
 /* --------------------------------------------------------------------------
 1. GLITTERING FIREFLY & WARM AMBER BOKEH PARTICLE CLASS
@@ -22,7 +31,7 @@ export class Firefly {
 
     reset(isBurst = false) {
         const { width, height } = this.bounds;
-        const color = FIREFLY_COLORS[Math.floor(Math.random() * FIREFLY_COLORS.length)];
+        const color = activeParticlePalette[Math.floor(Math.random() * activeParticlePalette.length)];
         this.r = color.r;
         this.g = color.g;
         this.b = color.b;
@@ -142,9 +151,19 @@ export function initFireflyEngine(canvas) {
         burstIntensity = 0;
     }
 
+    function refreshPalette() {
+        for (const p of particles) {
+            const color = activeParticlePalette[Math.floor(Math.random() * activeParticlePalette.length)];
+            p.r = color.r;
+            p.g = color.g;
+            p.b = color.b;
+        }
+    }
+
     function animateFireflies() {
         ctx.clearRect(0, 0, bounds.width, bounds.height);
-        ctx.globalCompositeOperation = 'lighter';
+        const isLightBackdrop = document.body.classList.contains('light-backdrop');
+        ctx.globalCompositeOperation = isLightBackdrop ? 'source-over' : 'lighter';
 
         if (burstIntensity > 0.005) {
             burstIntensity *= 0.982;
@@ -170,7 +189,8 @@ export function initFireflyEngine(canvas) {
 
     return {
         triggerOpenBurst,
-        calmParticles
+        calmParticles,
+        refreshPalette
     };
 }
 
@@ -279,12 +299,17 @@ const nextVerseBtn = document.getElementById('next-verse-btn');
 const seasonSelectEl = document.getElementById('season-select');
 const fontSelectEl = document.getElementById('font-select');
 const themeSelectEl = document.getElementById('theme-select');
+const bgSelectEl = document.getElementById('bg-select');
 const leftPageStackEl = document.getElementById('left-page-stack');
 const pageTurnerEl = document.getElementById('page-turner');
 
 const FONT_STORAGE_KEY = 'uplifting_scriptures_font';
 const THEME_STORAGE_KEY = 'uplifting_scriptures_theme';
+const BG_STORAGE_KEY = 'uplifting_scriptures_bg';
+const LIGHT_BACKGROUNDS = new Set(['sage-mist', 'linen-sand']);
 const PAGE_TURN_DURATION_MS = 1080;
+
+let firefliesInstance = null;
 
 function applyReadingFont(fontValue) {
     const cleanFont = fontValue || 'current';
@@ -308,16 +333,37 @@ function applyColorScheme(themeValue) {
     } catch (_) {}
 }
 
+function applyBackgroundAmbiance(bgValue) {
+    const cleanBg = bgValue || 'espresso-brown';
+    const isLight = LIGHT_BACKGROUNDS.has(cleanBg);
+
+    document.body.dataset.bg = cleanBg;
+    document.body.classList.toggle('light-backdrop', isLight);
+    activeParticlePalette = isLight ? LIGHT_BG_PARTICLE_COLORS : DARK_BG_PARTICLE_COLORS;
+    firefliesInstance?.refreshPalette();
+
+    if (bgSelectEl && bgSelectEl.value !== cleanBg) {
+        bgSelectEl.value = cleanBg;
+    }
+    try {
+        localStorage.setItem(BG_STORAGE_KEY, cleanBg);
+    } catch (_) {}
+}
+
 try {
     applyReadingFont(localStorage.getItem(FONT_STORAGE_KEY) || 'current');
     applyColorScheme(localStorage.getItem(THEME_STORAGE_KEY) || 'warm-parchment');
+    applyBackgroundAmbiance(localStorage.getItem(BG_STORAGE_KEY) || 'espresso-brown');
 } catch (_) {
     applyReadingFont('current');
     applyColorScheme('warm-parchment');
+    applyBackgroundAmbiance('espresso-brown');
 }
 
 if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     const fireflies = initFireflyEngine(canvas);
+    firefliesInstance = fireflies;
+    fireflies.refreshPalette();
 
     let currentVerseIndex = 0;
     let currentSeasonTotal = 0;
@@ -385,113 +431,113 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         articleEl.innerHTML = `<div class="spread-content-reveal h-full w-full"></div>`;
     }
 
-function renderScripturePage(articleEl, entry, seasonProgress = '', instantReveal = false) {
-    if (!articleEl) return;
+    function renderScripturePage(articleEl, entry, seasonProgress = '', instantReveal = false) {
+        if (!articleEl) return;
 
-    const revealClass = instantReveal
-        ? 'spread-content-reveal is-instant-reveal flex flex-col h-full justify-between'
-        : 'spread-content-reveal flex flex-col h-full justify-between';
+        const revealClass = instantReveal
+            ? 'spread-content-reveal is-instant-reveal flex flex-col h-full justify-between'
+            : 'spread-content-reveal flex flex-col h-full justify-between';
 
-    if (!entry) {
+        if (!entry) {
+            articleEl.innerHTML = `
+                <div class="${revealClass}">
+                    <div>
+                        <header class="page-header-meta">
+                            <span>Selah</span>
+                            <span>Quiet Reflection</span>
+                        </header>
+                        <h2 class="page-title">Be Still &amp; Rest</h2>
+                        <div class="page-body space-y-3">
+                            <p>Take a slow breath here before turning back to the beginning.</p>
+                        </div>
+                    </div>
+                    <footer class="page-footer">~ Quiet Reflection ~</footer>
+                </div>
+            `;
+            return;
+        }
+
+        const paragraphs = Array.isArray(entry.body) ? entry.body : [String(entry.body || '')];
+        const paragraphsHtml = paragraphs
+            .map((text, idx) =>
+                idx === 0
+                    ? `<p class="drop-cap">${text}</p>`
+                    : `<p>${text}</p>`
+            )
+            .join('');
+
+        const footerLabel = seasonProgress ? `~ ${seasonProgress} ~` : '';
+
         articleEl.innerHTML = `
             <div class="${revealClass}">
                 <div>
                     <header class="page-header-meta">
-                        <span>Selah</span>
-                        <span>Quiet Reflection</span>
+                        <span>${entry.reference}</span>
+                        <span>${entry.seasonLabel}</span>
                     </header>
-                    <h2 class="page-title">Be Still &amp; Rest</h2>
+                    <h2 class="page-title">${entry.title}</h2>
                     <div class="page-body space-y-3">
-                        <p>Take a slow breath here before turning back to the beginning.</p>
+                        ${paragraphsHtml}
                     </div>
                 </div>
-                <footer class="page-footer">~ Quiet Reflection ~</footer>
+                <footer class="page-footer">${footerLabel}</footer>
             </div>
         `;
-        return;
     }
 
-    const paragraphs = Array.isArray(entry.body) ? entry.body : [String(entry.body || '')];
-    const paragraphsHtml = paragraphs
-        .map((text, idx) =>
-            idx === 0
-                ? `<p class="drop-cap">${text}</p>`
-                : `<p>${text}</p>`
-        )
-        .join('');
+    async function updateSpread(targetIndex = currentVerseIndex, instantReveal = false) {
+        const leftPageEl = document.querySelector('.left-spread-page');
+        const rightPageEl = document.querySelector('.right-spread-page');
+        const requestToken = ++spreadRequestId;
 
-    const footerLabel = seasonProgress ? `~ ${seasonProgress} ~` : '';
+        try {
+            let normalizedIndex = Number(targetIndex) || 0;
+            if (currentSeasonTotal > 0) {
+                normalizedIndex = ((normalizedIndex % currentSeasonTotal) + currentSeasonTotal) % currentSeasonTotal;
+            } else {
+                normalizedIndex = Math.max(0, normalizedIndex);
+            }
 
-    articleEl.innerHTML = `
-        <div class="${revealClass}">
-            <div>
-                <header class="page-header-meta">
-                    <span>${entry.reference}</span>
-                    <span>${entry.seasonLabel}</span>
-                </header>
-                <h2 class="page-title">${entry.title}</h2>
-                <div class="page-body space-y-3">
-                    ${paragraphsHtml}
-                </div>
-            </div>
-            <footer class="page-footer">${footerLabel}</footer>
-        </div>
-    `;
-}
+            const spread = await getBookSpread(normalizedIndex, activeSeason);
+            if (requestToken !== spreadRequestId) return;
 
-async function updateSpread(targetIndex = currentVerseIndex, instantReveal = false) {
-    const leftPageEl = document.querySelector('.left-spread-page');
-    const rightPageEl = document.querySelector('.right-spread-page');
-    const requestToken = ++spreadRequestId;
+            currentVerseIndex = spread.verseIndex;
+            currentSeasonTotal = spread.total || 0;
+            const progressLabel = formatSeasonProgress(currentVerseIndex, currentSeasonTotal);
 
-    try {
-        let normalizedIndex = Number(targetIndex) || 0;
-        if (currentSeasonTotal > 0) {
-            normalizedIndex = ((normalizedIndex % currentSeasonTotal) + currentSeasonTotal) % currentSeasonTotal;
-        } else {
-            normalizedIndex = Math.max(0, normalizedIndex);
+            renderBlankLeftPage(leftPageEl);
+            renderLeftPageStack(currentVerseIndex, currentSeasonTotal);
+            renderScripturePage(rightPageEl, spread.leftPage, progressLabel, instantReveal);
+        } catch (error) {
+            console.error('Error loading scriptures:', error);
+        }
+    }
+
+    function turnToSpread(targetIndex, direction = 'next') {
+        if (!bookControls.getIsOpen() || isPageTurning) return;
+
+        if (!pageTurnerEl) {
+            updateSpread(targetIndex, true);
+            return;
         }
 
-        const spread = await getBookSpread(normalizedIndex, activeSeason);
-        if (requestToken !== spreadRequestId) return;
+        isPageTurning = true;
+        const animClass = direction === 'prev' ? 'is-turning-prev' : 'is-turning-next';
 
-        currentVerseIndex = spread.verseIndex;
-        currentSeasonTotal = spread.total || 0;
-        const progressLabel = formatSeasonProgress(currentVerseIndex, currentSeasonTotal);
-
-        renderBlankLeftPage(leftPageEl);
-        renderLeftPageStack(currentVerseIndex, currentSeasonTotal);
-        renderScripturePage(rightPageEl, spread.leftPage, progressLabel, instantReveal);
-    } catch (error) {
-        console.error('Error loading scriptures:', error);
-    }
-}
-
-function turnToSpread(targetIndex, direction = 'next') {
-    if (!bookControls.getIsOpen() || isPageTurning) return;
-
-    if (!pageTurnerEl) {
-        updateSpread(targetIndex, true);
-        return;
-    }
-
-    isPageTurning = true;
-    const animClass = direction === 'prev' ? 'is-turning-prev' : 'is-turning-next';
-
-    pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
-    void pageTurnerEl.offsetWidth;
-    pageTurnerEl.classList.add(animClass);
-
-    // Swap at 50% (90° upright crease) with instantReveal = true so text never lingers blank
-    setTimeout(() => {
-        updateSpread(targetIndex, true);
-    }, Math.round(PAGE_TURN_DURATION_MS * 0.5));
-
-    setTimeout(() => {
         pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
-        isPageTurning = false;
-    }, PAGE_TURN_DURATION_MS + 100);
-}
+        void pageTurnerEl.offsetWidth;
+        pageTurnerEl.classList.add(animClass);
+
+        // Swap at 50% (90° upright crease) with instantReveal = true so text never lingers blank
+        setTimeout(() => {
+            updateSpread(targetIndex, true);
+        }, Math.round(PAGE_TURN_DURATION_MS * 0.5));
+
+        setTimeout(() => {
+            pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
+            isPageTurning = false;
+        }, PAGE_TURN_DURATION_MS + 100);
+    }
 
     const bookControls = initBookControls({
         bookEl,
@@ -530,14 +576,9 @@ function turnToSpread(targetIndex, direction = 'next') {
         applyColorScheme(themeSelectEl.value);
     });
 
-    prevVerseBtn?.addEventListener('click', (e) => {
+    bgSelectEl?.addEventListener('change', (e) => {
         e.stopPropagation();
-        turnToSpread(currentVerseIndex - 1, 'prev');
-    });
-
-    nextVerseBtn?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        turnToSpread(currentVerseIndex + 1, 'next');
+        applyBackgroundAmbiance(bgSelectEl.value);
     });
 
     // Optional keyboard navigation when the book is open
