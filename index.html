@@ -193,40 +193,64 @@
     <!-- Centered Bottom Open / Close, Season, Font, Theme & Background Navigation Bar -->
     <div class="controls-bar">
         <div class="season-filter-row">
-            <label for="season-select" class="sr-only">Choose scripture season</label>
-            <select id="season-select" class="glass-select" aria-label="Choose scripture season" disabled>
-                <option value="all">All Seasons</option>
-            </select>
+            <!-- Season Pill Dropdown -->
+            <div class="pill-dropdown" id="season-dropdown" data-default-label="Season">
+                <button id="season-pill-btn" class="glass-select pill-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose scripture season" disabled>
+                    <span class="pill-text">Season</span>
+                    <span class="pill-chevron" aria-hidden="true">▾</span>
+                </button>
+                <ul id="season-menu" class="pill-menu" role="listbox" aria-label="Scripture seasons">
+                    <li class="pill-option is-selected" role="option" data-value="all" data-label="All Seasons" aria-selected="true">All Seasons</li>
+                </ul>
+            </div>
 
-            <label for="font-select" class="sr-only">Choose reading font</label>
-            <select id="font-select" class="glass-select" aria-label="Choose reading font" disabled>
-                <option value="current">EB Garamond</option>
-                <option value="georgia">Georgia</option>
-                <option value="libre-baskerville">Libre Baskerville</option>
-                <option value="merriweather">Merriweather</option>
-                <option value="inter">Inter</option>
-                <option value="roboto">Roboto</option>
-                <option value="cardo">Cardo</option>
-            </select>
+            <!-- Font Pill Dropdown -->
+            <div class="pill-dropdown" id="font-dropdown" data-default-label="Font">
+                <button id="font-pill-btn" class="glass-select pill-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose reading font" disabled>
+                    <span class="pill-text">Font</span>
+                    <span class="pill-chevron" aria-hidden="true">▾</span>
+                </button>
+                <ul id="font-menu" class="pill-menu" role="listbox" aria-label="Reading fonts">
+                    <li class="pill-option is-selected" role="option" data-value="current" data-label="EB Garamond" aria-selected="true">EB Garamond</li>
+                    <li class="pill-option" role="option" data-value="georgia" data-label="Georgia" aria-selected="false">Georgia</li>
+                    <li class="pill-option" role="option" data-value="libre-baskerville" data-label="Libre Baskerville" aria-selected="false">Libre Baskerville</li>
+                    <li class="pill-option" role="option" data-value="merriweather" data-label="Merriweather" aria-selected="false">Merriweather</li>
+                    <li class="pill-option" role="option" data-value="inter" data-label="Inter" aria-selected="false">Inter</li>
+                    <li class="pill-option" role="option" data-value="roboto" data-label="Roboto" aria-selected="false">Roboto</li>
+                    <li class="pill-option" role="option" data-value="cardo" data-label="Cardo" aria-selected="false">Cardo</li>
+                </ul>
+            </div>
 
-            <label for="theme-select" class="sr-only">Choose color scheme</label>
-            <select id="theme-select" class="glass-select" aria-label="Choose color scheme" disabled>
-                <option value="warm-parchment">Warm Parchment</option>
-                <option value="soft-sepia">Soft Sepia</option>
-                <option value="dark-mode">Dark Mode</option>
-                <option value="clean-light">Clean Light</option>
-            </select>
+            <!-- Theme Pill Dropdown -->
+            <div class="pill-dropdown" id="theme-dropdown" data-default-label="Theme">
+                <button id="theme-pill-btn" class="glass-select pill-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose color scheme" disabled>
+                    <span class="pill-text">Theme</span>
+                    <span class="pill-chevron" aria-hidden="true">▾</span>
+                </button>
+                <ul id="theme-menu" class="pill-menu" role="listbox" aria-label="Page color schemes">
+                    <li class="pill-option is-selected" role="option" data-value="warm-parchment" data-label="Warm Parchment" aria-selected="true">Warm Parchment</li>
+                    <li class="pill-option" role="option" data-value="soft-sepia" data-label="Soft Sepia" aria-selected="false">Soft Sepia</li>
+                    <li class="pill-option" role="option" data-value="dark-mode" data-label="Dark Mode" aria-selected="false">Dark Mode</li>
+                    <li class="pill-option" role="option" data-value="clean-light" data-label="Clean Light" aria-selected="false">Clean Light</li>
+                </ul>
+            </div>
 
-            <label for="bg-select" class="sr-only">Choose background ambiance</label>
-            <select id="bg-select" class="glass-select" aria-label="Choose background ambiance">
-                <option value="espresso-brown">Espresso Brown</option>
-                <option value="midnight-slate">Midnight Slate</option>
-                <option value="forest-moss">Forest Moss</option>
-                <option value="dusty-aubergine">Dusty Aubergine</option>
-                <option value="warm-taupe">Warm Taupe</option>
-                <option value="sage-mist">Soft Sage Mist</option>
-                <option value="linen-sand">Warm Linen Sand</option>
-            </select>
+            <!-- Background Ambiance Pill Dropdown -->
+            <div class="pill-dropdown" id="bg-dropdown" data-default-label="Background">
+                <button id="bg-pill-btn" class="glass-select pill-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose background ambiance">
+                    <span class="pill-text">Background</span>
+                    <span class="pill-chevron" aria-hidden="true">▾</span>
+                </button>
+                <ul id="bg-menu" class="pill-menu" role="listbox" aria-label="Background ambiance options">
+                    <li class="pill-option is-selected" role="option" data-value="espresso-brown" data-label="Espresso Brown" aria-selected="true">Espresso Brown</li>
+                    <li class="pill-option" role="option" data-value="midnight-slate" data-label="Midnight Slate" aria-selected="false">Midnight Slate</li>
+                    <li class="pill-option" role="option" data-value="forest-moss" data-label="Forest Moss" aria-selected="false">Forest Moss</li>
+                    <li class="pill-option" role="option" data-value="dusty-aubergine" data-label="Dusty Aubergine" aria-selected="false">Dusty Aubergine</li>
+                    <li class="pill-option" role="option" data-value="warm-taupe" data-label="Warm Taupe" aria-selected="false">Warm Taupe</li>
+                    <li class="pill-option" role="option" data-value="sage-mist" data-label="Soft Sage Mist" aria-selected="false">Soft Sage Mist</li>
+                    <li class="pill-option" role="option" data-value="linen-sand" data-label="Warm Linen Sand" aria-selected="false">Warm Linen Sand</li>
+                </ul>
+            </div>
         </div>
 
         <div class="nav-buttons-row">
