@@ -400,6 +400,7 @@ body.book-opened .ambient-glow {
     opacity: 0;
 }
 
+/* Extra spine/gutter padding prevents left-edge text clipping */
 .left-spread-page {
     position: relative;
     width: 100%;
@@ -409,7 +410,7 @@ body.book-opened .ambient-glow {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: clamp(1rem, 3.2vw, 2.2rem);
+    padding: clamp(1.1rem, 3vw, 2.2rem) clamp(1.5rem, 3.8vw, 2.6rem) clamp(1.1rem, 3vw, 2.2rem) clamp(1.15rem, 3vw, 2.2rem);
 }
 
 /* ==========================================================================
@@ -428,7 +429,7 @@ body.book-opened .ambient-glow {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: clamp(1rem, 3.2vw, 2.2rem);
+    padding: clamp(1.1rem, 3vw, 2.2rem) clamp(1.15rem, 3vw, 2.2rem) clamp(1.1rem, 3vw, 2.2rem) clamp(1.55rem, 3.9vw, 2.65rem);
 }
 
 /* ==========================================================================
@@ -559,10 +560,18 @@ body.book-opened .ambient-glow {
 /* ==========================================================================
    EDITORIAL TYPOGRAPHY & DROP CAP STYLING INSIDE PAGES
    ========================================================================== */
+.spread-content-reveal {
+    min-width: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.45s ease 0.85s, transform 0.45s ease 0.85s;
+}
+
 .page-header-meta {
     font-family: 'Cinzel', serif;
-    font-size: clamp(0.6rem, 1vw, 0.75rem);
-    letter-spacing: 0.22em;
+    font-size: clamp(0.58rem, 0.95vw, 0.72rem);
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink-muted);
     border-bottom: 1px solid rgba(138, 106, 66, 0.28);
@@ -571,15 +580,18 @@ body.book-opened .ambient-glow {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
+    overflow-wrap: break-word;
 }
 
 .page-title {
     font-family: 'Cinzel', serif;
     font-weight: 600;
-    font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+    font-size: clamp(1rem, 2vw, 1.5rem);
     line-height: 1.25;
     color: #3a1d14;
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .page-body {
@@ -588,7 +600,9 @@ body.book-opened .ambient-glow {
     line-height: 1.62;
     color: var(--ink-primary);
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 0.25rem;
+    overflow-wrap: break-word;
     scrollbar-width: thin;
     scrollbar-color: rgba(138, 106, 66, 0.3) transparent;
 }
@@ -604,7 +618,7 @@ body.book-opened .ambient-glow {
 .drop-cap::first-letter {
     float: left;
     font-family: 'Cinzel', serif;
-    font-size: clamp(2.2rem, 4vw, 3.3rem);
+    font-size: clamp(2.1rem, 3.8vw, 3.2rem);
     line-height: 0.82;
     padding-top: 4px;
     padding-right: 8px;
@@ -632,12 +646,6 @@ body.book-opened .ambient-glow {
     border-top: 1px solid rgba(138, 106, 66, 0.2);
 }
 
-.spread-content-reveal {
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.45s ease 0.85s, transform 0.45s ease 0.85s;
-}
-
 .book-wrapper.is-open .spread-content-reveal {
     opacity: 1;
     transform: translateY(0);
@@ -650,17 +658,30 @@ body.book-opened .ambient-glow {
 }
 
 /* ==========================================================================
-   CENTERED BOTTOM OPEN / CLOSE & VERSE NAVIGATION CONTROLS
+   CENTERED BOTTOM OPEN / CLOSE, SEASON SELECTOR & NAVIGATION CONTROLS
    ========================================================================== */
 .controls-bar {
     position: fixed;
-    bottom: 1.75rem;
+    bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 40;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.65rem;
+    width: max-content;
+    max-width: 95vw;
+}
+
+.season-filter-row,
+.nav-buttons-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .glass-btn {
@@ -702,20 +723,60 @@ body.book-opened .ambient-glow {
     cursor: not-allowed;
 }
 
-/* Keep Prev & Next hidden and inactive until the book is opened */
+.glass-select {
+    background: rgba(24, 14, 12, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #f7e29c;
+    font-family: 'Cinzel', 'Google Sans', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.62rem 1.4rem;
+    min-width: 220px;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65), inset 0 0 12px rgba(212, 175, 55, 0.14);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-select option {
+    background-color: #1d0c09;
+    color: #f7e29c;
+    font-family: 'Lora', serif;
+    text-transform: none;
+    letter-spacing: 0.03em;
+}
+
+.glass-select:hover:not(:disabled),
+.glass-select:focus:not(:disabled) {
+    outline: none;
+    background: rgba(54, 21, 16, 0.95);
+    border-color: rgba(247, 226, 156, 0.9);
+    box-shadow: 0 0 22px rgba(212, 175, 55, 0.35), 0 10px 28px rgba(0, 0, 0, 0.65);
+}
+
+/* Keep Prev, Next & Season Select hidden and inactive until the book is opened */
 #prev-verse-btn,
-#next-verse-btn {
+#next-verse-btn,
+#season-select {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transform: translateY(6px);
-    transition: opacity 0.45s ease, transform 0.45s ease, background 0.25s ease, border-color 0.25s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0s linear 0.4s, background 0.25s ease, border-color 0.25s ease;
 }
 
 body.book-opened #prev-verse-btn,
-body.book-opened #next-verse-btn {
+body.book-opened #next-verse-btn,
+body.book-opened #season-select {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0s linear 0s, background 0.25s ease, border-color 0.25s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -727,7 +788,8 @@ body.book-opened #next-verse-btn {
     .spread-content-reveal,
     .ambient-glow,
     #prev-verse-btn,
-    #next-verse-btn {
+    #next-verse-btn,
+    #season-select {
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-delay: 0ms !important;
