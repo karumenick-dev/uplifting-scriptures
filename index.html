@@ -8,15 +8,15 @@
     <!-- Tailwind CSS for responsive layout & utility classes -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Cinzel for ornate embossed titles, Cormorant Garamond & Lora for classic literary body text -->
+    <!-- Google Fonts: Cinzel, Cormorant Garamond, Lora, Cardo, Libre Baskerville, Merriweather, Inter & Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Google+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Google+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
     <!-- External Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="warm-parchment" data-font="current">
 
     <!-- Ambient Warm Glow Behind the Book -->
     <div class="ambient-glow" aria-hidden="true"></div>
@@ -48,34 +48,28 @@
 
             <!-- ======================================================================
                  RIGHT PAGE (STATIONARY FINAL RIGHT-HAND PAGE)
-                 EDIT YOUR RIGHT PAGE TEXT INSIDE THIS SECTION
                  ====================================================================== -->
             <article class="right-spread-page parchment-sheet gutter-shadow-right">
                 <div class="spread-content-reveal flex flex-col h-full justify-between">
                     <div>
-                        <!-- EDITABLE: Right Page Top Header / Date -->
                         <header class="page-header-meta">
                             <span>Part II</span>
                             <span>Autumn Equinox</span>
                         </header>
 
-                        <!-- EDITABLE: Right Page Subheading -->
                         <h2 class="page-title">Life has a way of throwing curve balls. We lose loved ones, jobs come to a sudden, unexpected end, the doctor gives you that heartwrenching diagnosis.</h2>
 
-                        <!-- EDITABLE: Right Page Main Body Paragraphs -->
                         <div class="page-body space-y-3">
                             <p>
-                                When the storms come, we remember He who walked upon the waves and calmed the raging winds.<br> May you find encouragement, strength, hope, and peace in these scriptures.
+                                When the storms come, we remember He who walked upon the waves and calmed the raging winds.<br>May you find encouragement, strength, hope, and peace in these scriptures.
                             </p>
                         </div>
 
-                        <!-- EDITABLE: Author / Sender Signature -->
                         <div class="signature-block">
                             — Forever &amp; Always, The Storyteller
                         </div>
                     </div>
 
-                    <!-- EDITABLE: Right Page Footer / Page Number -->
                     <footer class="page-footer">
                         ~ II ~
                     </footer>
@@ -84,43 +78,26 @@
             <!-- END RIGHT PAGE -->
 
             <!-- ======================================================================
-                 SEQUENTIAL FLIPPING WHITE PAGES (ANIMATION CASCADE)
-                 These 4 intermediate solid-white pages flutter across during opening.
+                 SEQUENTIAL FLIPPING WHITE PAGES (ANIMATION CASCADE - CLEAN BLANK PAGES)
                  ====================================================================== -->
             <div class="flipping-page flip-sheet-4" aria-hidden="true">
-                <div class="flipping-page-front parchment-sheet gutter-shadow-right">
-                    <div class="faux-lines"></div>
-                </div>
-                <div class="flipping-page-back parchment-sheet gutter-shadow-left">
-                    <div class="faux-lines"></div>
-                </div>
+                <div class="flipping-page-front parchment-sheet gutter-shadow-right"></div>
+                <div class="flipping-page-back parchment-sheet gutter-shadow-left"></div>
             </div>
 
             <div class="flipping-page flip-sheet-3" aria-hidden="true">
-                <div class="flipping-page-front parchment-sheet gutter-shadow-right">
-                    <div class="faux-lines"></div>
-                </div>
-                <div class="flipping-page-back parchment-sheet gutter-shadow-left">
-                    <div class="faux-lines"></div>
-                </div>
+                <div class="flipping-page-front parchment-sheet gutter-shadow-right"></div>
+                <div class="flipping-page-back parchment-sheet gutter-shadow-left"></div>
             </div>
 
             <div class="flipping-page flip-sheet-2" aria-hidden="true">
-                <div class="flipping-page-front parchment-sheet gutter-shadow-right">
-                    <div class="faux-lines"></div>
-                </div>
-                <div class="flipping-page-back parchment-sheet gutter-shadow-left">
-                    <div class="faux-lines"></div>
-                </div>
+                <div class="flipping-page-front parchment-sheet gutter-shadow-right"></div>
+                <div class="flipping-page-back parchment-sheet gutter-shadow-left"></div>
             </div>
 
             <div class="flipping-page flip-sheet-1" aria-hidden="true">
-                <div class="flipping-page-front parchment-sheet gutter-shadow-right">
-                    <div class="faux-lines"></div>
-                </div>
-                <div class="flipping-page-back parchment-sheet gutter-shadow-left">
-                    <div class="faux-lines"></div>
-                </div>
+                <div class="flipping-page-front parchment-sheet gutter-shadow-right"></div>
+                <div class="flipping-page-back parchment-sheet gutter-shadow-left"></div>
             </div>
 
             <!-- ======================================================================
@@ -128,7 +105,7 @@
                  ====================================================================== -->
             <div class="front-cover-assembly">
                 
-                <!-- OUTER FRONT HARDCOVER (EDIT COVER TITLE & SUBTITLE BELOW) -->
+                <!-- OUTER FRONT HARDCOVER -->
                 <div class="front-cover-outer leather-surface">
                     <!-- Gold Foil Double Frame -->
                     <div class="gold-cover-frame"></div>
@@ -168,7 +145,7 @@
                         </svg>
                     </div>
 
-                    <!-- EDITABLE: Hardcover Title & Subtitle -->
+                    <!-- Hardcover Title & Subtitle -->
                     <div class="px-4 my-auto text-center">
                         <p class="gold-foil-text text-[0.65rem] sm:text-xs tracking-[0.28em] uppercase mb-3 opacity-90">
                             Find Encouragement In
@@ -189,38 +166,11 @@
                 </div>
 
                 <!-- ==================================================================
-                     INNER FRONT COVER -> LEFT PAGE OF THE OPEN SPREAD
-                     EDIT YOUR LEFT PAGE TEXT INSIDE THIS SECTION
+                     INNER FRONT COVER -> LEFT PAGE OF THE OPEN SPREAD (BLANK PAGE)
                      ================================================================== -->
                 <div class="front-cover-inner-board leather-surface">
                     <article class="left-spread-page parchment-sheet gutter-shadow-left">
-                        <div class="spread-content-reveal flex flex-col h-full justify-between">
-                            <div>
-                                <!-- EDITABLE: Left Page Top Header / Chapter -->
-                                <header class="page-header-meta">
-                                    <span>Chapter I</span>
-                                    <span>Prologue</span>
-                                </header>
-
-                                <!-- EDITABLE: Left Page Heading -->
-                                <h2 class="page-title">Awakening the Lanterns</h2>
-
-                                <!-- EDITABLE: Left Page Body Paragraphs (First paragraph features a Drop Cap) -->
-                                <div class="page-body space-y-3">
-                                    <p class="drop-cap">
-                                        Beneath a canopy of velvet twilight, the ancient leather cover parts to reveal words preserved in warm candlelight. As the pages drift open, golden embers dance upward like fireflies awakened from a long slumber.
-                                    </p>
-                                    <p>
-                                        Replace this text with your own story, poem, dedication, or special announcement. The double-page layout automatically adapts to desktop and mobile screens while preserving classic book proportions.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- EDITABLE: Left Page Footer / Page Number -->
-                            <footer class="page-footer">
-                                ~ I ~
-                            </footer>
-                        </div>
+                        <div class="spread-content-reveal h-full w-full"></div>
                     </article>
                 </div>
                 <!-- END LEFT PAGE -->
@@ -231,29 +181,48 @@
         </div>
     </main>
 
-<!-- Centered Bottom Open / Close & Verse Navigation Bar -->
-<div class="controls-bar">
-    <div class="season-filter-row">
-        <label for="season-select" class="sr-only">Choose scripture season</label>
-        <select id="season-select" class="glass-select" aria-label="Choose scripture season" disabled>
-            <option value="all">All Seasons</option>
-        </select>
+    <!-- Centered Bottom Open / Close, Season, Font & Theme Navigation Bar -->
+    <div class="controls-bar">
+        <div class="season-filter-row">
+            <label for="season-select" class="sr-only">Choose scripture season</label>
+            <select id="season-select" class="glass-select" aria-label="Choose scripture season" disabled>
+                <option value="all">All Seasons</option>
+            </select>
+
+            <label for="font-select" class="sr-only">Choose reading font</label>
+            <select id="font-select" class="glass-select" aria-label="Choose reading font" disabled>
+                <option value="current">Current Font</option>
+                <option value="georgia">Georgia</option>
+                <option value="libre-baskerville">Libre Baskerville</option>
+                <option value="merriweather">Merriweather</option>
+                <option value="inter">Inter</option>
+                <option value="roboto">Roboto</option>
+                <option value="cardo">Cardo</option>
+            </select>
+
+            <label for="theme-select" class="sr-only">Choose color scheme</label>
+            <select id="theme-select" class="glass-select" aria-label="Choose color scheme" disabled>
+                <option value="warm-parchment">Warm Parchment</option>
+                <option value="soft-sepia">Soft Sepia</option>
+                <option value="dark-mode">Dark Mode</option>
+                <option value="clean-light">Clean Light</option>
+            </select>
+        </div>
+
+        <div class="nav-buttons-row">
+            <button id="prev-verse-btn" class="glass-btn" type="button" aria-label="Previous verse" disabled>
+                &larr; Prev
+            </button>
+
+            <button id="toggle-book-btn" class="glass-btn" type="button" aria-expanded="false" aria-label="Open book">
+                <span id="toggle-btn-label">Open</span>
+            </button>
+
+            <button id="next-verse-btn" class="glass-btn" type="button" aria-label="Next verse" disabled>
+                Next &rarr;
+            </button>
+        </div>
     </div>
-
-    <div class="nav-buttons-row">
-        <button id="prev-verse-btn" class="glass-btn" type="button" aria-label="Previous verse" disabled>
-            &larr; Prev
-        </button>
-
-        <button id="toggle-book-btn" class="glass-btn" type="button" aria-expanded="false" aria-label="Open book">
-            <span id="toggle-btn-label">Open</span>
-        </button>
-
-        <button id="next-verse-btn" class="glass-btn" type="button" aria-label="Next verse" disabled>
-            Next &rarr;
-        </button>
-    </div>
-</div>
 
     <!-- External ES Module Script -->
     <script type="module" src="index.js"></script>
