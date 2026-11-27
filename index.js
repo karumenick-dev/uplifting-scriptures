@@ -288,7 +288,116 @@ export function initBookControls({ bookEl, toggleBtn, toggleBtnLabel, onOpen, on
 }
 
 /* --------------------------------------------------------------------------
-4. BOOTSTRAP APPLICATION (ES MODULES ARE DEFERRED BY DEFAULT)
+4. PILL DROPDOWN HELPER (SHOWS CATEGORY UNTIL CHOSEN, THEN SHOWS CHOICE)
+   -------------------------------------------------------------------------- */
+function createPillDropdown({ containerEl, triggerEl, menuEl, onSelect }) {
+    const textEl = triggerEl?.querySelector('.pill-text');
+    let hasUserChosen = false;
+
+    function getDefaultLabel() {
+        return containerEl?.dataset.defaultLabel || triggerEl?.getAttribute('aria-label') || 'Select';
+    }
+
+    function setOpen(open) {
+        if (!containerEl || !triggerEl) return;
+        if (open && triggerEl.disabled) return;
+        containerEl.classList.toggle('is-open', open);
+        triggerEl.setAttribute('aria-expanded', String(open));
+    }
+
+    function syncSelectedVisual(value) {
+        if (!menuEl) return;
+        menuEl.querySelectorAll('.pill-option').forEach((opt) => {
+            const isMatch = opt.dataset.value === value;
+            opt.classList.toggle('is-selected', isMatch);
+            opt.setAttribute('aria-selected', String(isMatch));
+        });
+    }
+
+    function setValue(value, { markAsChosen = false, triggerCallback = false } = {}) {
+        if (!menuEl || !textEl) return;
+        const options = Array.from(menuEl.querySelectorAll('.pill-option'));
+        const matched = options.find((opt) => opt.dataset.value === value) || options[0];
+        if (!matched) return;
+
+        const chosenValue = matched.dataset.value;
+        const chosenLabel = matched.dataset.label || matched.textContent.trim();
+
+        if (markAsChosen) {
+            hasUserChosen = true;
+        }
+
+        textEl.textContent = hasUserChosen ? chosenLabel : getDefaultLabel();
+        syncSelectedVisual(chosenValue);
+
+        if (triggerCallback) {
+            onSelect?.(chosenValue, chosenLabel);
+        }
+    }
+
+    function addOption(value, label) {
+        if (!menuEl) return;
+        const li = document.createElement('li');
+        li.className = 'pill-option';
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', 'false');
+        li.dataset.value = value;
+        li.dataset.label = label;
+        li.textContent = label;
+        menuEl.appendChild(li);
+    }
+
+    triggerEl?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (triggerEl.disabled) return;
+        const willOpen = !containerEl.classList.contains('is-open');
+        closeAllPillDropdowns(containerEl);
+        setOpen(willOpen);
+    });
+
+    menuEl?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const optionEl = e.target.closest('.pill-option');
+        if (!optionEl) return;
+        const val = optionEl.dataset.value;
+        setValue(val, { markAsChosen: true, triggerCallback: true });
+        setOpen(false);
+    });
+
+    return {
+        setValue,
+        setOpen,
+        addOption,
+        setDisabled: (disabled) => {
+            if (!triggerEl) return;
+            triggerEl.disabled = disabled;
+            if (disabled) setOpen(false);
+        }
+    };
+}
+
+const allPillDropdowns = [];
+
+function closeAllPillDropdowns(exceptEl = null) {
+    allPillDropdowns.forEach((item) => {
+        if (item.containerEl !== exceptEl) {
+            item.setOpen(false);
+        }
+    });
+}
+
+document.addEventListener('click', () => {
+    closeAllPillDropdowns();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeAllPillDropdowns();
+    }
+});
+
+/* --------------------------------------------------------------------------
+5. BOOTSTRAP APPLICATION (ES MODULES ARE DEFERRED BY DEFAULT)
    -------------------------------------------------------------------------- */
 const canvas = document.getElementById('firefly-canvas');
 const bookEl = document.getElementById('book');
@@ -296,10 +405,6 @@ const toggleBtn = document.getElementById('toggle-book-btn');
 const toggleBtnLabel = document.getElementById('toggle-btn-label');
 const prevVerseBtn = document.getElementById('prev-verse-btn');
 const nextVerseBtn = document.getElementById('next-verse-btn');
-const seasonSelectEl = document.getElementById('season-select');
-const fontSelectEl = document.getElementById('font-select');
-const themeSelectEl = document.getElementById('theme-select');
-const bgSelectEl = document.getElementById('bg-select');
 const leftPageStackEl = document.getElementById('left-page-stack');
 const pageTurnerEl = document.getElementById('page-turner');
 
@@ -310,13 +415,15 @@ const LIGHT_BACKGROUNDS = new Set(['sage-mist', 'linen-sand']);
 const PAGE_TURN_DURATION_MS = 1080;
 
 let firefliesInstance = null;
+let seasonDropdown = null;
+let fontDropdown = null;
+let themeDropdown = null;
+let bgDropdown = null;
 
 function applyReadingFont(fontValue) {
     const cleanFont = fontValue || 'current';
     document.body.dataset.font = cleanFont;
-    if (fontSelectEl && fontSelectEl.value !== cleanFont) {
-        fontSelectEl.value = cleanFont;
-    }
+    fontDropdown?.setValue(cleanFont, { markAsChosen: false, triggerCallback: false });
     try {
         localStorage.setItem(FONT_STORAGE_KEY, cleanFont);
     } catch (_) {}
@@ -325,9 +432,7 @@ function applyReadingFont(fontValue) {
 function applyColorScheme(themeValue) {
     const cleanTheme = themeValue || 'warm-parchment';
     document.body.dataset.theme = cleanTheme;
-    if (themeSelectEl && themeSelectEl.value !== cleanTheme) {
-        themeSelectEl.value = cleanTheme;
-    }
+    themeDropdown?.setValue(cleanTheme, { markAsChosen: false, triggerCallback: false });
     try {
         localStorage.setItem(THEME_STORAGE_KEY, cleanTheme);
     } catch (_) {}
@@ -342,22 +447,10 @@ function applyBackgroundAmbiance(bgValue) {
     activeParticlePalette = isLight ? LIGHT_BG_PARTICLE_COLORS : DARK_BG_PARTICLE_COLORS;
     firefliesInstance?.refreshPalette();
 
-    if (bgSelectEl && bgSelectEl.value !== cleanBg) {
-        bgSelectEl.value = cleanBg;
-    }
+    bgDropdown?.setValue(cleanBg, { markAsChosen: false, triggerCallback: false });
     try {
         localStorage.setItem(BG_STORAGE_KEY, cleanBg);
     } catch (_) {}
-}
-
-try {
-    applyReadingFont(localStorage.getItem(FONT_STORAGE_KEY) || 'current');
-    applyColorScheme(localStorage.getItem(THEME_STORAGE_KEY) || 'warm-parchment');
-    applyBackgroundAmbiance(localStorage.getItem(BG_STORAGE_KEY) || 'espresso-brown');
-} catch (_) {
-    applyReadingFont('current');
-    applyColorScheme('warm-parchment');
-    applyBackgroundAmbiance('espresso-brown');
 }
 
 if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
@@ -373,15 +466,12 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     let isPageTurning = false;
 
     async function populateSeasonsDropdown() {
-        if (!seasonSelectEl || seasonsLoaded) return;
+        if (!seasonDropdown || seasonsLoaded) return;
 
         try {
             const seasons = await getAvailableSeasons();
             for (const season of seasons) {
-                const option = document.createElement('option');
-                option.value = season;
-                option.textContent = season;
-                seasonSelectEl.appendChild(option);
+                seasonDropdown.addOption(season, season);
             }
             seasonsLoaded = true;
         } catch (error) {
@@ -390,10 +480,13 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     }
 
     function setBookControlsActive(isOpen) {
-        [prevVerseBtn, nextVerseBtn, seasonSelectEl, fontSelectEl, themeSelectEl].forEach((el) => {
+        [prevVerseBtn, nextVerseBtn].forEach((el) => {
             if (!el) return;
             el.disabled = !isOpen;
         });
+        seasonDropdown?.setDisabled(!isOpen);
+        fontDropdown?.setDisabled(!isOpen);
+        themeDropdown?.setDisabled(!isOpen);
     }
 
     function formatSeasonProgress(indexInSeason, totalInSeason) {
@@ -539,6 +632,64 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         }, PAGE_TURN_DURATION_MS + 100);
     }
 
+    seasonDropdown = createPillDropdown({
+        containerEl: document.getElementById('season-dropdown'),
+        triggerEl: document.getElementById('season-pill-btn'),
+        menuEl: document.getElementById('season-menu'),
+        onSelect: (value) => {
+            if (!bookControls.getIsOpen()) return;
+            activeSeason = value || 'all';
+            currentVerseIndex = 0;
+            currentSeasonTotal = 0;
+            renderLeftPageStack(0, 0);
+            updateSpread(0);
+        }
+    });
+
+    fontDropdown = createPillDropdown({
+        containerEl: document.getElementById('font-dropdown'),
+        triggerEl: document.getElementById('font-pill-btn'),
+        menuEl: document.getElementById('font-menu'),
+        onSelect: (value) => {
+            applyReadingFont(value);
+        }
+    });
+
+    themeDropdown = createPillDropdown({
+        containerEl: document.getElementById('theme-dropdown'),
+        triggerEl: document.getElementById('theme-pill-btn'),
+        menuEl: document.getElementById('theme-menu'),
+        onSelect: (value) => {
+            applyColorScheme(value);
+        }
+    });
+
+    bgDropdown = createPillDropdown({
+        containerEl: document.getElementById('bg-dropdown'),
+        triggerEl: document.getElementById('bg-pill-btn'),
+        menuEl: document.getElementById('bg-menu'),
+        onSelect: (value) => {
+            applyBackgroundAmbiance(value);
+        }
+    });
+
+    allPillDropdowns.push(
+        { containerEl: document.getElementById('season-dropdown'), setOpen: seasonDropdown.setOpen },
+        { containerEl: document.getElementById('font-dropdown'), setOpen: fontDropdown.setOpen },
+        { containerEl: document.getElementById('theme-dropdown'), setOpen: themeDropdown.setOpen },
+        { containerEl: document.getElementById('bg-dropdown'), setOpen: bgDropdown.setOpen }
+    );
+
+    try {
+        applyReadingFont(localStorage.getItem(FONT_STORAGE_KEY) || 'current');
+        applyColorScheme(localStorage.getItem(THEME_STORAGE_KEY) || 'warm-parchment');
+        applyBackgroundAmbiance(localStorage.getItem(BG_STORAGE_KEY) || 'espresso-brown');
+    } catch (_) {
+        applyReadingFont('current');
+        applyColorScheme('warm-parchment');
+        applyBackgroundAmbiance('espresso-brown');
+    }
+
     const bookControls = initBookControls({
         bookEl,
         toggleBtn,
@@ -553,32 +704,18 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
             fireflies.calmParticles();
             setBookControlsActive(false);
             renderLeftPageStack(0, 0);
+            closeAllPillDropdowns();
         }
     });
 
-    seasonSelectEl?.addEventListener('change', (e) => {
+    prevVerseBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (!bookControls.getIsOpen()) return;
-        activeSeason = seasonSelectEl.value || 'all';
-        currentVerseIndex = 0;
-        currentSeasonTotal = 0;
-        renderLeftPageStack(0, 0);
-        updateSpread(0);
+        turnToSpread(currentVerseIndex - 1, 'prev');
     });
 
-    fontSelectEl?.addEventListener('change', (e) => {
+    nextVerseBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        applyReadingFont(fontSelectEl.value);
-    });
-
-    themeSelectEl?.addEventListener('change', (e) => {
-        e.stopPropagation();
-        applyColorScheme(themeSelectEl.value);
-    });
-
-    bgSelectEl?.addEventListener('change', (e) => {
-        e.stopPropagation();
-        applyBackgroundAmbiance(bgSelectEl.value);
+        turnToSpread(currentVerseIndex + 1, 'next');
     });
 
     // Optional keyboard navigation when the book is open
