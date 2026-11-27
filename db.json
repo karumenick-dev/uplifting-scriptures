@@ -111,7 +111,7 @@
     {
       "id": 13,
       "seasonLabel": "Difficulty",
-      "title": "God Holds My Head High",
+      "title": "God Holds Your Head High",
       "reference": "Psalm 3:3",
       "body": [
         "But you, O LORD, are a shield around me; you are my glory, the one who holds my head high."
@@ -157,7 +157,7 @@
     {
       "id": 18,
       "seasonLabel": "Fear & Anxiety",
-      "title": "The LORD is My Light and Salvation",
+      "title": "The LORD is Your Light and Salvation",
       "reference": "Psalm 27:1",
       "body": [
         "The LORD is my light and my salvation — so why should I be afraid? The LORD is my fortress, protecting me from danger, so why should I tremble?"
@@ -175,7 +175,7 @@
     {
       "id": 20,
       "seasonLabel": "Weariness",
-      "title": "The LORD is My Strength and Shield",
+      "title": "The LORD is Your Strength and Shield",
       "reference": "Psalm 28:7",
       "body": [
         "The LORD is my strength and shield. I trust him with all my heart. He helps me, and my heart is filled with joy. I burst out in songs of thanksgiving."
@@ -311,7 +311,7 @@
     {
       "id": 35,
       "seasonLabel": "Difficulty",
-      "title": "Restored to Life Again",
+      "title": "God Will Restore You to Life Again",
       "reference": "Psalm 71:20",
       "body": [
         "You have allowed me to suffer much hardship, but you will restore me to life again and lift me up from the depths of the earth."
@@ -375,7 +375,7 @@
     {
       "id": 42,
       "seasonLabel": "Difficulty",
-      "title": "Your Promise Revives You",
+      "title": "The LORD's Promise Revives You",
       "reference": "Psalm 119:50",
       "body": [
         "Your promise revives me; it comforts me in all my troubles."
@@ -474,7 +474,7 @@
     {
       "id": 53,
       "seasonLabel": "Weariness",
-      "title": "He Will Give You Rest",
+      "title": "Christ Will Give You Rest",
       "reference": "Matthew 11:28–30",
       "body": [
         "Come to Me, all you who are weary and burdened, and I will give you rest. Take My yoke upon you and learn from Me, for I am gentle and humble in heart, and you will find rest for your souls.",
@@ -511,7 +511,7 @@
     {
       "id": 57,
       "seasonLabel": "Trust",
-      "title": "You Are More Valuable Than Sparrows",
+      "title": "You Are More Valuable Than the Sparrows",
       "reference": "Luke 12:7",
       "body": [
         "And the very hairs on your head are all numbered. So don’t be afraid; you are more valuable to God than a whole flock of sparrows."
@@ -612,10 +612,9 @@
       "id": 68,
       "seasonLabel": "Hopelessness",
       "title": "Nothing Can Separate Us from God's Love",
-      "reference": "Romans 8:38–39",
+      "reference": "Romans 8:38",
       "body": [
-        "And I am convinced that nothing can ever separate us from God’s love. Neither death nor life, neither angels nor demons, neither our fears for today nor our worries about tomorrow—not even the powers of hell can separate us from God’s love.",
-        "No power in the sky above or in the earth below—indeed, nothing in all creation will ever be able to separate us from the love of God that is revealed in Christ Jesus our Lord."
+        "And I am convinced that nothing can ever separate us from God’s love. Neither death nor life, neither angels nor demons, neither our fears for today nor our worries about tomorrow—not even the powers of hell can separate us from God’s love."
       ]
     },
     {
@@ -666,7 +665,7 @@
     {
       "id": 74,
       "seasonLabel": "Loss & Grief",
-      "title": "God Gives Us Victory Over Death",
+      "title": "God Gives Us Victory Over Sin and Death",
       "reference": "1 Corinthians 15:57",
       "body": [
         "But thank God! He gives us victory over sin and death through our Lord Jesus Christ."
@@ -695,10 +694,9 @@
     {
       "id": 77,
       "seasonLabel": "Sickness",
-      "title": "Our Present Troubles are Small and Won’t Last Very Long",
-      "reference": "2 Corinthians 4:16–18",
+      "title": "Don't Look at the Troubles You Can See Now",
+      "reference": "2 Corinthians 4:18",
       "body": [
-        "That is why we never give up. Though our bodies are dying, our spirits are being renewed every day. For our present troubles are small and won’t last very long. Yet they produce for us a glory that vastly outweighs them and will last forever!",
         "So we don’t look at the troubles we can see now; rather, we fix our gaze on things that cannot be seen. For the things we see now will soon be gone, but the things we cannot see will last forever."
       ]
     },
@@ -741,7 +739,7 @@
     {
       "id": 82,
       "seasonLabel": "Trust",
-      "title": "He Will Finish What He Started",
+      "title": "God Will Finish What He Started",
       "reference": "Philippians 1:6",
       "body": [
         "And I am certain that God, who began the good work within you, will continue his work until it is finally finished on the day when Christ Jesus returns."
