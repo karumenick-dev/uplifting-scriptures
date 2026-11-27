@@ -16,7 +16,7 @@
     <!-- External Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body data-theme="warm-parchment" data-font="current">
+<body data-theme="warm-parchment" data-font="current" data-bg="espresso-brown">
 
     <!-- Ambient Warm Glow Behind the Book -->
     <div class="ambient-glow" aria-hidden="true"></div>
@@ -190,7 +190,7 @@
         </div>
     </main>
 
-    <!-- Centered Bottom Open / Close, Season, Font & Theme Navigation Bar -->
+    <!-- Centered Bottom Open / Close, Season, Font, Theme & Background Navigation Bar -->
     <div class="controls-bar">
         <div class="season-filter-row">
             <label for="season-select" class="sr-only">Choose scripture season</label>
@@ -215,6 +215,17 @@
                 <option value="soft-sepia">Soft Sepia</option>
                 <option value="dark-mode">Dark Mode</option>
                 <option value="clean-light">Clean Light</option>
+            </select>
+
+            <label for="bg-select" class="sr-only">Choose background ambiance</label>
+            <select id="bg-select" class="glass-select" aria-label="Choose background ambiance">
+                <option value="espresso-brown">Espresso Brown</option>
+                <option value="midnight-slate">Midnight Slate</option>
+                <option value="forest-moss">Forest Moss</option>
+                <option value="dusty-aubergine">Dusty Aubergine</option>
+                <option value="warm-taupe">Warm Taupe</option>
+                <option value="sage-mist">Soft Sage Mist</option>
+                <option value="linen-sand">Warm Linen Sand</option>
             </select>
         </div>
 
