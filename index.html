@@ -47,6 +47,14 @@
             <div class="page-block-right" aria-hidden="true"></div>
 
             <!-- ======================================================================
+                 ACTIVE 3D PAGE-TURNER SHEET (PREV / NEXT FLIP ANIMATION)
+                 ====================================================================== -->
+            <div id="page-turner" class="page-turner" aria-hidden="true">
+                <div class="page-turner-face page-turner-front parchment-sheet gutter-shadow-right"></div>
+                <div class="page-turner-face page-turner-back parchment-sheet gutter-shadow-left"></div>
+            </div>
+
+            <!-- ======================================================================
                  RIGHT PAGE (STATIONARY FINAL RIGHT-HAND PAGE)
                  ====================================================================== -->
             <article class="right-spread-page parchment-sheet gutter-shadow-right">
@@ -166,9 +174,10 @@
                 </div>
 
                 <!-- ==================================================================
-                     INNER FRONT COVER -> LEFT PAGE OF THE OPEN SPREAD (BLANK PAGE)
+                     INNER FRONT COVER -> LEFT PAGE OF THE OPEN SPREAD + PAGE STACK
                      ================================================================== -->
                 <div class="front-cover-inner-board leather-surface">
+                    <div id="left-page-stack" class="left-page-stack" aria-hidden="true"></div>
                     <article class="left-spread-page parchment-sheet gutter-shadow-left">
                         <div class="spread-content-reveal h-full w-full"></div>
                     </article>
