@@ -838,6 +838,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     
     // Optional keyboard navigation when the book is open
     document.addEventListener('keydown', (e) => {
+        if (aboutSupportModal?.classList.contains('is-open')) return;
         if (!bookControls.getIsOpen()) return;
         if (e.key === 'ArrowLeft') {
             turnToSpread(currentVerseIndex - 1, 'prev');
@@ -846,3 +847,55 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         }
     });
 }
+
+/* --------------------------------------------------------------------------
+6. MINIMAL ABOUT & KO-FI SUPPORT MODAL
+   -------------------------------------------------------------------------- */
+const aboutSupportBtn = document.getElementById('about-support-btn');
+const aboutSupportModal = document.getElementById('about-support-modal');
+const closeAboutModalBtn = document.getElementById('close-about-modal-btn');
+
+function setAboutModalOpen(isOpen) {
+    if (!aboutSupportModal || !aboutSupportBtn) return;
+
+    if (isOpen) {
+        closeAllPillDropdowns();
+        aboutSupportModal.hidden = false;
+        requestAnimationFrame(() => {
+            aboutSupportModal.classList.add('is-open');
+        });
+        aboutSupportBtn.setAttribute('aria-expanded', 'true');
+        closeAboutModalBtn?.focus();
+    } else {
+        aboutSupportModal.classList.remove('is-open');
+        aboutSupportBtn.setAttribute('aria-expanded', 'false');
+        setTimeout(() => {
+            if (!aboutSupportModal.classList.contains('is-open')) {
+                aboutSupportModal.hidden = true;
+            }
+        }, 250);
+        aboutSupportBtn.focus();
+    }
+}
+
+aboutSupportBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setAboutModalOpen(true);
+});
+
+closeAboutModalBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setAboutModalOpen(false);
+});
+
+aboutSupportModal?.addEventListener('click', (e) => {
+    if (e.target === aboutSupportModal) {
+        setAboutModalOpen(false);
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && aboutSupportModal?.classList.contains('is-open')) {
+        setAboutModalOpen(false);
+    }
+});
