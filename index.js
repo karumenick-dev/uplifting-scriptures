@@ -305,22 +305,17 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
     function setBookControlsActive(isOpen) {
         [prevVerseBtn, nextVerseBtn, seasonSelectEl].forEach((el) => {
             if (!el) return;
-            el.classList.toggle('hidden', !isOpen);
             el.disabled = !isOpen;
         });
     }
 
-    function formatSeasonProgress(indexInSeason, totalInSeason, seasonLabel) {
+    function formatSeasonProgress(indexInSeason, totalInSeason) {
         if (!totalInSeason) return '';
         const position = indexInSeason + 1;
-        const scope =
-            !seasonLabel || seasonLabel.toLowerCase() === 'all'
-                ? 'All Scriptures'
-                : seasonLabel;
-        return `${position} of ${totalInSeason} · ${scope}`;
+        return `${position} of ${totalInSeason}`;
     }
 
-    function renderPage(articleEl, entry, pageNumber, isLeftPage = false, seasonProgress = '') {
+    function renderPage(articleEl, entry, isLeftPage = false, seasonProgress = '') {
         if (!articleEl) return;
 
         if (!entry) {
@@ -336,7 +331,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
                             <p>Take a slow breath here before turning back to the beginning.</p>
                         </div>
                     </div>
-                    <footer class="page-footer">~ ${pageNumber} ~</footer>
+                    <footer class="page-footer">~ Quiet Reflection ~</footer>
                 </div>
             `;
             return;
@@ -351,7 +346,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
             )
             .join('');
 
-        const progressSuffix = seasonProgress ? ` · ${seasonProgress}` : '';
+        const footerLabel = seasonProgress ? `~ ${seasonProgress} ~` : '';
 
         articleEl.innerHTML = `
             <div class="spread-content-reveal flex flex-col h-full justify-between">
@@ -365,7 +360,7 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
                         ${paragraphsHtml}
                     </div>
                 </div>
-                <footer class="page-footer">~ ${pageNumber}${progressSuffix} ~</footer>
+                <footer class="page-footer">${footerLabel}</footer>
             </div>
         `;
     }
@@ -378,21 +373,14 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
             const spread = await getBookSpread(targetIndex, activeSeason);
             currentVerseIndex = spread.verseIndex;
 
-            const leftNum = spread.leftPage?.id ?? currentVerseIndex + 1;
-            const rightNum = spread.rightPage?.id ?? leftNum + 1;
-
-            const leftProgress = formatSeasonProgress(
-                currentVerseIndex,
-                spread.total,
-                spread.seasonLabel
-            );
+            const leftProgress = formatSeasonProgress(currentVerseIndex, spread.total);
             const rightIndex = spread.total > 0 ? (currentVerseIndex + 1) % spread.total : 0;
             const rightProgress = spread.total > 1
-                ? formatSeasonProgress(rightIndex, spread.total, spread.seasonLabel)
+                ? formatSeasonProgress(rightIndex, spread.total)
                 : '';
 
-            renderPage(leftPageEl, spread.leftPage, leftNum, true, leftProgress);
-            renderPage(rightPageEl, spread.rightPage, rightNum, false, rightProgress);
+            renderPage(leftPageEl, spread.leftPage, true, leftProgress);
+            renderPage(rightPageEl, spread.rightPage, false, rightProgress);
         } catch (error) {
             console.error('Error loading scriptures:', error);
         }
