@@ -190,7 +190,7 @@
         </div>
     </main>
 
-    <!-- Centered Bottom Open / Close, Season, Font, Theme & Background Navigation Bar -->
+    <!-- Centered Bottom Open / Close, Season, Font, Theme, Background & Firefly Navigation Bar -->
     <div class="controls-bar">
         <div class="season-filter-row">
             <!-- Season Pill Dropdown -->
@@ -235,7 +235,7 @@
                 </ul>
             </div>
 
-            <!-- Background Ambiance Pill Dropdown -->
+            <!-- Background Ambiance Pill Dropdown (Always accessible) -->
             <div class="pill-dropdown" id="bg-dropdown" data-default-label="Background">
                 <button id="bg-pill-btn" class="glass-select pill-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose background ambiance">
                     <span class="pill-text">Background</span>
@@ -251,6 +251,12 @@
                     <li class="pill-option" role="option" data-value="linen-sand" data-label="Warm Linen Sand" aria-selected="false">Warm Linen Sand</li>
                 </ul>
             </div>
+
+            <!-- Firefly Toggle Pill (Always accessible) -->
+            <button id="fireflies-toggle-btn" class="glass-select pill-trigger firefly-toggle-pill" type="button" aria-pressed="true" aria-label="Toggle firefly particles">
+                <span class="pill-text">Fireflies: On</span>
+                <span class="firefly-dot" aria-hidden="true"></span>
+            </button>
         </div>
 
         <div class="nav-buttons-row">

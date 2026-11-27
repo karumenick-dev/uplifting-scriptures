@@ -128,6 +128,8 @@ export function initFireflyEngine(canvas) {
     };
 
     let burstIntensity = 0;
+    let enabled = true;
+    let rafId = null;
 
     window.addEventListener('resize', () => {
         bounds.width = canvas.width = window.innerWidth;
@@ -141,6 +143,7 @@ export function initFireflyEngine(canvas) {
     }
 
     function triggerOpenBurst(count = 28) {
+        if (!enabled) return;
         burstIntensity = 1.0;
         for (let i = 0; i < count; i++) {
             particles.push(new Firefly(bounds, true));
@@ -160,8 +163,13 @@ export function initFireflyEngine(canvas) {
         }
     }
 
-    function animateFireflies() {
+    function stepFrame() {
         ctx.clearRect(0, 0, bounds.width, bounds.height);
+        if (!enabled) {
+            rafId = null;
+            return;
+        }
+
         const isLightBackdrop = document.body.classList.contains('light-backdrop');
         ctx.globalCompositeOperation = isLightBackdrop ? 'source-over' : 'lighter';
 
@@ -182,15 +190,32 @@ export function initFireflyEngine(canvas) {
         }
 
         ctx.globalCompositeOperation = 'source-over';
-        requestAnimationFrame(animateFireflies);
+        rafId = requestAnimationFrame(stepFrame);
     }
 
-    animateFireflies();
+    function setEnabled(isEnabled) {
+        enabled = Boolean(isEnabled);
+        if (!enabled) {
+            burstIntensity = 0;
+            // Remove temporary burst particles when toggled off
+            for (let i = particles.length - 1; i >= 0; i--) {
+                if (particles[i].isBurst) {
+                    particles.splice(i, 1);
+                }
+            }
+            ctx.clearRect(0, 0, bounds.width, bounds.height);
+        } else if (!rafId) {
+            rafId = requestAnimationFrame(stepFrame);
+        }
+    }
+
+    rafId = requestAnimationFrame(stepFrame);
 
     return {
         triggerOpenBurst,
         calmParticles,
-        refreshPalette
+        refreshPalette,
+        setEnabled
     };
 }
 
@@ -405,20 +430,45 @@ const toggleBtn = document.getElementById('toggle-book-btn');
 const toggleBtnLabel = document.getElementById('toggle-btn-label');
 const prevVerseBtn = document.getElementById('prev-verse-btn');
 const nextVerseBtn = document.getElementById('next-verse-btn');
+const firefliesToggleBtn = document.getElementById('fireflies-toggle-btn');
+const firefliesToggleTextEl = firefliesToggleBtn?.querySelector('.pill-text');
 const leftPageStackEl = document.getElementById('left-page-stack');
 const pageTurnerEl = document.getElementById('page-turner');
 
 const FONT_STORAGE_KEY = 'uplifting_scriptures_font';
 const THEME_STORAGE_KEY = 'uplifting_scriptures_theme';
 const BG_STORAGE_KEY = 'uplifting_scriptures_bg';
+const FIREFLIES_STORAGE_KEY = 'uplifting_scriptures_fireflies';
 const LIGHT_BACKGROUNDS = new Set(['sage-mist', 'linen-sand']);
 const PAGE_TURN_DURATION_MS = 1080;
 
 let firefliesInstance = null;
+let firefliesEnabled = true;
 let seasonDropdown = null;
 let fontDropdown = null;
 let themeDropdown = null;
 let bgDropdown = null;
+
+function applyFirefliesEnabled(isEnabled, { burstIfOpen = false } = {}) {
+    firefliesEnabled = Boolean(isEnabled);
+    document.body.classList.toggle('fireflies-off', !firefliesEnabled);
+    firefliesInstance?.setEnabled(firefliesEnabled);
+
+    if (firefliesToggleBtn) {
+        firefliesToggleBtn.setAttribute('aria-pressed', String(firefliesEnabled));
+    }
+    if (firefliesToggleTextEl) {
+        firefliesToggleTextEl.textContent = firefliesEnabled ? 'Fireflies: On' : 'Fireflies: Off';
+    }
+
+    if (firefliesEnabled && burstIfOpen && document.body.classList.contains('book-opened')) {
+        firefliesInstance?.triggerOpenBurst(16);
+    }
+
+    try {
+        localStorage.setItem(FIREFLIES_STORAGE_KEY, firefliesEnabled ? 'on' : 'off');
+    } catch (_) {}
+}
 
 function applyReadingFont(fontValue) {
     const cleanFont = fontValue || 'current';
@@ -697,18 +747,29 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         applyReadingFont(localStorage.getItem(FONT_STORAGE_KEY) || 'current');
         applyColorScheme(localStorage.getItem(THEME_STORAGE_KEY) || 'warm-parchment');
         applyBackgroundAmbiance(localStorage.getItem(BG_STORAGE_KEY) || 'espresso-brown');
+        const savedFireflies = localStorage.getItem(FIREFLIES_STORAGE_KEY);
+        applyFirefliesEnabled(savedFireflies !== 'off');
     } catch (_) {
         applyReadingFont('current');
         applyColorScheme('warm-parchment');
         applyBackgroundAmbiance('espresso-brown');
+        applyFirefliesEnabled(true);
     }
+
+    firefliesToggleBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeAllPillDropdowns();
+        applyFirefliesEnabled(!firefliesEnabled, { burstIfOpen: true });
+    });
 
     const bookControls = initBookControls({
         bookEl,
         toggleBtn,
         toggleBtnLabel,
         onOpen: async () => {
-            fireflies.triggerOpenBurst(28);
+            if (firefliesEnabled) {
+                fireflies.triggerOpenBurst(28);
+            }
             await populateSeasonsDropdown();
             setBookControlsActive(true);
             updateSpread(currentVerseIndex);
