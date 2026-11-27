@@ -232,18 +232,27 @@
     </main>
 
 <!-- Centered Bottom Open / Close & Verse Navigation Bar -->
-<div class="controls-bar flex items-center justify-center gap-3">
-    <button id="prev-verse-btn" class="glass-btn hidden" type="button" aria-label="Previous verse" disabled>
-        &larr; Prev
-    </button>
+<div class="controls-bar">
+    <div class="season-filter-row">
+        <label for="season-select" class="sr-only">Choose scripture season</label>
+        <select id="season-select" class="glass-select" aria-label="Choose scripture season" disabled>
+            <option value="all">All Seasons</option>
+        </select>
+    </div>
 
-    <button id="toggle-book-btn" class="glass-btn" type="button" aria-expanded="false" aria-label="Open book">
-        <span id="toggle-btn-label">Open</span>
-    </button>
+    <div class="nav-buttons-row">
+        <button id="prev-verse-btn" class="glass-btn" type="button" aria-label="Previous verse" disabled>
+            &larr; Prev
+        </button>
 
-    <button id="next-verse-btn" class="glass-btn hidden" type="button" aria-label="Next verse" disabled>
-        Next &rarr;
-    </button>
+        <button id="toggle-book-btn" class="glass-btn" type="button" aria-expanded="false" aria-label="Open book">
+            <span id="toggle-btn-label">Open</span>
+        </button>
+
+        <button id="next-verse-btn" class="glass-btn" type="button" aria-label="Next verse" disabled>
+            Next &rarr;
+        </button>
+    </div>
 </div>
 
     <!-- External ES Module Script -->
