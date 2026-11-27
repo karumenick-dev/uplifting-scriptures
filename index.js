@@ -479,11 +479,18 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         }
     }
 
+    function syncNavigationButtonStates() {
+        const isOpen = bookControls.getIsOpen();
+        if (prevVerseBtn) {
+            prevVerseBtn.disabled = !isOpen || currentVerseIndex <= 0;
+        }
+        if (nextVerseBtn) {
+            nextVerseBtn.disabled = !isOpen || currentSeasonTotal <= 0 || currentVerseIndex >= currentSeasonTotal - 1;
+        }
+    }
+
     function setBookControlsActive(isOpen) {
-        [prevVerseBtn, nextVerseBtn].forEach((el) => {
-            if (!el) return;
-            el.disabled = !isOpen;
-        });
+        syncNavigationButtonStates();
         seasonDropdown?.setDisabled(!isOpen);
         fontDropdown?.setDisabled(!isOpen);
         themeDropdown?.setDisabled(!isOpen);
@@ -584,23 +591,25 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         const requestToken = ++spreadRequestId;
 
         try {
-            let normalizedIndex = Number(targetIndex) || 0;
+            let clampedIndex = Math.max(0, Number(targetIndex) || 0);
             if (currentSeasonTotal > 0) {
-                normalizedIndex = ((normalizedIndex % currentSeasonTotal) + currentSeasonTotal) % currentSeasonTotal;
-            } else {
-                normalizedIndex = Math.max(0, normalizedIndex);
+                clampedIndex = Math.min(clampedIndex, currentSeasonTotal - 1);
             }
 
-            const spread = await getBookSpread(normalizedIndex, activeSeason);
+            const spread = await getBookSpread(clampedIndex, activeSeason);
             if (requestToken !== spreadRequestId) return;
 
-            currentVerseIndex = spread.verseIndex;
             currentSeasonTotal = spread.total || 0;
+            currentVerseIndex = currentSeasonTotal > 0
+                ? Math.min(Math.max(0, spread.verseIndex), currentSeasonTotal - 1)
+                : 0;
+
             const progressLabel = formatSeasonProgress(currentVerseIndex, currentSeasonTotal);
 
             renderBlankLeftPage(leftPageEl);
             renderLeftPageStack(currentVerseIndex, currentSeasonTotal);
             renderScripturePage(rightPageEl, spread.leftPage, progressLabel, instantReveal);
+            syncNavigationButtonStates();
         } catch (error) {
             console.error('Error loading scriptures:', error);
         }
@@ -608,6 +617,10 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
 
     function turnToSpread(targetIndex, direction = 'next') {
         if (!bookControls.getIsOpen() || isPageTurning) return;
+
+        // Stop at the first or last verse of the active season instead of wrapping around
+        if (targetIndex < 0) return;
+        if (currentSeasonTotal > 0 && targetIndex >= currentSeasonTotal) return;
 
         if (!pageTurnerEl) {
             updateSpread(targetIndex, true);
