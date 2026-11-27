@@ -650,7 +650,7 @@ body.book-opened .ambient-glow {
 }
 
 /* ==========================================================================
-   CENTERED BOTTOM OPEN / CLOSE TOGGLE BUTTON
+   CENTERED BOTTOM OPEN / CLOSE & VERSE NAVIGATION CONTROLS
    ========================================================================== */
 .controls-bar {
     position: fixed;
@@ -686,20 +686,36 @@ body.book-opened .ambient-glow {
     transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.glass-btn:hover {
+.glass-btn:hover:not(:disabled) {
     background: rgba(54, 21, 16, 0.92);
     border-color: rgba(247, 226, 156, 0.85);
     box-shadow: 0 0 24px rgba(212, 175, 55, 0.4), 0 10px 28px rgba(0, 0, 0, 0.65);
     transform: translateY(-2px);
 }
 
-.glass-btn:active {
+.glass-btn:active:not(:disabled) {
     transform: translateY(0);
 }
 
 .glass-btn:disabled {
-    opacity: 0.75;
-    cursor: wait;
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Keep Prev & Next hidden and inactive until the book is opened */
+#prev-verse-btn,
+#next-verse-btn {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.45s ease, transform 0.45s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+body.book-opened #prev-verse-btn,
+body.book-opened #next-verse-btn {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -709,7 +725,9 @@ body.book-opened .ambient-glow {
     .front-cover-outer,
     .flipping-page,
     .spread-content-reveal,
-    .ambient-glow {
+    .ambient-glow,
+    #prev-verse-btn,
+    #next-verse-btn {
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-delay: 0ms !important;
