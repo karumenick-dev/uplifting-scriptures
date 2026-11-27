@@ -6,7 +6,7 @@ const DB_URL = './db.json';
 let cachedVerses = null;
 
 /**
- * Fetches and caches all 100 scripture entries from db.json.
+ * Fetches and caches all scripture entries from db.json.
  * Schema per entry: { id, seasonLabel, title, reference, body }
  */
 export async function loadAllVerses() {
@@ -25,26 +25,44 @@ export async function loadAllVerses() {
 }
 
 /**
+ * Returns a sorted list of unique seasonLabel values from db.json.
+ */
+export async function getAvailableSeasons() {
+    const verses = await loadAllVerses();
+    const seasons = new Set();
+
+    for (const verse of verses) {
+        if (typeof verse.seasonLabel === 'string' && verse.seasonLabel.trim()) {
+            seasons.add(verse.seasonLabel.trim());
+        }
+    }
+
+    return Array.from(seasons).sort((a, b) => a.localeCompare(b));
+}
+
+/**
  * Filters verses by seasonLabel (returns all verses when seasonLabel is 'all').
  */
 export async function getVersesBySeason(seasonLabel = 'all') {
     const verses = await loadAllVerses();
+    const normalizedFilter = (seasonLabel || 'all').trim().toLowerCase();
 
-    if (!seasonLabel || seasonLabel.toLowerCase() === 'all') {
+    if (normalizedFilter === 'all') {
         return verses;
     }
 
     return verses.filter(
-        (verse) => verse.seasonLabel?.toLowerCase() === seasonLabel.toLowerCase()
+        (verse) => (verse.seasonLabel || '').trim().toLowerCase() === normalizedFilter
     );
 }
 
 /**
- * Returns a two-page verse spread (leftPage and rightPage) starting at verseIndex.
- * Wraps cleanly around the start and end of the list.
+ * Returns a two-page verse spread (leftPage and rightPage) starting at verseIndex,
+ * along with metadata needed for the footer season counter.
  */
 export async function getBookSpread(verseIndex = 0, seasonLabel = 'all') {
-    const list = await getVersesBySeason(seasonLabel);
+    const normalizedSeason = (seasonLabel || 'all').trim();
+    const list = await getVersesBySeason(normalizedSeason);
     const total = list.length;
 
     if (total === 0) {
@@ -53,7 +71,7 @@ export async function getBookSpread(verseIndex = 0, seasonLabel = 'all') {
             rightPage: null,
             verseIndex: 0,
             total: 0,
-            seasonLabel
+            seasonLabel: normalizedSeason
         };
     }
 
@@ -66,6 +84,6 @@ export async function getBookSpread(verseIndex = 0, seasonLabel = 'all') {
         rightPage,
         verseIndex: safeIndex,
         total,
-        seasonLabel
+        seasonLabel: normalizedSeason
     };
 }
