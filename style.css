@@ -189,6 +189,11 @@ body.fireflies-off #firefly-canvas {
     }
 }
 
+    .book-wrapper.is-open .left-spread-page,
+    .book-wrapper.is-open .right-spread-page {
+        cursor: pointer;
+}
+
 /* Ground shadow beneath the hardcover */
 .book-shadow {
     position: absolute;
