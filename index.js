@@ -792,6 +792,50 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         turnToSpread(currentVerseIndex + 1, 'next');
     });
 
+    const leftSpreadPageEl = document.querySelector('.left-spread-page');
+    const rightSpreadPageEl = document.querySelector('.right-spread-page');
+    let pointerDownPos = null;
+
+    function isTextSelectionActive() {
+        const selection = window.getSelection?.();
+        return Boolean(selection && selection.toString().trim().length > 0);
+    }
+
+    function bindPageTapTurn(pageEl, direction) {
+        if (!pageEl) return;
+
+        pageEl.addEventListener('pointerdown', (e) => {
+            if (!bookControls.getIsOpen() || e.button !== 0) {
+                pointerDownPos = null;
+                return;
+            }
+            pointerDownPos = { x: e.clientX, y: e.clientY };
+        });
+
+        pageEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!bookControls.getIsOpen() || isPageTurning) return;
+            if (isTextSelectionActive()) return;
+
+            // Ignore drags/scroll gestures (movement > 8px)
+            if (pointerDownPos) {
+                const dx = Math.abs(e.clientX - pointerDownPos.x);
+                const dy = Math.abs(e.clientY - pointerDownPos.y);
+                pointerDownPos = null;
+                if (dx > 8 || dy > 8) return;
+            }
+
+            if (direction === 'next') {
+                turnToSpread(currentVerseIndex + 1, 'next');
+            } else {
+                turnToSpread(currentVerseIndex - 1, 'prev');
+            }
+        });
+    }
+
+    bindPageTapTurn(rightSpreadPageEl, 'next');
+    bindPageTapTurn(leftSpreadPageEl, 'prev');
+    
     // Optional keyboard navigation when the book is open
     document.addEventListener('keydown', (e) => {
         if (!bookControls.getIsOpen()) return;
