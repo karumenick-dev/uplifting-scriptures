@@ -1,56 +1,917 @@
-{
+ {
   "verses": [
     {
       "id": 1,
-      "reference": "Psalm 34:18",
-      "testament": "OT",
-      "theme": "sorrow",
-      "seasonLabel": "Sorrow & Heartbreak",
-      "title": "Close to the Brokenhearted",
+      "seasonLabel": "Difficult Seasons",
+      "title": "Turned for Good",
+      "reference": "Genesis 50:20",
       "body": [
-        "When grief feels heavy and words run dry, you are not walking through the valley unseen.",
-        "This passage reminds the weary soul that tenderness and nearness meet us right where our strength gives out."
-      ],
-      "signOff": "— Old Testament • Psalms"
+        "You intended to harm me, but God intended it all for good. He brought me to this position so I could save the lives of many people."
+      ]
     },
     {
       "id": 2,
-      "reference": "Isaiah 41:10",
-      "testament": "OT",
-      "theme": "hopelessness",
-      "seasonLabel": "Hopelessness",
-      "title": "Do Not Be Dismayed",
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Stay Calm",
+      "reference": "Exodus 14:14",
       "body": [
-        "Uncertainty often whispers that you have to carry tomorrow's weight with today's exhausted hands.",
-        "Lean into the promise of steady upholding strength when the path ahead looks dim."
-      ],
-      "signOff": "— Old Testament • Isaiah"
+        "The LORD himself will fight for you. Just stay calm."
+      ]
     },
     {
       "id": 3,
-      "reference": "2 Corinthians 4:16–18",
-      "testament": "NT",
-      "theme": "sickness",
-      "seasonLabel": "Sickness & Weakness",
-      "title": "Renewed Day by Day",
+      "seasonLabel": "Courage",
+      "title": "Never Abandoned",
+      "reference": "Deuteronomy 31:6",
       "body": [
-        "Physical frailty and lingering pain can wear down even the most resilient spirit.",
-        "Even when the body feels fragile, quiet inward renewal continues beneath the surface."
-      ],
-      "signOff": "— New Testament • 2 Corinthians"
+        "So be strong and courageous! Do not be afraid and do not panic before them. For the LORD your God will personally go ahead of you. He will neither fail you nor abandon you."
+      ]
     },
     {
       "id": 4,
-      "reference": "John 11:25–26",
-      "testament": "NT",
-      "theme": "loss",
-      "seasonLabel": "Loss & Bereavement",
-      "title": "Light Beyond the Grave",
+      "seasonLabel": "Hopelessness",
+      "title": "He Goes Ahead of You",
+      "reference": "Deuteronomy 31:8",
       "body": [
-        "Saying goodbye leaves an ache that time alone cannot fully explain.",
-        "Here stands an anchor of hope that stretches past sorrow and mortality."
-      ],
-      "signOff": "— New Testament • Gospel of John"
+        "Do not be afraid or discouraged, for the LORD will personally go ahead of you. He will be with you; he will neither fail you nor abandon you."
+      ]
+    },
+    {
+      "id": 5,
+      "seasonLabel": "Weariness",
+      "title": "Everlasting Arms",
+      "reference": "Deuteronomy 33:27a",
+      "body": [
+        "The eternal God is your refuge, and his everlasting arms are under you."
+      ]
+    },
+    {
+      "id": 6,
+      "seasonLabel": "Courage",
+      "title": "With You Wherever You Go",
+      "reference": "Joshua 1:9",
+      "body": [
+        "This is my command—be strong and courageous! Do not be afraid or discouraged. For the LORD your God is with you wherever you go."
+      ]
+    },
+    {
+      "id": 7,
+      "seasonLabel": "Protection",
+      "title": "My Rock and Refuge",
+      "reference": "2 Samuel 22:3",
+      "body": [
+        "My God is my rock, in whom I find protection. He is my shield, the power that saves me, and my place of safety. He is my refuge, my savior, the one who saves me from violence."
+      ]
+    },
+    {
+      "id": 8,
+      "seasonLabel": "Weariness",
+      "title": "Seek His Strength",
+      "reference": "1 Chronicles 16:11",
+      "body": [
+        "Search for the LORD and for his strength; continually seek him."
+      ]
+    },
+    {
+      "id": 9,
+      "seasonLabel": "Difficult Seasons",
+      "title": "The Battle Is God's",
+      "reference": "2 Chronicles 20:15",
+      "body": [
+        "Listen, all you people of Judah and Jerusalem! Listen, King Jehoshaphat! This is what the LORD says: Do not be afraid! Don’t be discouraged by this mighty army, for the battle is not yours, but God’s."
+      ]
+    },
+    {
+      "id": 10,
+      "seasonLabel": "Sorrow",
+      "title": "Joy Is Your Strength",
+      "reference": "Nehemiah 8:10",
+      "body": [
+        "Don’t be dejected and sad, for the joy of the LORD is your strength!"
+      ]
+    },
+    {
+      "id": 11,
+      "seasonLabel": "Hopelessness",
+      "title": "My Redeemer Lives",
+      "reference": "Job 19:25",
+      "body": [
+        "But as for me, I know that my Redeemer lives, and he will stand upon the earth at last."
+      ]
+    },
+    {
+      "id": 12,
+      "seasonLabel": "Pain & Trials",
+      "title": "Pure as Gold",
+      "reference": "Job 23:10",
+      "body": [
+        "But he knows where I am going. And when he tests me, I will come out as pure as gold."
+      ]
+    },
+    {
+      "id": 13,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Holds My Head High",
+      "reference": "Psalm 3:3",
+      "body": [
+        "But you, O LORD, are a shield around me; you are my glory, the one who holds my head high."
+      ]
+    },
+    {
+      "id": 14,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Shelter in Trouble",
+      "reference": "Psalm 9:9",
+      "body": [
+        "The LORD is a shelter for the oppressed, a refuge in times of trouble."
+      ]
+    },
+    {
+      "id": 15,
+      "seasonLabel": "Peace",
+      "title": "I Will Not Be Shaken",
+      "reference": "Psalm 16:8",
+      "body": [
+        "I know the LORD is always with me. I will not be shaken, for he is right beside me."
+      ]
+    },
+    {
+      "id": 16,
+      "seasonLabel": "Weariness",
+      "title": "Peaceful Streams",
+      "reference": "Psalm 23:1–3",
+      "body": [
+        "The LORD is my shepherd; I have all that I need. He lets me rest in green meadows; he leads me beside peaceful streams.",
+        "He renews my strength. He guides me along right paths, bringing honor to his name."
+      ]
+    },
+    {
+      "id": 17,
+      "seasonLabel": "Loss & Grief",
+      "title": "Through the Darkest Valley",
+      "reference": "Psalm 23:4",
+      "body": [
+        "Even when I walk through the darkest valley, I will not be afraid, for you are close beside me. Your rod and your staff protect and comfort me."
+      ]
+    },
+    {
+      "id": 18,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "My Light and Salvation",
+      "reference": "Psalm 27:1",
+      "body": [
+        "The LORD is my light and my salvation — so why should I be afraid? The LORD is my fortress, protecting me from danger, so why should I tremble?"
+      ]
+    },
+    {
+      "id": 19,
+      "seasonLabel": "Hopelessness",
+      "title": "Wait Patiently",
+      "reference": "Psalm 27:14",
+      "body": [
+        "Wait patiently for the LORD. Be brave and courageous. Yes, wait patiently for the LORD."
+      ]
+    },
+    {
+      "id": 20,
+      "seasonLabel": "Sorrow",
+      "title": "Songs of Thanksgiving",
+      "reference": "Psalm 28:7",
+      "body": [
+        "The LORD is my strength and shield. I trust him with all my heart. He helps me, and my heart is filled with joy. I burst out in songs of thanksgiving."
+      ]
+    },
+    {
+      "id": 21,
+      "seasonLabel": "Sorrow",
+      "title": "Joy Comes in the Morning",
+      "reference": "Psalm 30:5",
+      "body": [
+        "For his anger lasts only a moment, but his favor lasts a lifetime! Weeping may last through the night, but joy comes with the morning."
+      ]
+    },
+    {
+      "id": 22,
+      "seasonLabel": "Hopelessness",
+      "title": "Hope in the LORD",
+      "reference": "Psalm 31:24",
+      "body": [
+        "So be strong and courageous, all you who put your hope in the LORD!"
+      ]
+    },
+    {
+      "id": 23,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Freed from All Fears",
+      "reference": "Psalm 34:4",
+      "body": [
+        "I prayed to the LORD, and he answered me. He freed me from all my fears."
+      ]
+    },
+    {
+      "id": 24,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Rescued from Trouble",
+      "reference": "Psalm 34:17",
+      "body": [
+        "The LORD hears his people when they call to him for help. He rescues them from all their troubles."
+      ]
+    },
+    {
+      "id": 25,
+      "seasonLabel": "Sorrow",
+      "title": "Close to the Brokenhearted",
+      "reference": "Psalm 34:18",
+      "body": [
+        "The LORD is close to the brokenhearted; he rescues those whose spirits are crushed."
+      ]
+    },
+    {
+      "id": 26,
+      "seasonLabel": "Trust",
+      "title": "Commit Everything to Him",
+      "reference": "Psalm 37:5",
+      "body": [
+        "Commit everything you do to the LORD. Trust him, and he will help you."
+      ]
+    },
+    {
+      "id": 27,
+      "seasonLabel": "Hopelessness",
+      "title": "Lifted Out of Despair",
+      "reference": "Psalm 40:1–2",
+      "body": [
+        "I waited patiently for the LORD to help me, and he turned to me and heard my cry.",
+        "He lifted me out of the pit of despair, out of the mud and the mire. He set my feet on solid ground and steadied me as I walked along."
+      ]
+    },
+    {
+      "id": 28,
+      "seasonLabel": "Sorrow",
+      "title": "Put My Hope in God",
+      "reference": "Psalm 42:11",
+      "body": [
+        "Why am I discouraged? Why is my heart so sad? I will put my hope in God! I will praise him again — my Savior and my God!"
+      ]
+    },
+    {
+      "id": 29,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Always Ready to Help",
+      "reference": "Psalm 46:1",
+      "body": [
+        "God is our refuge and strength, always ready to help in times of trouble."
+      ]
+    },
+    {
+      "id": 30,
+      "seasonLabel": "Peace",
+      "title": "Be Still and Know",
+      "reference": "Psalm 46:10",
+      "body": [
+        "Be still, and know that I am God! I will be honored by every nation. I will be honored throughout the world."
+      ]
+    },
+    {
+      "id": 31,
+      "seasonLabel": "Weariness",
+      "title": "Give Your Burdens",
+      "reference": "Psalm 55:22",
+      "body": [
+        "Give your burdens to the LORD, and he will take care of you. He will not permit the godly to slip and fall."
+      ]
+    },
+    {
+      "id": 32,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "When I Am Afraid",
+      "reference": "Psalm 56:3",
+      "body": [
+        "But when I am afraid, I will put my trust in you."
+      ]
+    },
+    {
+      "id": 33,
+      "seasonLabel": "Sorrow",
+      "title": "Every Tear Recorded",
+      "reference": "Psalm 56:8",
+      "body": [
+        "You keep track of all my sorrows. You have collected all my tears in your bottle. You have recorded each one in your book."
+      ]
+    },
+    {
+      "id": 34,
+      "seasonLabel": "Trust",
+      "title": "Pour Out Your Heart",
+      "reference": "Psalm 62:8",
+      "body": [
+        "O my people, trust in him at all times. Pour out your heart to him, for God is our refuge."
+      ]
+    },
+    {
+      "id": 35,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Restored to Life Again",
+      "reference": "Psalm 71:20",
+      "body": [
+        "You have allowed me to suffer much hardship, but you will restore me to life again and lift me up from the depths of the earth."
+      ]
+    },
+    {
+      "id": 36,
+      "seasonLabel": "Sickness",
+      "title": "Strength of My Heart",
+      "reference": "Psalm 73:26",
+      "body": [
+        "My health may fail, and my spirit may grow weak, but God remains the strength of my heart; he is mine forever."
+      ]
+    },
+    {
+      "id": 37,
+      "seasonLabel": "Protection",
+      "title": "Shadow of the Almighty",
+      "reference": "Psalm 91:1–2",
+      "body": [
+        "Those who live in the shelter of the Most High will find rest in the shadow of the Almighty.",
+        "This I declare about the LORD: He alone is my refuge, my place of safety; he is my God, and I trust him."
+      ]
+    },
+    {
+      "id": 38,
+      "seasonLabel": "Difficult Seasons",
+      "title": "With Them in Trouble",
+      "reference": "Psalm 91:15",
+      "body": [
+        "When they call on me, I will answer; I will be with them in trouble. I will rescue and honor them."
+      ]
+    },
+    {
+      "id": 39,
+      "seasonLabel": "Sickness",
+      "title": "Heals All My Diseases",
+      "reference": "Psalm 103:2–3",
+      "body": [
+        "Let all that I am praise the LORD; may I never forget the good things he does for me. He forgives all my sins and heals all my diseases."
+      ]
+    },
+    {
+      "id": 40,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "The LORD Is for Me",
+      "reference": "Psalm 118:6",
+      "body": [
+        "The LORD is for me, so I will have no fear. What can mere people do to me?"
+      ]
+    },
+    {
+      "id": 41,
+      "seasonLabel": "Sorrow",
+      "title": "Encouraged by Your Word",
+      "reference": "Psalm 119:28",
+      "body": [
+        "I weep with sorrow; encourage me by your word."
+      ]
+    },
+    {
+      "id": 42,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Your Promise Revives Me",
+      "reference": "Psalm 119:50",
+      "body": [
+        "Your promise revives me; it comforts me in all my troubles."
+      ]
+    },
+    {
+      "id": 43,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Where My Help Comes From",
+      "reference": "Psalm 121:1–2",
+      "body": [
+        "I look up to the mountains — does my help come from there? My help comes from the LORD, who made heaven and earth!"
+      ]
+    },
+    {
+      "id": 44,
+      "seasonLabel": "Sorrow",
+      "title": "Bandages Their Wounds",
+      "reference": "Psalm 147:3",
+      "body": [
+        "He heals the brokenhearted and bandages their wounds."
+      ]
+    },
+    {
+      "id": 45,
+      "seasonLabel": "Trust",
+      "title": "Show You Which Path",
+      "reference": "Proverbs 3:5–6",
+      "body": [
+        "Trust in the LORD with all your heart; do not depend on your own understanding. Seek his will in all you do, and he will show you which path to take."
+      ]
+    },
+    {
+      "id": 46,
+      "seasonLabel": "Protection",
+      "title": "A Strong Fortress",
+      "reference": "Proverbs 18:10",
+      "body": [
+        "The name of the LORD is a strong fortress; the godly run to him and are safe."
+      ]
+    },
+    {
+      "id": 47,
+      "seasonLabel": "Peace",
+      "title": "Perfect Peace",
+      "reference": "Isaiah 26:3",
+      "body": [
+        "You will keep in perfect peace all who trust in you, all whose thoughts are fixed on you!"
+      ]
+    },
+    {
+      "id": 48,
+      "seasonLabel": "Weariness",
+      "title": "On Wings Like Eagles",
+      "reference": "Isaiah 40:31",
+      "body": [
+        "But those who trust in the LORD will find new strength. They will soar high on wings like eagles. They will run and not grow weary. They will walk and not faint."
+      ]
+    },
+    {
+      "id": 49,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Victorious Right Hand",
+      "reference": "Isaiah 41:10",
+      "body": [
+        "Don’t be afraid, for I am with you. Don’t be discouraged, for I am your God. I will strengthen you and help you. I will hold you up with my victorious right hand."
+      ]
+    },
+    {
+      "id": 50,
+      "seasonLabel": "Hopelessness",
+      "title": "New Every Morning",
+      "reference": "Lamentations 3:22–23",
+      "body": [
+        "The faithful love of the LORD never ends! His mercies never cease. Great is his faithfulness; his mercies begin afresh each morning."
+      ]
+    },
+    {
+      "id": 51,
+      "seasonLabel": "Loss & Grief",
+      "title": "Blessed Are Those Who Mourn",
+      "reference": "Matthew 5:4",
+      "body": [
+        "God blesses those who mourn, for they will be comforted."
+      ]
+    },
+    {
+      "id": 52,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Don’t Worry About Tomorrow",
+      "reference": "Matthew 6:34",
+      "body": [
+        "So don’t worry about tomorrow, for tomorrow will bring its own worries. Today’s trouble is enough for today."
+      ]
+    },
+    {
+      "id": 53,
+      "seasonLabel": "Weariness",
+      "title": "Rest for Your Souls",
+      "reference": "Matthew 11:28–30",
+      "body": [
+        "Come to Me, all you who are weary and burdened, and I will give you rest. Take My yoke upon you and learn from Me, for I am gentle and humble in heart, and you will find rest for your souls.",
+        "For My yoke is easy and My burden is light."
+      ]
+    },
+    {
+      "id": 54,
+      "seasonLabel": "Courage",
+      "title": "With You Always",
+      "reference": "Matthew 28:20",
+      "body": [
+        "Teach these new disciples to obey all the commands I have given you. And be sure of this: I am with you always, even to the end of the age."
+      ]
+    },
+    {
+      "id": 55,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Just Have Faith",
+      "reference": "Mark 5:36",
+      "body": [
+        "But Jesus overheard them and said to Jairus, “Don’t be afraid. Just have faith.”"
+      ]
+    },
+    {
+      "id": 56,
+      "seasonLabel": "Hopelessness",
+      "title": "Never Fail",
+      "reference": "Luke 1:37",
+      "body": [
+        "For the word of God will never fail."
+      ]
+    },
+    {
+      "id": 57,
+      "seasonLabel": "Trust",
+      "title": "More Valuable Than Sparrows",
+      "reference": "Luke 12:7",
+      "body": [
+        "And the very hairs on your head are all numbered. So don’t be afraid; you are more valuable to God than a whole flock of sparrows."
+      ]
+    },
+    {
+      "id": 58,
+      "seasonLabel": "Loss & Grief",
+      "title": "Resurrection and the Life",
+      "reference": "John 11:25–26",
+      "body": [
+        "Jesus said to her, “I am the resurrection and the life. Whoever believes in Me will live, even though he dies. And everyone who lives and believes in Me will never die. Do you believe this?”"
+      ]
+    },
+    {
+      "id": 59,
+      "seasonLabel": "Peace",
+      "title": "Troubled Hearts",
+      "reference": "John 14:1",
+      "body": [
+        "Don’t let your hearts be troubled. Trust in God, and trust also in me."
+      ]
+    },
+    {
+      "id": 60,
+      "seasonLabel": "Peace",
+      "title": "A Gift of Peace",
+      "reference": "John 14:27",
+      "body": [
+        "I am leaving you with a gift—peace of mind and heart. And the peace I give is a gift the world cannot give. So don’t be troubled or afraid."
+      ]
+    },
+    {
+      "id": 61,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Take Heart",
+      "reference": "John 16:33",
+      "body": [
+        "I have told you all this so that you may have peace in me. Here on earth you will have many trials and sorrows. But take heart, because I have overcome the world."
+      ]
+    },
+    {
+      "id": 62,
+      "seasonLabel": "Sorrow",
+      "title": "Joy of Your Presence",
+      "reference": "Acts 2:28",
+      "body": [
+        "You have shown me the way of life, and you will fill me with the joy of your presence."
+      ]
+    },
+    {
+      "id": 63,
+      "seasonLabel": "Pain & Trials",
+      "title": "Endurance and Hope",
+      "reference": "Romans 5:3–5",
+      "body": [
+        "We can rejoice, too, when we run into problems and trials, for we know that they help us develop endurance. And endurance develops strength of character, and character strengthens our confident hope of salvation.",
+        "And this hope will not lead to disappointment. For we know how dearly God loves us, because he has given us the Holy Spirit to fill our hearts with his love."
+      ]
+    },
+    {
+      "id": 64,
+      "seasonLabel": "Pain & Trials",
+      "title": "Future Glory",
+      "reference": "Romans 8:18",
+      "body": [
+        "Yet what we suffer now is nothing compared to the glory he will reveal to us later."
+      ]
+    },
+    {
+      "id": 65,
+      "seasonLabel": "Weariness",
+      "title": "Helps Us in Our Weakness",
+      "reference": "Romans 8:26",
+      "body": [
+        "And the Holy Spirit helps us in our weakness. For example, we don’t know what God wants us to pray for. But the Holy Spirit prays for us with groanings that cannot be expressed in words."
+      ]
+    },
+    {
+      "id": 66,
+      "seasonLabel": "Trust",
+      "title": "Everything Works Together",
+      "reference": "Romans 8:28",
+      "body": [
+        "And we know that God causes everything to work together for the good of those who love God and are called according to his purpose for them."
+      ]
+    },
+    {
+      "id": 67,
+      "seasonLabel": "Protection",
+      "title": "If God Is for Us",
+      "reference": "Romans 8:31",
+      "body": [
+        "What shall we say about such wonderful things as these? If God is for us, who can ever be against us?"
+      ]
+    },
+    {
+      "id": 68,
+      "seasonLabel": "Hopelessness",
+      "title": "Nothing Can Separate Us",
+      "reference": "Romans 8:38–39",
+      "body": [
+        "And I am convinced that nothing can ever separate us from God’s love. Neither death nor life, neither angels nor demons, neither our fears for today nor our worries about tomorrow—not even the powers of hell can separate us from God’s love.",
+        "No power in the sky above or in the earth below—indeed, nothing in all creation will ever be able to separate us from the love of God that is revealed in Christ Jesus our Lord."
+      ]
+    },
+    {
+      "id": 69,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Patient in Trouble",
+      "reference": "Romans 12:12",
+      "body": [
+        "Rejoice in our confident hope. Be patient in trouble, and keep on praying."
+      ]
+    },
+    {
+      "id": 70,
+      "seasonLabel": "Hopelessness",
+      "title": "Hope and Encouragement",
+      "reference": "Romans 15:4",
+      "body": [
+        "Such things were written in the Scriptures long ago to teach us. And the Scriptures give us hope and encouragement as we wait patiently for God’s promises to be fulfilled."
+      ]
+    },
+    {
+      "id": 71,
+      "seasonLabel": "Peace",
+      "title": "Overflow with Hope",
+      "reference": "Romans 15:13",
+      "body": [
+        "I pray that God, the source of hope, will fill you completely with joy and peace because you trust in him. Then you will overflow with confident hope through the power of the Holy Spirit."
+      ]
+    },
+    {
+      "id": 72,
+      "seasonLabel": "Hopelessness",
+      "title": "What God Has Prepared",
+      "reference": "1 Corinthians 2:9",
+      "body": [
+        "That is what the Scriptures mean when they say, “No eye has seen, no ear has heard, and no mind has imagined what God has prepared for those who love him.”"
+      ]
+    },
+    {
+      "id": 73,
+      "seasonLabel": "Difficult Seasons",
+      "title": "A Way Out",
+      "reference": "1 Corinthians 10:13",
+      "body": [
+        "The temptations in your life are no different from what others experience. And God is faithful. He will not allow the temptation to be more than you can stand. When you are tempted, he will show you a way out so that you can endure."
+      ]
+    },
+    {
+      "id": 74,
+      "seasonLabel": "Loss & Grief",
+      "title": "Victory Over Death",
+      "reference": "1 Corinthians 15:57",
+      "body": [
+        "But thank God! He gives us victory over sin and death through our Lord Jesus Christ."
+      ]
+    },
+    {
+      "id": 75,
+      "seasonLabel": "Sorrow",
+      "title": "Source of All Comfort",
+      "reference": "2 Corinthians 1:3–4",
+      "body": [
+        "All praise to God, the Father of our Lord Jesus Christ. God is our merciful Father and the source of all comfort.",
+        "He comforts us in all our troubles so that we can comfort others. When they are troubled, we will be able to give them the same comfort God has given us."
+      ]
+    },
+    {
+      "id": 76,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Pressed, Not Crushed",
+      "reference": "2 Corinthians 4:8–9",
+      "body": [
+        "We are pressed on every side by troubles, but we are not crushed. We are perplexed, but not driven to despair.",
+        "We are hunted down, but never abandoned by God. We get knocked down, but we are not destroyed."
+      ]
+    },
+    {
+      "id": 77,
+      "seasonLabel": "Sickness",
+      "title": "Renewed Every Day",
+      "reference": "2 Corinthians 4:16–18",
+      "body": [
+        "That is why we never give up. Though our bodies are dying, our spirits are being renewed every day. For our present troubles are small and won’t last very long. Yet they produce for us a glory that vastly outweighs them and will last forever!",
+        "So we don’t look at the troubles we can see now; rather, we fix our gaze on things that cannot be seen. For the things we see now will soon be gone, but the things we cannot see will last forever."
+      ]
+    },
+    {
+      "id": 78,
+      "seasonLabel": "Weariness",
+      "title": "Grace Is Enough",
+      "reference": "2 Corinthians 12:9",
+      "body": [
+        "Each time he said, “My grace is all you need. My power works best in weakness.” So now I am glad to boast about my weaknesses, so that the power of Christ can work through me."
+      ]
+    },
+    {
+      "id": 79,
+      "seasonLabel": "Weariness",
+      "title": "Do Not Give Up",
+      "reference": "Galatians 6:9",
+      "body": [
+        "So let’s not get tired of doing what is good. At just the right time we will reap a harvest of blessing if we don’t give up."
+      ]
+    },
+    {
+      "id": 80,
+      "seasonLabel": "Weariness",
+      "title": "Inner Strength",
+      "reference": "Ephesians 3:16",
+      "body": [
+        "I pray that from his glorious, unlimited resources he will empower you with inner strength through his Spirit."
+      ]
+    },
+    {
+      "id": 81,
+      "seasonLabel": "Trust",
+      "title": "Infinitely More",
+      "reference": "Ephesians 3:20",
+      "body": [
+        "Now all glory to God, who is able, through his mighty power at work within us, to accomplish infinitely more than we might ask or think."
+      ]
+    },
+    {
+      "id": 82,
+      "seasonLabel": "Trust",
+      "title": "He Will Finish His Work",
+      "reference": "Philippians 1:6",
+      "body": [
+        "And I am certain that God, who began the good work within you, will continue his work until it is finally finished on the day when Christ Jesus returns."
+      ]
+    },
+    {
+      "id": 83,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Peace Beyond Understanding",
+      "reference": "Philippians 4:6–7",
+      "body": [
+        "Don’t worry about anything; instead, pray about everything. Tell God what you need, and thank him for all he has done.",
+        "Then you will experience God’s peace, which exceeds anything we can understand. His peace will guard your hearts and minds as you live in Christ Jesus."
+      ]
+    },
+    {
+      "id": 84,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Strength Through Christ",
+      "reference": "Philippians 4:13",
+      "body": [
+        "For I can do everything through Christ, who gives me strength. Even so, you have done well to share with me in my present difficulty."
+      ]
+    },
+    {
+      "id": 85,
+      "seasonLabel": "Trust",
+      "title": "Supply All Your Needs",
+      "reference": "Philippians 4:19",
+      "body": [
+        "And this same God who takes care of me will supply all your needs from his glorious riches, which have been given to us in Christ Jesus."
+      ]
+    },
+    {
+      "id": 86,
+      "seasonLabel": "Peace",
+      "title": "Let Peace Rule",
+      "reference": "Colossians 3:15",
+      "body": [
+        "And let the peace that comes from Christ rule in your hearts. For as members of one body you are called to live in peace. And always be thankful."
+      ]
+    },
+    {
+      "id": 87,
+      "seasonLabel": "Loss & Grief",
+      "title": "Grieve with Hope",
+      "reference": "1 Thessalonians 4:13–14",
+      "body": [
+        "And now, dear brothers and sisters, we want you to know what will happen to the believers who have died so you will not grieve like people who have no hope.",
+        "For since we believe that Jesus died and was raised to life again, we also believe that when Jesus returns, God will bring back with him the believers who have died."
+      ]
+    },
+    {
+      "id": 88,
+      "seasonLabel": "Courage",
+      "title": "Build Each Other Up",
+      "reference": "1 Thessalonians 5:11",
+      "body": [
+        "So encourage each other and build each other up, just as you are already doing."
+      ]
+    },
+    {
+      "id": 89,
+      "seasonLabel": "Sorrow",
+      "title": "Eternal Comfort",
+      "reference": "2 Thessalonians 2:16–17",
+      "body": [
+        "Now may our Lord Jesus Christ himself and God our Father, who loved us and by his grace gave us eternal comfort and a wonderful hope, comfort you and strengthen you in every good thing you do and say."
+      ]
+    },
+    {
+      "id": 90,
+      "seasonLabel": "Protection",
+      "title": "Strengthen and Guard You",
+      "reference": "2 Thessalonians 3:3",
+      "body": [
+        "But the Lord is faithful; he will strengthen you and guard you from the evil one."
+      ]
+    },
+    {
+      "id": 91,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "Power, Love, and Self-Discipline",
+      "reference": "2 Timothy 1:7",
+      "body": [
+        "For God has not given us a spirit of fear and timidity, but of power, love, and self-discipline."
+      ]
+    },
+    {
+      "id": 92,
+      "seasonLabel": "Difficult Seasons",
+      "title": "Mercy and Grace in Need",
+      "reference": "Hebrews 4:16",
+      "body": [
+        "So let us come boldly to the throne of our gracious God. There we will receive his mercy, and we will find grace to help us when we need it most."
+      ]
+    },
+    {
+      "id": 93,
+      "seasonLabel": "Hopelessness",
+      "title": "Hold Tightly Without Wavering",
+      "reference": "Hebrews 10:23",
+      "body": [
+        "Let us hold tightly without wavering to the hope we affirm, for God can be trusted to keep his promise."
+      ]
+    },
+    {
+      "id": 94,
+      "seasonLabel": "Pain & Trials",
+      "title": "Eyes on Jesus",
+      "reference": "Hebrews 12:1–2",
+      "body": [
+        "We do this by keeping our eyes on Jesus, the champion who initiates and perfects our faith. Because of the joy awaiting him, he endured the cross, disregarding its shame. Now he is seated in the place of honor beside God’s throne."
+      ]
+    },
+    {
+      "id": 95,
+      "seasonLabel": "Courage",
+      "title": "Never Fail or Abandon You",
+      "reference": "Hebrews 13:5",
+      "body": [
+        "Don’t love money; be satisfied with what you have. For God has said, “I will never fail you. I will never abandon you.”"
+      ]
+    },
+    {
+      "id": 96,
+      "seasonLabel": "Pain & Trials",
+      "title": "Endurance Growing",
+      "reference": "James 1:2–4",
+      "body": [
+        "Dear brothers and sisters, when troubles of any kind come your way, consider it an opportunity for great joy. For you know that when your faith is tested, your endurance has a chance to grow.",
+        "So let it grow, for when your endurance is fully developed, you will be perfect and complete, needing nothing."
+      ]
+    },
+    {
+      "id": 97,
+      "seasonLabel": "Sickness",
+      "title": "Prayer Offered in Faith",
+      "reference": "James 5:14–15",
+      "body": [
+        "Are any of you sick? You should call for the elders of the church to come and pray over you, anointing you with oil in the name of the Lord.",
+        "Such a prayer offered in faith will heal the sick, and the Lord will make you well. And if you have committed any sins, you will be forgiven."
+      ]
+    },
+    {
+      "id": 98,
+      "seasonLabel": "Fear & Anxiety",
+      "title": "He Cares About You",
+      "reference": "1 Peter 5:7",
+      "body": [
+        "Give all your worries and cares to God, for he cares about you."
+      ]
+    },
+    {
+      "id": 99,
+      "seasonLabel": "Pain & Trials",
+      "title": "Restore, Support, and Strengthen",
+      "reference": "1 Peter 5:10",
+      "body": [
+        "In his kindness God called you to share in his eternal glory by means of Christ Jesus. So after you have suffered a little while, he will restore, support, and strengthen you, and he will place you on a firm foundation."
+      ]
+    },
+    {
+      "id": 100,
+      "seasonLabel": "Loss & Grief",
+      "title": "Every Tear Wiped Away",
+      "reference": "Revelation 21:4",
+      "body": [
+        "He will wipe every tear from their eyes, and there will be no more death or sorrow or crying or pain. All these things are gone forever."
+      ]
     }
   ]
 }

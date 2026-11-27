@@ -1,13 +1,10 @@
 /* ==========================================================================
-   ES MODULE: SCRIPTURE DATA API (FETCH, CACHE, FILTER & SPREAD PAGINATION)
+   ES MODULE: SCRIPTURE DATA API
    ========================================================================== */
 
 const DB_URL = './db.json';
 let cachedVerses = null;
 
-/**
- * Loads and caches all verses from db.json
- */
 export async function loadAllVerses() {
     if (cachedVerses) {
         return cachedVerses;
@@ -15,7 +12,7 @@ export async function loadAllVerses() {
 
     const response = await fetch(DB_URL);
     if (!response.ok) {
-        throw new Error(`Unable to load db.json (HTTP ${response.status})`);
+        throw new Error(`Failed to load db.json (HTTP ${response.status})`);
     }
 
     const data = await response.json();
@@ -23,48 +20,42 @@ export async function loadAllVerses() {
     return cachedVerses;
 }
 
-/**
- * Filters verses by emotional theme and/or testament ('OT' | 'NT')
- */
-export async function getFilteredVerses({ theme = 'all', testament = 'all' } = {}) {
+export async function getVersesBySeason(seasonLabel = 'all') {
     const verses = await loadAllVerses();
 
-    return verses.filter((verse) => {
-        const themeMatch =
-            theme === 'all' || verse.theme.toLowerCase() === theme.toLowerCase();
-        const testamentMatch =
-            testament === 'all' || verse.testament.toUpperCase() === testament.toUpperCase();
+    if (!seasonLabel || seasonLabel.toLowerCase() === 'all') {
+        return verses;
+    }
 
-        return themeMatch && testamentMatch;
-    });
+    return verses.filter(
+        (verse) => verse.seasonLabel.toLowerCase() === seasonLabel.toLowerCase()
+    );
 }
 
 /**
- * Returns a two-page spread (leftPage + rightPage) starting at spreadIndex
+ * Returns the current verse (leftPage) and following verse (rightPage)
  */
-export async function getBookSpread(spreadIndex = 0, filters = {}) {
-    const list = await getFilteredVerses(filters);
-    const totalVerses = list.length;
+export async function getVersePair(verseIndex = 0, seasonLabel = 'all') {
+    const list = await getVersesBySeason(seasonLabel);
+    const total = list.length;
 
-    if (totalVerses === 0) {
+    if (total === 0) {
         return {
-            leftPage: null,
-            rightPage: null,
-            spreadIndex: 0,
-            totalSpreads: 0,
-            totalVerses: 0
+            leftVerse: null,
+            rightVerse: null,
+            currentIndex: 0,
+            total: 0
         };
     }
 
-    const totalSpreads = Math.ceil(totalVerses / 2);
-    const safeSpread = ((spreadIndex % totalSpreads) + totalSpreads) % totalSpreads;
-    const startIdx = safeSpread * 2;
+    const safeIndex = ((verseIndex % total) + total) % total;
+    const leftVerse = list[safeIndex];
+    const rightVerse = total > 1 ? list[(safeIndex + 1) % total] : null;
 
     return {
-        leftPage: list[startIdx] || null,
-        rightPage: list[startIdx + 1] || null,
-        spreadIndex: safeSpread,
-        totalSpreads,
-        totalVerses
+        leftVerse,
+        rightVerse,
+        currentIndex: safeIndex,
+        total
     };
 }
