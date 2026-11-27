@@ -52,7 +52,8 @@ export async function getBookSpread(verseIndex = 0, seasonLabel = 'all') {
             leftPage: null,
             rightPage: null,
             verseIndex: 0,
-            total: 0
+            total: 0,
+            seasonLabel
         };
     }
 
@@ -64,6 +65,7 @@ export async function getBookSpread(verseIndex = 0, seasonLabel = 'all') {
         leftPage,
         rightPage,
         verseIndex: safeIndex,
-        total
+        total,
+        seasonLabel
     };
 }
