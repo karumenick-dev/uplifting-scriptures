@@ -284,7 +284,7 @@ const pageTurnerEl = document.getElementById('page-turner');
 
 const FONT_STORAGE_KEY = 'uplifting_scriptures_font';
 const THEME_STORAGE_KEY = 'uplifting_scriptures_theme';
-const PAGE_TURN_DURATION_MS = 850;
+const PAGE_TURN_DURATION_MS = 1080;
 
 function applyReadingFont(fontValue) {
     const cleanFont = fontValue || 'current';
@@ -385,109 +385,113 @@ if (canvas && bookEl && toggleBtn && toggleBtnLabel) {
         articleEl.innerHTML = `<div class="spread-content-reveal h-full w-full"></div>`;
     }
 
-    function renderScripturePage(articleEl, entry, seasonProgress = '') {
-        if (!articleEl) return;
+function renderScripturePage(articleEl, entry, seasonProgress = '', instantReveal = false) {
+    if (!articleEl) return;
 
-        if (!entry) {
-            articleEl.innerHTML = `
-                <div class="spread-content-reveal flex flex-col h-full justify-between">
-                    <div>
-                        <header class="page-header-meta">
-                            <span>Selah</span>
-                            <span>Quiet Reflection</span>
-                        </header>
-                        <h2 class="page-title">Be Still &amp; Rest</h2>
-                        <div class="page-body space-y-3">
-                            <p>Take a slow breath here before turning back to the beginning.</p>
-                        </div>
-                    </div>
-                    <footer class="page-footer">~ Quiet Reflection ~</footer>
-                </div>
-            `;
-            return;
-        }
+    const revealClass = instantReveal
+        ? 'spread-content-reveal is-instant-reveal flex flex-col h-full justify-between'
+        : 'spread-content-reveal flex flex-col h-full justify-between';
 
-        const paragraphs = Array.isArray(entry.body) ? entry.body : [String(entry.body || '')];
-        const paragraphsHtml = paragraphs
-            .map((text, idx) =>
-                idx === 0
-                    ? `<p class="drop-cap">${text}</p>`
-                    : `<p>${text}</p>`
-            )
-            .join('');
-
-        const footerLabel = seasonProgress ? `~ ${seasonProgress} ~` : '';
-
+    if (!entry) {
         articleEl.innerHTML = `
-            <div class="spread-content-reveal flex flex-col h-full justify-between">
+            <div class="${revealClass}">
                 <div>
                     <header class="page-header-meta">
-                        <span>${entry.reference}</span>
-                        <span>${entry.seasonLabel}</span>
+                        <span>Selah</span>
+                        <span>Quiet Reflection</span>
                     </header>
-                    <h2 class="page-title">${entry.title}</h2>
+                    <h2 class="page-title">Be Still &amp; Rest</h2>
                     <div class="page-body space-y-3">
-                        ${paragraphsHtml}
+                        <p>Take a slow breath here before turning back to the beginning.</p>
                     </div>
                 </div>
-                <footer class="page-footer">${footerLabel}</footer>
+                <footer class="page-footer">~ Quiet Reflection ~</footer>
             </div>
         `;
+        return;
     }
 
-    async function updateSpread(targetIndex = currentVerseIndex) {
-        const leftPageEl = document.querySelector('.left-spread-page');
-        const rightPageEl = document.querySelector('.right-spread-page');
-        const requestToken = ++spreadRequestId;
+    const paragraphs = Array.isArray(entry.body) ? entry.body : [String(entry.body || '')];
+    const paragraphsHtml = paragraphs
+        .map((text, idx) =>
+            idx === 0
+                ? `<p class="drop-cap">${text}</p>`
+                : `<p>${text}</p>`
+        )
+        .join('');
 
-        try {
-            let normalizedIndex = Number(targetIndex) || 0;
-            if (currentSeasonTotal > 0) {
-                normalizedIndex = ((normalizedIndex % currentSeasonTotal) + currentSeasonTotal) % currentSeasonTotal;
-            } else {
-                normalizedIndex = Math.max(0, normalizedIndex);
-            }
+    const footerLabel = seasonProgress ? `~ ${seasonProgress} ~` : '';
 
-            const spread = await getBookSpread(normalizedIndex, activeSeason);
-            if (requestToken !== spreadRequestId) return;
+    articleEl.innerHTML = `
+        <div class="${revealClass}">
+            <div>
+                <header class="page-header-meta">
+                    <span>${entry.reference}</span>
+                    <span>${entry.seasonLabel}</span>
+                </header>
+                <h2 class="page-title">${entry.title}</h2>
+                <div class="page-body space-y-3">
+                    ${paragraphsHtml}
+                </div>
+            </div>
+            <footer class="page-footer">${footerLabel}</footer>
+        </div>
+    `;
+}
 
-            currentVerseIndex = spread.verseIndex;
-            currentSeasonTotal = spread.total || 0;
-            const progressLabel = formatSeasonProgress(currentVerseIndex, currentSeasonTotal);
+async function updateSpread(targetIndex = currentVerseIndex, instantReveal = false) {
+    const leftPageEl = document.querySelector('.left-spread-page');
+    const rightPageEl = document.querySelector('.right-spread-page');
+    const requestToken = ++spreadRequestId;
 
-            renderBlankLeftPage(leftPageEl);
-            renderLeftPageStack(currentVerseIndex, currentSeasonTotal);
-            renderScripturePage(rightPageEl, spread.leftPage, progressLabel);
-        } catch (error) {
-            console.error('Error loading scriptures:', error);
+    try {
+        let normalizedIndex = Number(targetIndex) || 0;
+        if (currentSeasonTotal > 0) {
+            normalizedIndex = ((normalizedIndex % currentSeasonTotal) + currentSeasonTotal) % currentSeasonTotal;
+        } else {
+            normalizedIndex = Math.max(0, normalizedIndex);
         }
+
+        const spread = await getBookSpread(normalizedIndex, activeSeason);
+        if (requestToken !== spreadRequestId) return;
+
+        currentVerseIndex = spread.verseIndex;
+        currentSeasonTotal = spread.total || 0;
+        const progressLabel = formatSeasonProgress(currentVerseIndex, currentSeasonTotal);
+
+        renderBlankLeftPage(leftPageEl);
+        renderLeftPageStack(currentVerseIndex, currentSeasonTotal);
+        renderScripturePage(rightPageEl, spread.leftPage, progressLabel, instantReveal);
+    } catch (error) {
+        console.error('Error loading scriptures:', error);
+    }
+}
+
+function turnToSpread(targetIndex, direction = 'next') {
+    if (!bookControls.getIsOpen() || isPageTurning) return;
+
+    if (!pageTurnerEl) {
+        updateSpread(targetIndex, true);
+        return;
     }
 
-    function turnToSpread(targetIndex, direction = 'next') {
-        if (!bookControls.getIsOpen() || isPageTurning) return;
+    isPageTurning = true;
+    const animClass = direction === 'prev' ? 'is-turning-prev' : 'is-turning-next';
 
-        if (!pageTurnerEl) {
-            updateSpread(targetIndex);
-            return;
-        }
+    pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
+    void pageTurnerEl.offsetWidth;
+    pageTurnerEl.classList.add(animClass);
 
-        isPageTurning = true;
-        const animClass = direction === 'prev' ? 'is-turning-prev' : 'is-turning-next';
+    // Swap at 50% (90° upright crease) with instantReveal = true so text never lingers blank
+    setTimeout(() => {
+        updateSpread(targetIndex, true);
+    }, Math.round(PAGE_TURN_DURATION_MS * 0.5));
 
+    setTimeout(() => {
         pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
-        void pageTurnerEl.offsetWidth;
-        pageTurnerEl.classList.add(animClass);
-
-        // Swap scripture content and update the left page stack right at the 90° midpoint
-        setTimeout(() => {
-            updateSpread(targetIndex);
-        }, Math.round(PAGE_TURN_DURATION_MS * 0.48));
-
-        setTimeout(() => {
-            pageTurnerEl.classList.remove('is-turning-next', 'is-turning-prev');
-            isPageTurning = false;
-        }, PAGE_TURN_DURATION_MS + 40);
-    }
+        isPageTurning = false;
+    }, PAGE_TURN_DURATION_MS + 100);
+}
 
     const bookControls = initBookControls({
         bookEl,
