@@ -729,9 +729,10 @@ body[data-theme="clean-light"] .parchment-sheet {
 }
 
 .page-header-meta {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(0.58rem, 0.95vw, 0.72rem);
-    letter-spacing: 0.16em;
+    font-family: var(--reading-font, 'Cormorant Garamond', serif);
+    font-size: clamp(0.68rem, 1.05vw, 0.82rem);
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--page-muted);
     border-bottom: 1px solid var(--page-rule);
@@ -755,7 +756,8 @@ body[data-theme="clean-light"] .parchment-sheet {
 }
 
 .page-body {
-    font-family: 'Cormorant Garamond', serif;
+    --reading-font: 'Cormorant Garamond', serif;
+    font-family: var(--reading-font);
     font-size: clamp(0.9rem, 1.48vw, 1.14rem);
     line-height: 1.64;
     color: var(--page-ink);
@@ -767,25 +769,39 @@ body[data-theme="clean-light"] .parchment-sheet {
     scrollbar-color: rgba(138, 106, 66, 0.3) transparent;
 }
 
+body[data-font="current"] .page-header-meta,
 body[data-font="current"] .page-body {
+    --reading-font: 'Cormorant Garamond', serif;
     font-family: 'Cormorant Garamond', serif;
 }
+body[data-font="georgia"] .page-header-meta,
 body[data-font="georgia"] .page-body {
+    --reading-font: Georgia, 'Times New Roman', serif;
     font-family: Georgia, 'Times New Roman', serif;
 }
+body[data-font="libre-baskerville"] .page-header-meta,
 body[data-font="libre-baskerville"] .page-body {
+    --reading-font: 'Libre Baskerville', Georgia, serif;
     font-family: 'Libre Baskerville', Georgia, serif;
 }
+body[data-font="merriweather"] .page-header-meta,
 body[data-font="merriweather"] .page-body {
+    --reading-font: 'Merriweather', Georgia, serif;
     font-family: 'Merriweather', Georgia, serif;
 }
+body[data-font="inter"] .page-header-meta,
 body[data-font="inter"] .page-body {
+    --reading-font: 'Inter', system-ui, -apple-system, sans-serif;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
+body[data-font="roboto"] .page-header-meta,
 body[data-font="roboto"] .page-body {
+    --reading-font: 'Roboto', system-ui, -apple-system, sans-serif;
     font-family: 'Roboto', system-ui, -apple-system, sans-serif;
 }
+body[data-font="cardo"] .page-header-meta,
 body[data-font="cardo"] .page-body {
+    --reading-font: 'Cardo', Georgia, serif;
     font-family: 'Cardo', Georgia, serif;
 }
 
