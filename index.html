@@ -233,12 +233,20 @@
         </div>
     </main>
 
-    <!-- Centered Bottom Open / Close Toggle Button -->
-    <div class="controls-bar">
-        <button id="toggle-book-btn" class="glass-btn" type="button" aria-expanded="false" aria-label="Open book">
-            <span id="toggle-btn-label">Open</span>
-        </button>
-    </div>
+<!-- Centered Bottom Open / Close & Verse Navigation Bar -->
+<div class="controls-bar flex items-center justify-center gap-3">
+    <button id="prev-verse-btn" class="glass-btn hidden" type="button" aria-label="Previous verse" disabled>
+        &larr; Prev
+    </button>
+
+    <button id="toggle-book-btn" class="glass-btn" type="button" aria-expanded="false" aria-label="Open book">
+        <span id="toggle-btn-label">Open</span>
+    </button>
+
+    <button id="next-verse-btn" class="glass-btn hidden" type="button" aria-label="Next verse" disabled>
+        Next &rarr;
+    </button>
+</div>
 
     <!-- External ES Module Script -->
     <script type="module" src="index.js"></script>
