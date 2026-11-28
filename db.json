@@ -20,7 +20,7 @@
     },
     {
       "id": 3,
-      "seasonLabel": "Courage",
+      "seasonLabel": "Fear & Anxiety",
       "title": "You're Never Abandoned",
       "reference": "Deuteronomy 31:6",
       "body": [
@@ -47,7 +47,7 @@
     },
     {
       "id": 6,
-      "seasonLabel": "Courage",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God is With You Wherever You Go",
       "reference": "Joshua 1:9",
       "body": [
@@ -56,7 +56,7 @@
     },
     {
       "id": 7,
-      "seasonLabel": "Protection",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God, Your Rock and Refuge",
       "reference": "2 Samuel 22:3",
       "body": [
@@ -128,7 +128,7 @@
     },
     {
       "id": 15,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "You Will Not Be Shaken",
       "reference": "Psalm 16:8",
       "body": [
@@ -228,11 +228,11 @@
     },
     {
       "id": 26,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Commit Everything to the LORD",
       "reference": "Psalm 37:5",
       "body": [
-        "Commit everything you do to the LORD. Trust him, and he will help you."
+        "Commit everything you do to the LORD.Trust him, and he will help you."
       ]
     },
     {
@@ -265,7 +265,7 @@
     },
     {
       "id": 30,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Be Still and Know That He is God",
       "reference": "Psalm 46:10",
       "body": [
@@ -301,7 +301,7 @@
     },
     {
       "id": 34,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Pour Out Your Heart to Him",
       "reference": "Psalm 62:8",
       "body": [
@@ -328,7 +328,7 @@
     },
     {
       "id": 37,
-      "seasonLabel": "Protection",
+      "seasonLabel": "Fear & Anxiety",
       "title": "The LORD is Your Refuge",
       "reference": "Psalm 91:1–2",
       "body": [
@@ -401,7 +401,7 @@
     },
     {
       "id": 45,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Trust in the LORD With All Your Heart",
       "reference": "Proverbs 3:5–6",
       "body": [
@@ -410,7 +410,7 @@
     },
     {
       "id": 46,
-      "seasonLabel": "Protection",
+      "seasonLabel": "Fear & Anxiety",
       "title": "The Name of The LORD is a Strong Fortress",
       "reference": "Proverbs 18:10",
       "body": [
@@ -419,7 +419,7 @@
     },
     {
       "id": 47,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "The Lord Keeps Will Keep You in Perfect Peace",
       "reference": "Isaiah 26:3",
       "body": [
@@ -483,7 +483,7 @@
     },
     {
       "id": 54,
-      "seasonLabel": "Courage",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Christ is With You Always",
       "reference": "Matthew 28:20",
       "body": [
@@ -510,7 +510,7 @@
     },
     {
       "id": 57,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "You Are More Valuable Than the Sparrows",
       "reference": "Luke 12:7",
       "body": [
@@ -528,7 +528,7 @@
     },
     {
       "id": 59,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Don't Let Your Hearts be Troubled",
       "reference": "John 14:1",
       "body": [
@@ -537,7 +537,7 @@
     },
     {
       "id": 60,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Peace of Mind and Heart",
       "reference": "John 14:27",
       "body": [
@@ -568,8 +568,7 @@
       "title": "Endurance and Hope",
       "reference": "Romans 5:3–5",
       "body": [
-        "We can rejoice, too, when we run into problems and trials, for we know that they help us develop endurance. And endurance develops strength of character, and character strengthens our confident hope of salvation.",
-        "And this hope will not lead to disappointment. For we know how dearly God loves us, because he has given us the Holy Spirit to fill our hearts with his love."
+        "We can rejoice, too, when we run into problems and trials, for we know that they help us develop endurance. And endurance develops strength of character, and character strengthens our confident hope of salvation."
       ]
     },
     {
@@ -592,7 +591,7 @@
     },
     {
       "id": 66,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Everything Works Together for the Good",
       "reference": "Romans 8:28",
       "body": [
@@ -601,7 +600,7 @@
     },
     {
       "id": 67,
-      "seasonLabel": "Protection",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God Is for Us",
       "reference": "Romans 8:31",
       "body": [
@@ -637,7 +636,7 @@
     },
     {
       "id": 71,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Overflow with Confident Hope",
       "reference": "Romans 15:13",
       "body": [
@@ -729,7 +728,7 @@
     },
     {
       "id": 81,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God Can Accomplish Infinitely More",
       "reference": "Ephesians 3:20",
       "body": [
@@ -738,7 +737,7 @@
     },
     {
       "id": 82,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God Will Finish What He Started",
       "reference": "Philippians 1:6",
       "body": [
@@ -766,7 +765,7 @@
     },
     {
       "id": 85,
-      "seasonLabel": "Trust",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God Will Supply All Your Needs",
       "reference": "Philippians 4:19",
       "body": [
@@ -775,7 +774,7 @@
     },
     {
       "id": 86,
-      "seasonLabel": "Peace",
+      "seasonLabel": "Fear & Anxiety",
       "title": "Let Christ's Peace Rule in Your Heart",
       "reference": "Colossians 3:15",
       "body": [
@@ -794,7 +793,7 @@
     },
     {
       "id": 88,
-      "seasonLabel": "Courage",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God Will be With You",
       "reference": "Isaiah 43:2",
       "body": [
@@ -812,7 +811,7 @@
     },
     {
       "id": 90,
-      "seasonLabel": "Protection",
+      "seasonLabel": "Fear & Anxiety",
       "title": "The Lord Will Strengthen and Guard You",
       "reference": "2 Thessalonians 3:3",
       "body": [
@@ -857,7 +856,7 @@
     },
     {
       "id": 95,
-      "seasonLabel": "Courage",
+      "seasonLabel": "Fear & Anxiety",
       "title": "God Will Never Fail or Abandon You",
       "reference": "Hebrews 13:5",
       "body": [
