@@ -159,33 +159,40 @@ body.fireflies-off #firefly-canvas {
 .book-wrapper {
     position: relative;
     width: min(44vw, 430px);
-    height: min(70vh, 580px);
+    height: min(64vh, 535px);
     transform-style: preserve-3d;
     will-change: transform;
-    transform: translate3d(0%, 0, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+    transform: translate3d(0%, -6%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
     transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1);
     cursor: pointer;
 }
 
-/* Lifted slightly upward when open so the book sits cleanly above the bottom controls */
+/* Lifted higher when open so the bottom of the spread clears the control pills cleanly */
 .book-wrapper.is-open {
-    transform: translate3d(50%, -6.5%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+    transform: translate3d(50%, -9%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
     cursor: default;
 }
 
 .book-wrapper.is-closing {
-    transform: translate3d(0%, 0, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+    transform: translate3d(0%, -6%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
     transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
 }
 
 @media (max-width: 768px) {
     .book-wrapper {
         width: 45vw;
-        height: min(62vh, 450px);
+        height: min(56vh, 410px);
+        transform: translate3d(0%, -6.5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
     }
 
+    .book-wrapper.is-closing {
+        transform: translate3d(0%, -6.5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
+    }
+
+    /* Keep mobile open lift moderate so the top edge stays clear of the top of the screen */
     .book-wrapper.is-open {
-        transform: translate3d(50%, -9%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+        transform: translate3d(50%, -8.5%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
     }
 }
 
