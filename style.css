@@ -257,6 +257,19 @@ body.fireflies-off #firefly-canvas {
         font-size: 0.62rem;
     }
 
+    .nav-buttons-row {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.3rem;
+    }
+
+    .nav-buttons-row .glass-btn,
+    .nav-buttons-row button {
+    padding: 0.34rem 0.45rem;
+    font-size: 0.58rem;
+    white-space: nowrap;
+    }
+
     /* Prevent squeezing/clipping inside the open mobile spread */
     .page-header,
     .spread-header {
@@ -289,45 +302,52 @@ body.fireflies-off #firefly-canvas {
 /* Landscape phone & short-height viewports */
 @media (orientation: landscape) and (max-height: 500px) {
     .book-wrapper {
-        width: min(26vw, 220px);
-        height: min(56vh, 240px);
-        transform: translate3d(0%, -4%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        width: min(24vw, 195px);
+        height: min(44vh, 185px);
+        transform: translate3d(0%, -6%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
     }
 
     .book-wrapper.is-closing {
-        transform: translate3d(0%, -4%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        transform: translate3d(0%, -6%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
         transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
     }
 
     .book-wrapper.is-open {
-        transform: translate3d(50%, -10%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+        transform: translate3d(50%, -18%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
     }
 
     .controls-bar {
-        bottom: 0.4rem;
+        bottom: 0.35rem;
+        gap: 0.2rem;
+    }
+
+    .season-filter-row,
+    .nav-buttons-row {
+        flex-wrap: nowrap;
         gap: 0.25rem;
     }
 
     .controls-bar .glass-btn,
     .controls-bar button {
-        padding: 0.28rem 0.5rem;
-        font-size: 0.58rem;
+        padding: 0.25rem 0.42rem;
+        font-size: 0.54rem;
+        white-space: nowrap;
     }
 
     .page-title {
-        font-size: 0.72rem;
-        margin-bottom: 0.25rem;
+        font-size: 0.68rem;
+        margin-bottom: 0.2rem;
     }
 
     .page-body,
     .page-body p {
-        font-size: 0.6rem;
-        line-height: 1.25;
-        margin-bottom: 0.25rem;
+        font-size: 0.56rem;
+        line-height: 1.2;
+        margin-bottom: 0.2rem;
     }
 
     .drop-cap {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
     }
 }
 
