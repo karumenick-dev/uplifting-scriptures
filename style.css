@@ -179,6 +179,40 @@ body.fireflies-off #firefly-canvas {
 }
 
 @media (max-width: 768px) {
+    /* Stack or wrap long references and season labels cleanly in portrait */
+    .page-header,
+    .spread-header,
+    .page-meta,
+    .scripture-meta,
+    [class*="header-row"],
+    [class*="meta-row"] {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.12rem 0.25rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .page-header > *,
+    .spread-header > *,
+    .page-meta > *,
+    .scripture-meta > *,
+    [class*="header-row"] > *,
+    [class*="meta-row"] > * {
+        max-width: 100% !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+        font-size: 0.36rem !important;
+        letter-spacing: 0.01em !important;
+        line-height: 1.15 !important;
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+    }
+    
     .book-wrapper {
         width: min(46vw, 200px) !important;
         height: min(38vh, 275px) !important;
