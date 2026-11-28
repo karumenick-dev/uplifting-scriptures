@@ -957,6 +957,15 @@ body[data-font="cardo"] .page-body {
     max-width: 96vw;
 }
 
+/* Collapse closed-book controls out of the flex row so Background & Fireflies center cleanly */
+body:not(.book-opened) #season-dropdown,
+body:not(.book-opened) #font-dropdown,
+body:not(.book-opened) #theme-dropdown,
+body:not(.book-opened) #prev-verse-btn,
+body:not(.book-opened) #next-verse-btn {
+    display: none;
+}
+
 .season-filter-row,
 .nav-buttons-row {
     display: flex;
