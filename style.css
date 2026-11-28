@@ -180,23 +180,23 @@ body.fireflies-off #firefly-canvas {
 
 @media (max-width: 768px) {
     .book-wrapper {
-        width: min(44vw, 185px);
-        height: min(36vh, 255px);
-        transform: translate3d(0%, -6%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        width: min(46vw, 200px);
+        height: min(38vh, 275px);
+        transform: translate3d(0%, -5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
     }
 
     .book-wrapper.is-closing {
-        transform: translate3d(0%, -6%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        transform: translate3d(0%, -5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
         transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
     }
 
-    /* Lift higher on mobile and keep height compact so bottom pills never overlap */
     .book-wrapper.is-open {
-        transform: translate3d(50%, -18%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+        transform: translate3d(50%, -16%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
     }
 
+    /* Pull cover content up and keep "SIT AT HIS FEET" well clear of the bottom gold border */
     .front-cover-outer {
-        padding: 8% 6%;
+        padding: 7% 6% 9%;
     }
 
     .front-cover-outer .gold-foil-text {
@@ -204,32 +204,34 @@ body.fireflies-off #firefly-canvas {
     }
 
     .front-cover-outer h1.gold-foil-text {
-        font-size: 0.92rem;
-        letter-spacing: 0.06em;
-        line-height: 1.3;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+        line-height: 1.22;
+        margin-bottom: 0.35rem;
     }
 
     .front-cover-outer p.gold-foil-text.uppercase {
-        font-size: 0.5rem;
-        letter-spacing: 0.12em;
-        line-height: 1.35;
-        margin-bottom: 0.5rem;
+        font-size: 0.44rem;
+        letter-spacing: 0.09em;
+        line-height: 1.25;
+        margin-bottom: 0.35rem;
     }
 
     .front-cover-outer p.gold-foil-text.italic {
-        font-size: 0.68rem;
-        line-height: 1.3;
+        font-size: 0.58rem;
+        line-height: 1.22;
+        margin-bottom: 0.35rem;
     }
 
     .front-cover-outer .mb-3.gold-foil-text {
-        font-size: 0.48rem;
-        letter-spacing: 0.12em;
-        margin-bottom: 0.25rem;
+        font-size: 0.44rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.35rem;
     }
 
     .corner-accent {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
     }
 
     .book-wrapper.is-open .left-spread-page,
@@ -237,36 +239,95 @@ body.fireflies-off #firefly-canvas {
         cursor: pointer;
     }
 
+    /* Compact controls so wrapped pills stay short at the bottom */
     .controls-bar {
-        bottom: 0.65rem;
-        gap: 0.35rem;
+        bottom: 0.55rem;
+        gap: 0.3rem;
         max-width: 96vw;
     }
 
     .season-filter-row,
     .nav-buttons-row {
-        gap: 0.35rem;
+        gap: 0.3rem;
     }
 
     .controls-bar .glass-btn,
     .controls-bar button {
-        padding: 0.38rem 0.65rem;
-        font-size: 0.65rem;
+        padding: 0.34rem 0.55rem;
+        font-size: 0.62rem;
+    }
+
+    /* Prevent squeezing/clipping inside the open mobile spread */
+    .page-header,
+    .spread-header {
+        font-size: 0.52rem;
+        letter-spacing: 0.05em;
+        gap: 0.35rem;
     }
 
     .page-title {
-        font-size: 0.9rem;
-        line-height: 1.25;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.35rem;
     }
 
     .page-body,
     .page-body p {
-        font-size: 0.72rem;
-        line-height: 1.35;
+        font-size: 0.66rem;
+        line-height: 1.3;
+        margin-bottom: 0.35rem;
     }
 
     .drop-cap {
-        font-size: 1.65rem;
+        font-size: 1.45rem;
+        line-height: 1;
+        margin-right: 0.2rem;
+    }
+}
+
+/* Landscape phone & short-height viewports */
+@media (orientation: landscape) and (max-height: 500px) {
+    .book-wrapper {
+        width: min(26vw, 220px);
+        height: min(56vh, 240px);
+        transform: translate3d(0%, -4%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+    }
+
+    .book-wrapper.is-closing {
+        transform: translate3d(0%, -4%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
+    }
+
+    .book-wrapper.is-open {
+        transform: translate3d(50%, -10%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    .controls-bar {
+        bottom: 0.4rem;
+        gap: 0.25rem;
+    }
+
+    .controls-bar .glass-btn,
+    .controls-bar button {
+        padding: 0.28rem 0.5rem;
+        font-size: 0.58rem;
+    }
+
+    .page-title {
+        font-size: 0.72rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .page-body,
+    .page-body p {
+        font-size: 0.6rem;
+        line-height: 1.25;
+        margin-bottom: 0.25rem;
+    }
+
+    .drop-cap {
+        font-size: 1.25rem;
     }
 }
 
