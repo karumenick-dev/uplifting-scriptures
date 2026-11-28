@@ -180,196 +180,204 @@ body.fireflies-off #firefly-canvas {
 
 @media (max-width: 768px) {
     .book-wrapper {
-        width: min(46vw, 200px);
-        height: min(38vh, 275px);
-        transform: translate3d(0%, -5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
+        width: min(46vw, 200px) !important;
+        height: min(38vh, 275px) !important;
+        transform: translate3d(0%, -5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg) !important;
     }
 
     .book-wrapper.is-closing {
-        transform: translate3d(0%, -5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
-        transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
+        transform: translate3d(0%, -5%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg) !important;
+        transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s !important;
     }
 
     .book-wrapper.is-open {
-        transform: translate3d(50%, -16%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
+        transform: translate3d(50%, -16%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg) !important;
     }
 
-    /* Pull cover content up and keep "SIT AT HIS FEET" well clear of the bottom gold border */
+    /* Closed cover framing */
     .front-cover-outer {
-        padding: 7% 6% 9%;
+        padding: 7% 6% 9% !important;
     }
 
     .front-cover-outer .gold-foil-text {
-        text-indent: 0;
+        text-indent: 0 !important;
     }
 
     .front-cover-outer h1.gold-foil-text {
-        font-size: 0.82rem;
-        letter-spacing: 0.04em;
-        line-height: 1.22;
-        margin-bottom: 0.35rem;
+        font-size: 0.82rem !important;
+        letter-spacing: 0.04em !important;
+        line-height: 1.22 !important;
+        margin-bottom: 0.35rem !important;
     }
 
     .front-cover-outer p.gold-foil-text.uppercase {
-        font-size: 0.44rem;
-        letter-spacing: 0.09em;
-        line-height: 1.25;
-        margin-bottom: 0.35rem;
+        font-size: 0.44rem !important;
+        letter-spacing: 0.09em !important;
+        line-height: 1.25 !important;
+        margin-bottom: 0.35rem !important;
     }
 
     .front-cover-outer p.gold-foil-text.italic {
-        font-size: 0.58rem;
-        line-height: 1.22;
-        margin-bottom: 0.35rem;
+        font-size: 0.58rem !important;
+        line-height: 1.22 !important;
+        margin-bottom: 0.35rem !important;
     }
 
     .front-cover-outer .mb-3.gold-foil-text {
-        font-size: 0.44rem;
-        letter-spacing: 0.1em;
-        margin-bottom: 0.35rem;
+        font-size: 0.44rem !important;
+        letter-spacing: 0.1em !important;
+        margin-bottom: 0.35rem !important;
     }
 
     .corner-accent {
-        width: 20px;
-        height: 20px;
+        width: 20px !important;
+        height: 20px !important;
     }
 
-    .book-wrapper.is-open .left-spread-page,
-    .book-wrapper.is-open .right-spread-page {
-        cursor: pointer;
-    }
-
-    /* Compact controls so wrapped pills stay short at the bottom */
-    .controls-bar {
-        bottom: 0.55rem;
-        gap: 0.3rem;
-        max-width: 96vw;
-    }
-
-    .season-filter-row,
-    .nav-buttons-row {
-        gap: 0.3rem;
-    }
-
-    .controls-bar .glass-btn,
-    .controls-bar button {
-        padding: 0.34rem 0.55rem;
-        font-size: 0.62rem;
-    }
-
-    .nav-buttons-row {
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 0.3rem;
-    }
-
-    .nav-buttons-row .glass-btn,
-    .nav-buttons-row button {
-    padding: 0.34rem 0.45rem;
-    font-size: 0.58rem;
-    white-space: nowrap;
-    }
-
-    /* Prevent squeezing/clipping inside the open mobile spread */
-    .page-header,
-    .spread-header {
-        font-size: 0.52rem;
-        letter-spacing: 0.05em;
-        gap: 0.35rem;
-    }
-
-    .page-title {
-        font-size: 0.78rem;
-        line-height: 1.2;
-        letter-spacing: 0.03em;
-        margin-bottom: 0.35rem;
-    }
-
-    .page-body,
-    .page-body p {
-        font-size: 0.66rem;
-        line-height: 1.3;
-        margin-bottom: 0.35rem;
-    }
-
-    .drop-cap {
-        font-size: 1.45rem;
-        line-height: 1;
-        margin-right: 0.2rem;
-    }
-}
-
-/* Landscape phone & short-height viewports */
-@media (orientation: landscape) and (max-height: 500px) {
-    .book-wrapper {
-        width: min(25vw, 205px);
-        height: min(48vh, 210px);
-        transform: translate3d(0%, -8%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
-    }
-
-    .book-wrapper.is-closing {
-        transform: translate3d(0%, -8%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg);
-        transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s;
-    }
-
-    .book-wrapper.is-open {
-        transform: translate3d(50%, -26%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg);
-    }
-
-    .right-spread-page,
-    .left-spread-page {
-        padding: 0.35rem 0.45rem;
-        overflow: hidden;
+    /* Open page fit in portrait */
+    .left-spread-page,
+    .right-spread-page {
+        padding: 0.5rem 0.5rem 0.45rem !important;
+        overflow: hidden !important;
     }
 
     .page-header,
     .spread-header,
     .page-meta,
-    .scripture-meta {
-        font-size: 0.38rem;
-        letter-spacing: 0.02em;
-        line-height: 1.15;
-        margin-bottom: 0.2rem;
+    .scripture-meta,
+    .page-header *,
+    .spread-header *,
+    .page-meta *,
+    .scripture-meta * {
+        font-size: 0.38rem !important;
+        letter-spacing: 0.01em !important;
+        line-height: 1.15 !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
     }
 
-    .page-title {
-        font-size: 0.56rem;
-        line-height: 1.15;
-        margin-bottom: 0.2rem;
+    .page-title,
+    .page-title * {
+        font-size: 0.72rem !important;
+        letter-spacing: 0.02em !important;
+        line-height: 1.18 !important;
+        margin-bottom: 0.28rem !important;
     }
 
     .page-body,
-    .page-body p {
-        font-size: 0.48rem;
-        line-height: 1.18;
-        margin-bottom: 0.2rem;
+    .page-body p,
+    .page-body div {
+        font-size: 0.58rem !important;
+        letter-spacing: 0 !important;
+        line-height: 1.24 !important;
+        margin-bottom: 0.25rem !important;
     }
 
     .drop-cap {
-        font-size: 0.95rem;
-        line-height: 1;
-        margin-right: 0.15rem;
+        font-size: 1.25rem !important;
+        line-height: 1 !important;
+        margin-right: 0.18rem !important;
     }
 
+    /* Portrait bottom controls */
     .controls-bar {
-        bottom: 0.25rem;
-        gap: 0.18rem;
-        max-width: 98vw;
+        bottom: 0.5rem !important;
+        gap: 0.28rem !important;
+        max-width: 96vw !important;
     }
 
     .season-filter-row,
     .nav-buttons-row {
-        flex-wrap: nowrap;
-        justify-content: center;
-        gap: 0.22rem;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        gap: 0.28rem !important;
     }
 
     .controls-bar .glass-btn,
     .controls-bar button {
-        padding: 0.2rem 0.38rem;
-        font-size: 0.5rem;
-        line-height: 1.1;
-        white-space: nowrap;
+        padding: 0.32rem 0.48rem !important;
+        font-size: 0.58rem !important;
+        white-space: nowrap !important;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    .book-wrapper {
+        width: min(26vw, 215px) !important;
+        height: min(46vh, 195px) !important;
+        transform: translate3d(0%, -8%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg) !important;
+    }
+
+    .book-wrapper.is-closing {
+        transform: translate3d(0%, -8%, 0) rotateX(10deg) rotateY(-4deg) rotateZ(-0.5deg) !important;
+        transition: transform 1.65s cubic-bezier(0.28, 0.06, 0.22, 1) 0.35s !important;
+    }
+
+    .book-wrapper.is-open {
+        transform: translate3d(50%, -28%, 0) rotateX(5deg) rotateY(0deg) rotateZ(0deg) !important;
+    }
+
+    .left-spread-page,
+    .right-spread-page {
+        padding: 0.3rem 0.4rem !important;
+        overflow: hidden !important;
+    }
+
+    .page-header,
+    .spread-header,
+    .page-meta,
+    .scripture-meta,
+    .page-header *,
+    .spread-header *,
+    .page-meta *,
+    .scripture-meta * {
+        font-size: 0.34rem !important;
+        letter-spacing: 0.01em !important;
+        line-height: 1.1 !important;
+        margin-bottom: 0.12rem !important;
+    }
+
+    .page-title,
+    .page-title * {
+        font-size: 0.52rem !important;
+        line-height: 1.12 !important;
+        margin-bottom: 0.15rem !important;
+    }
+
+    .page-body,
+    .page-body p,
+    .page-body div {
+        font-size: 0.44rem !important;
+        letter-spacing: 0 !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.15rem !important;
+    }
+
+    .drop-cap {
+        font-size: 0.85rem !important;
+        line-height: 1 !important;
+        margin-right: 0.12rem !important;
+    }
+
+    .controls-bar {
+        bottom: 0.2rem !important;
+        gap: 0.15rem !important;
+        max-width: 98vw !important;
+    }
+
+    .season-filter-row,
+    .nav-buttons-row {
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        gap: 0.2rem !important;
+    }
+
+    .controls-bar .glass-btn,
+    .controls-bar button {
+        padding: 0.18rem 0.34rem !important;
+        font-size: 0.46rem !important;
+        line-height: 1.05 !important;
+        white-space: nowrap !important;
     }
 }
 
